@@ -17,7 +17,8 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: 'pnpm build && pnpm start',
+    // CI builds in an earlier step; rebuilding here would just double the wait.
+    command: process.env.CI ? 'pnpm start' : 'pnpm build && pnpm start',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
