@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
-import { setNoteTagsAction } from '@/server/actions/tag.actions';
+import { setNoteTagsAction } from '@/server/actions/note.actions';
 import type { NoteDetailDTO, NoteSummaryDTO, TagDTO } from '@/types/dto';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';

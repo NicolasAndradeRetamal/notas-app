@@ -10,7 +10,6 @@ export const markdownComponents: Components = {
   h5: (props) => <h6 {...props} />,
   h6: (props) => <h6 {...props} />,
   a: ({ href, ...props }) => (
-    // eslint-disable-next-line react/jsx-no-target-blank
     <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
   ),
   table: (props) => (

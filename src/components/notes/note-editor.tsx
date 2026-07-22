@@ -64,8 +64,6 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
   const [pending, startTransition] = useTransition();
 
-  const dirtyRef = useRef(dirty);
-  dirtyRef.current = dirty;
   const keepEditingRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -120,7 +118,7 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
         });
       });
     },
-    [content, noteId, notebookId, router, selectedTags, title],
+    [content, noteId, notebookId, router, selectedTags, title, toast],
   );
 
   const markDirty = () => {
@@ -145,13 +143,11 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
   }, [saveState]);
 
   useEffect(() => {
-    const onBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (!dirtyRef.current) return;
-      event.preventDefault();
-    };
+    if (!dirty) return;
+    const onBeforeUnload = (event: BeforeUnloadEvent) => event.preventDefault();
     window.addEventListener('beforeunload', onBeforeUnload);
     return () => window.removeEventListener('beforeunload', onBeforeUnload);
-  }, []);
+  }, [dirty]);
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const isSaveShortcut = (event.ctrlKey || event.metaKey) && event.key === 's';

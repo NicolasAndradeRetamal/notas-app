@@ -16,13 +16,17 @@ export function SearchInput({ className, autoFocus }: SearchInputProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [value, setValue] = useState(searchParams.get('q') ?? '');
+  const queryParam = searchParams.get('q') ?? '';
+  const [value, setValue] = useState(queryParam);
+  const [syncedParam, setSyncedParam] = useState(queryParam);
   const [pending, setPending] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    setValue(searchParams.get('q') ?? '');
-  }, [searchParams]);
+  // Navigation elsewhere (filter chips, back button) rewrites the query param.
+  if (queryParam !== syncedParam) {
+    setSyncedParam(queryParam);
+    setValue(queryParam);
+  }
 
   useEffect(() => {
     return () => {
@@ -42,7 +46,8 @@ export function SearchInput({ className, autoFocus }: SearchInputProps) {
         params.delete('q');
       }
       params.delete('page');
-      router.push({ pathname, query: Object.fromEntries(params) });
+      const query = params.toString();
+      router.push(query ? `${pathname}?${query}` : pathname);
       setPending(false);
     }, DEBOUNCE_MS);
   };

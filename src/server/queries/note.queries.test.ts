@@ -83,17 +83,17 @@ describe('getNoteById', () => {
 
   it('returns null when the note does not exist or belongs to another user', async () => {
     findFirstMock.mockResolvedValueOnce(null);
-    await expect(getNoteById('11111111-1111-1111-1111-111111111111')).resolves.toBeNull();
+    await expect(getNoteById('01941ac0-0000-7000-8000-000000000001')).resolves.toBeNull();
     expect(findFirstMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        where: { id: '11111111-1111-1111-1111-111111111111', userId: USER.id, active: true },
+        where: { id: '01941ac0-0000-7000-8000-000000000001', userId: USER.id, active: true },
       }),
     );
   });
 
   it('returns a NoteDetailDTO including content when found', async () => {
     findFirstMock.mockResolvedValueOnce(NOTE_ENTITY);
-    const result = await getNoteById('11111111-1111-1111-1111-111111111111');
+    const result = await getNoteById('01941ac0-0000-7000-8000-000000000001');
     expect(result).toMatchObject({ id: 'note-1', content: 'Contenido' });
   });
 });

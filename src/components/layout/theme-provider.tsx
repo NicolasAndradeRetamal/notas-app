@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useSyncExternalStore } from 'react';
 import type { ReactNode } from 'react';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
@@ -13,48 +13,64 @@ type ThemeContextValue = {
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
+const STORAGE_KEY = 'theme';
+const DARK_QUERY = '(prefers-color-scheme: dark)';
+
+const listeners = new Set<() => void>();
+
+function emit() {
+  for (const listener of listeners) listener();
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  const media = window.matchMedia(DARK_QUERY);
+  media.addEventListener('change', emit);
+  window.addEventListener('storage', emit);
+  return () => {
+    listeners.delete(listener);
+    media.removeEventListener('change', emit);
+    window.removeEventListener('storage', emit);
+  };
+}
+
+function readPreference(): ThemePreference {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+}
 
 function resolveSystemTheme(): ResolvedTheme {
-  if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  return window.matchMedia(DARK_QUERY).matches ? 'dark' : 'light';
 }
 
-function applyTheme(resolved: ResolvedTheme) {
-  document.documentElement.dataset.theme = resolved;
+function readResolved(): ResolvedTheme {
+  const preference = readPreference();
+  return preference === 'system' ? resolveSystemTheme() : preference;
 }
 
+// The theme lives in localStorage and matchMedia, so it is read as external
+// state instead of mirrored into an effect that would cascade a second render.
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<ThemePreference>('system');
-  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
+  const theme = useSyncExternalStore(subscribe, readPreference, () => 'system' as ThemePreference);
+  const resolvedTheme = useSyncExternalStore(
+    subscribe,
+    readResolved,
+    () => 'light' as ResolvedTheme,
+  );
 
   useEffect(() => {
-    const stored = (localStorage.getItem('theme') as ThemePreference | null) ?? 'system';
-    setThemeState(stored);
-    const resolved = stored === 'system' ? resolveSystemTheme() : stored;
-    setResolvedTheme(resolved);
-  }, []);
-
-  useEffect(() => {
-    if (theme !== 'system') return;
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = () => {
-      const resolved = resolveSystemTheme();
-      setResolvedTheme(resolved);
-      applyTheme(resolved);
-    };
-    media.addEventListener('change', onChange);
-    return () => media.removeEventListener('change', onChange);
-  }, [theme]);
+    document.documentElement.dataset.theme = resolvedTheme;
+  }, [resolvedTheme]);
 
   const setTheme = useCallback((next: ThemePreference) => {
-    localStorage.setItem('theme', next);
-    setThemeState(next);
-    const resolved = next === 'system' ? resolveSystemTheme() : next;
-    setResolvedTheme(resolved);
-    applyTheme(resolved);
+    localStorage.setItem(STORAGE_KEY, next);
+    emit();
   }, []);
 
-  const value = useMemo(() => ({ theme, resolvedTheme, setTheme }), [theme, resolvedTheme, setTheme]);
+  const value = useMemo(
+    () => ({ theme, resolvedTheme, setTheme }),
+    [theme, resolvedTheme, setTheme],
+  );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }

@@ -37,7 +37,7 @@ type DropdownMenuProps = {
 
 export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownMenuProps) {
   const [open, setOpen] = useState(false);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Array<HTMLElement | null>>([]);
 
@@ -48,12 +48,7 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
   useEffect(() => {
     if (!open) return;
     const onDocClick = (event: MouseEvent) => {
-      if (
-        panelRef.current?.contains(event.target as Node) ||
-        triggerRef.current?.contains(event.target as Node)
-      ) {
-        return;
-      }
+      if (rootRef.current?.contains(event.target as Node)) return;
       setOpen(false);
     };
     document.addEventListener('mousedown', onDocClick);
@@ -70,7 +65,7 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
 
   const closeAndFocusTrigger = () => {
     setOpen(false);
-    triggerRef.current?.focus();
+    rootRef.current?.querySelector('button')?.focus();
   };
 
   const moveFocus = (currentIndex: number, direction: 1 | -1) => {
@@ -105,7 +100,6 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
   };
 
   const clonedTrigger = cloneElement(trigger, {
-    ref: triggerRef,
     'aria-haspopup': 'menu',
     'aria-expanded': open,
     onClick: (event: ReactMouseEvent<HTMLButtonElement>) => {
@@ -117,7 +111,7 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
   } as Partial<unknown>);
 
   return (
-    <div className="relative inline-block">
+    <div ref={rootRef} className="relative inline-block">
       {clonedTrigger}
       {open ? (
         <div

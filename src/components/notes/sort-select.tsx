@@ -23,7 +23,8 @@ export function SortSelect() {
       params.set('sort', next);
     }
     params.delete('page');
-    router.push({ pathname, query: Object.fromEntries(params) });
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
   };
 
   return (
