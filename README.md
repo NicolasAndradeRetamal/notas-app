@@ -121,21 +121,20 @@ ejemplo:
 ## Tests
 
 ```bash
-# Tests unitarios y de componentes (Vitest + React Testing Library)
+# Tests unitarios (Vitest)
 pnpm test
 
 # Con reporte de cobertura
 pnpm test:coverage
-
-# Tests extremo a extremo (Playwright): construyen la app, la arrancan
-# y navegan sobre ella con Chromium. Requieren PostgreSQL disponible
-# (docker compose up -d) y el resto de variables de entorno configuradas.
-pnpm e2e
 ```
 
-Los tests unitarios trabajan con Prisma mockeado y no requieren una base de
-datos real. Los tests end-to-end sí la necesitan, y validan además el
-aislamiento entre usuarios de extremo a extremo.
+Los tests unitarios cubren la capa de servidor —validación, autorización,
+mapeo a DTO y utilidades— trabajando con Prisma mockeado, por lo que no
+requieren una base de datos real.
+
+Playwright ya está configurado (`playwright.config.ts`, script `pnpm e2e`),
+pero los escenarios extremo a extremo y los tests de componentes están
+_pendientes_: hasta que se escriban, `pnpm e2e` no tiene nada que ejecutar.
 
 La integración continua (`.github/workflows/ci.yml`) ejecuta, en cada push y
 cada pull request: `typecheck`, `lint`, aplicación de migraciones contra un
