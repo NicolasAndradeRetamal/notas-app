@@ -1,3 +1,4 @@
+import 'server-only';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth/session';
 import { sanitizeHighlight } from '@/lib/markdown';
