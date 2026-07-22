@@ -65,6 +65,7 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
   const [pending, startTransition] = useTransition();
 
   const keepEditingRef = useRef<HTMLButtonElement>(null);
+  const saveSeqRef = useRef(0);
 
   useEffect(() => {
     if (showDiscardConfirm) keepEditingRef.current?.focus();
@@ -78,6 +79,8 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
         return;
       }
       const startedAt = Date.now();
+      // A slow response must never overwrite the state of a save started later.
+      const seq = ++saveSeqRef.current;
       setSaveState('saving');
       const input = {
         title: trimmedTitle,
@@ -87,14 +90,19 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
       };
 
       startTransition(async () => {
+        const superseded = () => seq !== saveSeqRef.current;
         const settle = (apply: () => void) => {
           const elapsed = Date.now() - startedAt;
           const wait = Math.max(MIN_SAVING_DISPLAY_MS - elapsed, 0);
-          setTimeout(apply, wait);
+          setTimeout(() => {
+            if (superseded()) return;
+            apply();
+          }, wait);
         };
 
         if (!noteId) {
           const result = await createNoteAction(input);
+          if (superseded()) return;
           if (!result.ok) {
             settle(() => setSaveState('error'));
             toast({ variant: 'error', title: 'No se pudo guardar la nota.', description: result.message });
@@ -105,6 +113,7 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
         }
 
         const result = await updateNoteAction({ ...input, id: noteId });
+        if (superseded()) return;
         if (!result.ok) {
           settle(() => setSaveState('error'));
           toast({ variant: 'error', title: 'No se pudo guardar la nota.', description: result.message });
