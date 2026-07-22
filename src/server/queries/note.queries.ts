@@ -30,7 +30,11 @@ export async function getNotes(params: NoteListParams): Promise<PaginatedDTO<Not
     active: true,
     ...(notebookId ? { notebookId } : {}),
     ...(tagSlug
-      ? { noteTags: { some: { active: true, tag: { slug: tagSlug, userId: user.id, active: true } } } }
+      ? {
+          noteTags: {
+            some: { active: true, tag: { slug: tagSlug, userId: user.id, active: true } },
+          },
+        }
       : {}),
   };
 

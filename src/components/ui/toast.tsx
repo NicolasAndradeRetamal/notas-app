@@ -170,7 +170,7 @@ function ToastCard({
       role="status"
       aria-live={ariaLive}
       className={cn(
-        'animate-toast-in relative w-full overflow-hidden rounded-lg border border-line bg-surface-raised shadow-lg',
+        'animate-toast-in border-line bg-surface-raised relative w-full overflow-hidden rounded-lg border shadow-lg',
         'flex gap-3 border-l-[3px] p-4',
         'sm:w-96',
         VARIANT_CLASSES[item.variant],
@@ -182,15 +182,15 @@ function ToastCard({
     >
       <Icon className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
       <div className="min-w-0 flex-1">
-        <p className="text-ui font-medium text-ink">{item.title}</p>
+        <p className="text-ui text-ink font-medium">{item.title}</p>
         {item.description ? (
-          <p className="text-meta mt-0.5 text-ink-muted">{item.description}</p>
+          <p className="text-meta text-ink-muted mt-0.5">{item.description}</p>
         ) : null}
         {item.action ? (
           <button
             type="button"
             onClick={item.action.onClick}
-            className="text-meta mt-2 font-medium text-primary hover:text-primary-strong hover:underline"
+            className="text-meta text-primary hover:text-primary-strong mt-2 font-medium hover:underline"
           >
             {item.action.label}
           </button>
@@ -200,7 +200,7 @@ function ToastCard({
         type="button"
         onClick={onClose}
         aria-label="Cerrar el aviso"
-        className="hit-44 flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-ink-subtle hover:bg-surface-sunken hover:text-ink"
+        className="hit-44 text-ink-subtle hover:bg-surface-sunken hover:text-ink flex h-8 w-8 shrink-0 items-center justify-center rounded-md"
       >
         <X className="h-[18px] w-[18px]" aria-hidden="true" />
       </button>

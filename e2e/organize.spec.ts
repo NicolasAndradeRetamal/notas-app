@@ -49,7 +49,9 @@ test.describe('notebooks and tags', () => {
 
     await createNote(page, { title: 'Nota a mover de cuaderno' });
     await page.goto('/notes');
-    const card = page.locator('li', { has: page.getByRole('heading', { name: 'Nota a mover de cuaderno' }) });
+    const card = page.locator('li', {
+      has: page.getByRole('heading', { name: 'Nota a mover de cuaderno' }),
+    });
     await card.getByRole('button', { name: /Acciones de la nota/ }).click();
     await page.getByRole('menuitem', { name: 'Mover a un cuaderno…' }).click();
     const moveDialog = openDialog(page);
@@ -72,7 +74,9 @@ test.describe('notebooks and tags', () => {
 
     await createNote(page, { title: 'Nota que se etiquetará' });
     await page.goto('/notes');
-    const card = page.locator('li', { has: page.getByRole('heading', { name: 'Nota que se etiquetará' }) });
+    const card = page.locator('li', {
+      has: page.getByRole('heading', { name: 'Nota que se etiquetará' }),
+    });
     await card.getByRole('button', { name: /Acciones de la nota/ }).click();
     await page.getByRole('menuitem', { name: 'Editar etiquetas…' }).click();
     const tagsDialog = openDialog(page);

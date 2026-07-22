@@ -27,7 +27,7 @@ export function Pagination({ page, pageSize, total, hasMore, buildHref }: Pagina
           disabled={!canGoPrev}
           href={canGoPrev ? buildHref(page - 1) : undefined}
         />
-        <span className="text-meta tabular-nums text-ink-muted">
+        <span className="text-meta text-ink-muted tabular-nums">
           Página {page} de {totalPages}
         </span>
         <PaginationButton
@@ -36,7 +36,7 @@ export function Pagination({ page, pageSize, total, hasMore, buildHref }: Pagina
           href={canGoNext ? buildHref(page + 1) : undefined}
         />
       </div>
-      <p className="text-meta tabular-nums text-ink-subtle">
+      <p className="text-meta text-ink-subtle tabular-nums">
         Mostrando {start}–{end} de {total} notas
       </p>
     </nav>

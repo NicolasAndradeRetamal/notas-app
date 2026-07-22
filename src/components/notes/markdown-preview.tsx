@@ -15,7 +15,7 @@ export const MarkdownPreview = forwardRef<HTMLDivElement, MarkdownPreviewProps>(
         {content.trim() ? (
           <NoteContent content={content} />
         ) : (
-          <p className="text-[0.9375rem] text-ink-subtle">Aún no hay nada que previsualizar.</p>
+          <p className="text-ink-subtle text-[0.9375rem]">Aún no hay nada que previsualizar.</p>
         )}
       </div>
     );

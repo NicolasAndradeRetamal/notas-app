@@ -38,7 +38,9 @@ export function TagPicker({ value, onChange, availableTags, label = 'Etiquetas' 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [availableTags, query, value]);
 
-  const exactMatch = availableTags.some((tag) => tag.name.toLowerCase() === query.trim().toLowerCase());
+  const exactMatch = availableTags.some(
+    (tag) => tag.name.toLowerCase() === query.trim().toLowerCase(),
+  );
   const canCreate = query.trim().length > 0 && !exactMatch && !atLimit;
 
   const addTag = (tag: TagOption) => {
@@ -84,20 +86,20 @@ export function TagPicker({ value, onChange, availableTags, label = 'Etiquetas' 
 
   return (
     <div className="relative">
-      <label htmlFor={`${listboxId}-input`} className="mb-1.5 block text-sm font-medium text-ink">
+      <label htmlFor={`${listboxId}-input`} className="text-ink mb-1.5 block text-sm font-medium">
         {label}
       </label>
       <div
         className={cn(
-          'flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border border-line-strong bg-surface-sunken px-2 py-1.5',
-          'focus-within:border-primary focus-within:bg-surface-raised focus-within:outline-2 focus-within:outline-primary focus-within:outline-offset-2',
+          'border-line-strong bg-surface-sunken flex min-h-11 flex-wrap items-center gap-1.5 rounded-md border px-2 py-1.5',
+          'focus-within:border-primary focus-within:bg-surface-raised focus-within:outline-primary focus-within:outline-2 focus-within:outline-offset-2',
         )}
         onClick={() => inputRef.current?.focus()}
       >
         {value.map((tag) => (
           <span
             key={tag.id}
-            className="inline-flex h-6 items-center gap-1 rounded-sm border border-line bg-surface-raised px-2 text-xs font-medium text-ink"
+            className="border-line bg-surface-raised text-ink inline-flex h-6 items-center gap-1 rounded-sm border px-2 text-xs font-medium"
           >
             <span aria-hidden="true" className="text-ink-subtle">
               #
@@ -133,20 +135,22 @@ export function TagPicker({ value, onChange, availableTags, label = 'Etiquetas' 
           onBlur={() => setTimeout(() => setOpen(false), 120)}
           onKeyDown={handleKeyDown}
           placeholder={atLimit ? '' : 'escribe para buscar…'}
-          className="min-w-32 flex-1 bg-transparent px-1 py-1 text-[0.9375rem] text-ink outline-none placeholder:text-ink-subtle"
+          className="text-ink placeholder:text-ink-subtle min-w-32 flex-1 bg-transparent px-1 py-1 text-[0.9375rem] outline-none"
         />
       </div>
-      <p className="mt-1 min-h-[1.125rem] text-[0.8125rem] text-ink-subtle">
+      <p className="text-ink-subtle mt-1 min-h-[1.125rem] text-[0.8125rem]">
         {atLimit ? `Has alcanzado el máximo de ${NOTE_TAGS_MAX} etiquetas por nota.` : null}
       </p>
       {open && !atLimit ? (
         <div
           id={listboxId}
           role="listbox"
-          className="animate-rise-in absolute z-50 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-surface-raised py-1 shadow-md"
+          className="animate-rise-in border-line bg-surface-raised absolute z-50 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border py-1 shadow-md"
         >
           {filtered.length === 0 && !canCreate ? (
-            <p className="px-3 py-2 text-sm text-ink-subtle">No tienes ninguna etiqueta con ese nombre.</p>
+            <p className="text-ink-subtle px-3 py-2 text-sm">
+              No tienes ninguna etiqueta con ese nombre.
+            </p>
           ) : null}
           {filtered.map((tag) => (
             <button
@@ -156,10 +160,10 @@ export function TagPicker({ value, onChange, availableTags, label = 'Etiquetas' 
               aria-selected={false}
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => addTag({ id: tag.id, name: tag.name })}
-              className="flex h-10 w-full items-center justify-between px-3 text-sm text-ink hover:bg-surface-sunken"
+              className="text-ink hover:bg-surface-sunken flex h-10 w-full items-center justify-between px-3 text-sm"
             >
               <span>#{tag.name}</span>
-              <span className="text-meta tabular-nums text-ink-subtle">{tag.noteCount ?? 0}</span>
+              <span className="text-meta text-ink-subtle tabular-nums">{tag.noteCount ?? 0}</span>
             </button>
           ))}
           {canCreate ? (
@@ -168,7 +172,7 @@ export function TagPicker({ value, onChange, availableTags, label = 'Etiquetas' 
               onMouseDown={(e) => e.preventDefault()}
               onClick={handleCreate}
               disabled={creating}
-              className="flex h-10 w-full items-center gap-2 px-3 text-sm text-primary hover:bg-surface-sunken"
+              className="text-primary hover:bg-surface-sunken flex h-10 w-full items-center gap-2 px-3 text-sm"
             >
               <Plus className="h-4 w-4" aria-hidden="true" />
               {creating ? 'Creando…' : `Crear la etiqueta «${query.trim()}»`}

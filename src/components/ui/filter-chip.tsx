@@ -14,7 +14,7 @@ export function FilterChip({ label, onRemove, removeLabel, className }: FilterCh
   return (
     <span
       className={cn(
-        'animate-fade-in inline-flex h-8 items-center gap-1.5 rounded-full border border-primary/40 bg-primary-soft px-3 text-[0.8125rem] text-primary',
+        'animate-fade-in border-primary/40 bg-primary-soft text-primary inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-[0.8125rem]',
         className,
       )}
     >

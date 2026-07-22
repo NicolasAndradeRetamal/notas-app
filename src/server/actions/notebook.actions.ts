@@ -32,7 +32,11 @@ export async function createNotebookAction(
 ): Promise<ActionResult<NotebookDTO, CreateNotebookInput>> {
   const parsed = createNotebookSchema.safeParse(input);
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos del cuaderno.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos del cuaderno.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { name, color } = parsed.data;
@@ -80,14 +84,20 @@ export async function updateNotebookAction(
 ): Promise<ActionResult<NotebookDTO, UpdateNotebookInput>> {
   const parsed = updateNotebookSchema.safeParse(input);
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos del cuaderno.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos del cuaderno.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { id, name, color } = parsed.data;
 
   try {
     const user = await requireUser();
-    const existing = await prisma.notebook.findFirst({ where: { id, userId: user.id, active: true } });
+    const existing = await prisma.notebook.findFirst({
+      where: { id, userId: user.id, active: true },
+    });
     if (!existing) return fail('NOT_FOUND', 'El cuaderno no existe.');
 
     const slug = slugify(name, NOTEBOOK_SLUG_MAX_LENGTH);
@@ -111,9 +121,9 @@ export async function updateNotebookAction(
   }
 }
 
-export async function deleteNotebookAction(
-  input: { id: string },
-): Promise<ActionResult<{ id: string; detachedNotes: number }>> {
+export async function deleteNotebookAction(input: {
+  id: string;
+}): Promise<ActionResult<{ id: string; detachedNotes: number }>> {
   const parsed = notebookIdSchema.safeParse(input);
   if (!parsed.success) return fail('VALIDATION_ERROR', 'Identificador de cuaderno no válido.');
 
@@ -121,7 +131,9 @@ export async function deleteNotebookAction(
 
   try {
     const user = await requireUser();
-    const existing = await prisma.notebook.findFirst({ where: { id, userId: user.id, active: true } });
+    const existing = await prisma.notebook.findFirst({
+      where: { id, userId: user.id, active: true },
+    });
     if (!existing) return fail('NOT_FOUND', 'El cuaderno no existe.');
 
     const detachedNotes = await prisma.$transaction(async (tx) => {
@@ -155,11 +167,16 @@ export async function reorderNotebooksAction(input: {
   try {
     const user = await requireUser();
 
-    const owned = await prisma.notebook.count({ where: { id: { in: orderedIds }, userId: user.id, active: true } });
-    if (owned !== orderedIds.length) return fail('FORBIDDEN', 'Alguno de los cuadernos no te pertenece.');
+    const owned = await prisma.notebook.count({
+      where: { id: { in: orderedIds }, userId: user.id, active: true },
+    });
+    if (owned !== orderedIds.length)
+      return fail('FORBIDDEN', 'Alguno de los cuadernos no te pertenece.');
 
     await prisma.$transaction(
-      orderedIds.map((id, index) => prisma.notebook.update({ where: { id }, data: { position: index } })),
+      orderedIds.map((id, index) =>
+        prisma.notebook.update({ where: { id }, data: { position: index } }),
+      ),
     );
 
     const notebooks = await prisma.notebook.findMany({

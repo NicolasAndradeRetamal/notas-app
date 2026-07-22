@@ -7,7 +7,7 @@ export function TagFilter({ tag }: { tag: TagDTO }) {
     <SidebarNavLink
       href={`/tags/${tag.slug}`}
       count={tag.noteCount}
-      icon={<Hash className="h-4 w-4 shrink-0 text-ink-subtle" aria-hidden="true" />}
+      icon={<Hash className="text-ink-subtle h-4 w-4 shrink-0" aria-hidden="true" />}
     >
       {tag.name}
     </SidebarNavLink>

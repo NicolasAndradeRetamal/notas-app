@@ -18,14 +18,19 @@ type NoteTagsDialogProps = {
 };
 
 export function NoteTagsDialog({ open, onClose, note, tags }: NoteTagsDialogProps) {
-  const [selected, setSelected] = useState<TagOption[]>(note.tags.map((t) => ({ id: t.id, name: t.name })));
+  const [selected, setSelected] = useState<TagOption[]>(
+    note.tags.map((t) => ({ id: t.id, name: t.name })),
+  );
   const [pending, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();
 
   const handleConfirm = () => {
     startTransition(async () => {
-      const result = await setNoteTagsAction({ noteId: note.id, tagIds: selected.map((t) => t.id) });
+      const result = await setNoteTagsAction({
+        noteId: note.id,
+        tagIds: selected.map((t) => t.id),
+      });
       if (!result.ok) {
         toast({ variant: 'error', title: result.message });
         return;

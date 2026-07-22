@@ -10,7 +10,11 @@ type EditNotePageProps = {
 
 export default async function EditNotePage({ params }: EditNotePageProps) {
   const { noteId } = await params;
-  const [note, notebooks, tags] = await Promise.all([getNoteById(noteId), getNotebooks(), getTags()]);
+  const [note, notebooks, tags] = await Promise.all([
+    getNoteById(noteId),
+    getNotebooks(),
+    getTags(),
+  ]);
 
   if (!note) notFound();
 

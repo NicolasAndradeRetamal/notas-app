@@ -98,7 +98,7 @@ export function NotebookDialog({ open, onClose, notebook }: NotebookDialogProps)
           maxLength={80}
         />
         <fieldset>
-          <legend className="mb-2 text-sm font-medium text-ink">Color</legend>
+          <legend className="text-ink mb-2 text-sm font-medium">Color</legend>
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
@@ -106,7 +106,7 @@ export function NotebookDialog({ open, onClose, notebook }: NotebookDialogProps)
               aria-pressed={color === null}
               aria-label="Sin color"
               title="Sin color"
-              className="hit-44 flex h-8 w-8 items-center justify-center rounded-full border-2 border-line-strong bg-surface-sunken text-ink-subtle focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+              className="hit-44 border-line-strong bg-surface-sunken text-ink-subtle focus-visible:outline-primary flex h-8 w-8 items-center justify-center rounded-full border-2 focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               ×
             </button>
@@ -117,7 +117,7 @@ export function NotebookDialog({ open, onClose, notebook }: NotebookDialogProps)
                 onClick={() => setColor(swatch)}
                 aria-pressed={color === swatch}
                 aria-label={`Color ${swatch}`}
-                className="hit-44 flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+                className="hit-44 focus-visible:outline-primary flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
                 style={{
                   backgroundColor: swatch,
                   boxShadow: color === swatch ? '0 0 0 2px var(--color-primary)' : undefined,

@@ -20,10 +20,16 @@ import type { TagDTO } from '@/types/dto';
 
 const TAG_SLUG_MAX_LENGTH = 48;
 
-export async function createTagAction(input: CreateTagInput): Promise<ActionResult<TagDTO, CreateTagInput>> {
+export async function createTagAction(
+  input: CreateTagInput,
+): Promise<ActionResult<TagDTO, CreateTagInput>> {
   const parsed = createTagSchema.safeParse(input);
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos de la etiqueta.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos de la etiqueta.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { name } = parsed.data;
@@ -31,7 +37,9 @@ export async function createTagAction(input: CreateTagInput): Promise<ActionResu
 
   try {
     const user = await requireUser();
-    const existing = await prisma.tag.findUnique({ where: { userId_slug: { userId: user.id, slug } } });
+    const existing = await prisma.tag.findUnique({
+      where: { userId_slug: { userId: user.id, slug } },
+    });
 
     if (existing?.active) {
       return fail('CONFLICT', 'Ya existe una etiqueta con ese nombre.');
@@ -53,10 +61,16 @@ export async function createTagAction(input: CreateTagInput): Promise<ActionResu
   }
 }
 
-export async function updateTagAction(input: UpdateTagInput): Promise<ActionResult<TagDTO, UpdateTagInput>> {
+export async function updateTagAction(
+  input: UpdateTagInput,
+): Promise<ActionResult<TagDTO, UpdateTagInput>> {
   const parsed = updateTagSchema.safeParse(input);
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos de la etiqueta.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos de la etiqueta.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { id, name } = parsed.data;
@@ -67,7 +81,9 @@ export async function updateTagAction(input: UpdateTagInput): Promise<ActionResu
     const existing = await prisma.tag.findFirst({ where: { id, userId: user.id, active: true } });
     if (!existing) return fail('NOT_FOUND', 'La etiqueta no existe.');
 
-    const conflicting = await prisma.tag.findUnique({ where: { userId_slug: { userId: user.id, slug } } });
+    const conflicting = await prisma.tag.findUnique({
+      where: { userId_slug: { userId: user.id, slug } },
+    });
     if (conflicting && conflicting.id !== id) {
       return fail('CONFLICT', 'Ya existe una etiqueta con ese nombre.');
     }
@@ -85,7 +101,9 @@ export async function updateTagAction(input: UpdateTagInput): Promise<ActionResu
   }
 }
 
-export async function deleteTagAction(input: { id: string }): Promise<ActionResult<{ id: string }>> {
+export async function deleteTagAction(input: {
+  id: string;
+}): Promise<ActionResult<{ id: string }>> {
   const parsed = tagIdSchema.safeParse(input);
   if (!parsed.success) return fail('VALIDATION_ERROR', 'Identificador de etiqueta no válido.');
 

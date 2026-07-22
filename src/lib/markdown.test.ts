@@ -3,7 +3,9 @@ import { sanitizeHighlight } from '@/lib/markdown';
 
 describe('sanitizeHighlight', () => {
   it('preserves <b> tags inserted by ts_headline', () => {
-    expect(sanitizeHighlight('esto es una <b>nota</b> de prueba')).toBe('esto es una <b>nota</b> de prueba');
+    expect(sanitizeHighlight('esto es una <b>nota</b> de prueba')).toBe(
+      'esto es una <b>nota</b> de prueba',
+    );
   });
 
   it('escapes HTML that comes from the note content itself', () => {
@@ -13,7 +15,9 @@ describe('sanitizeHighlight', () => {
   });
 
   it('escapes ampersands and quotes outside the highlight tags', () => {
-    expect(sanitizeHighlight('Tom & Jerry "aventuras"')).toBe('Tom &amp; Jerry &quot;aventuras&quot;');
+    expect(sanitizeHighlight('Tom & Jerry "aventuras"')).toBe(
+      'Tom &amp; Jerry &quot;aventuras&quot;',
+    );
   });
 
   it('handles multiple highlighted fragments', () => {

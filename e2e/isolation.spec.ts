@@ -27,7 +27,9 @@ test.describe('cross-user isolation', () => {
       await notebookDialog.getByLabel(/^Nombre/).fill('Cuaderno privado de A');
       await notebookDialog.getByRole('button', { name: 'Crear cuaderno' }).click();
       await expect(pageA.getByText('Cuaderno «Cuaderno privado de A» creado.')).toBeVisible();
-      const notebookHref = await pageA.getByRole('link', { name: /Cuaderno privado de A/ }).getAttribute('href');
+      const notebookHref = await pageA
+        .getByRole('link', { name: /Cuaderno privado de A/ })
+        .getAttribute('href');
       const notebookId = notebookHref?.split('/').pop();
       expect(notebookId).toBeTruthy();
 
@@ -40,17 +42,23 @@ test.describe('cross-user isolation', () => {
       // User B registers independently and starts from an empty account.
       await registerUser(pageB, { name: 'Usuaria B', email: uniqueEmail('isolation-b') });
 
-      await expect(pageB.getByRole('heading', { name: 'Nota privada de Usuaria A' })).not.toBeVisible();
+      await expect(
+        pageB.getByRole('heading', { name: 'Nota privada de Usuaria A' }),
+      ).not.toBeVisible();
       await expect(pageB.getByRole('link', { name: /Cuaderno privado de A/ })).not.toBeVisible();
       await expect(pageB.getByRole('link', { name: /secreto-de-a/ })).not.toBeVisible();
       await expect(pageB.getByText('Aún no tienes notas')).toBeVisible();
 
       // Direct URL access to A's resources must be denied, not merely hidden from the UI.
       await pageB.goto(`/notes/${noteId}`);
-      await expect(pageB.getByText('Esta nota no existe o ya no tienes acceso a ella.')).toBeVisible();
+      await expect(
+        pageB.getByText('Esta nota no existe o ya no tienes acceso a ella.'),
+      ).toBeVisible();
 
       await pageB.goto(`/notes/${noteId}/edit`);
-      await expect(pageB.getByText('Esta nota no existe o ya no tienes acceso a ella.')).toBeVisible();
+      await expect(
+        pageB.getByText('Esta nota no existe o ya no tienes acceso a ella.'),
+      ).toBeVisible();
 
       await pageB.goto(`/notebooks/${notebookId}`);
       await expect(pageB.getByText('No encontramos esta página')).toBeVisible();

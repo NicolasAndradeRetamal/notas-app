@@ -32,7 +32,10 @@ export async function registerUser(
   await page.waitForURL(/\/notes$/);
 }
 
-export async function loginUser(page: Page, opts: { email: string; password?: string }): Promise<void> {
+export async function loginUser(
+  page: Page,
+  opts: { email: string; password?: string },
+): Promise<void> {
   const password = opts.password ?? PASSWORD;
   await page.goto('/login');
   await page.getByLabel(emailLabel()).fill(opts.email);
@@ -50,7 +53,10 @@ export async function loginUser(page: Page, opts: { email: string; password?: st
 // save is already scheduled can create a duplicate note). Waiting for
 // autosave alone keeps this helper — and everything built on top of it —
 // deterministic.
-export async function createNote(page: Page, opts: { title: string; content?: string }): Promise<string> {
+export async function createNote(
+  page: Page,
+  opts: { title: string; content?: string },
+): Promise<string> {
   await page.goto('/notes/new');
   await page.getByPlaceholder('Título de la nota').fill(opts.title);
   if (opts.content) {

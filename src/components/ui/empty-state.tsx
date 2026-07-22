@@ -17,13 +17,13 @@ export function EmptyState({ icon: Icon, title, description, action, className }
         className,
       )}
     >
-      <span className="flex h-24 w-24 items-center justify-center rounded-2xl bg-surface-sunken">
-        <Icon className="h-12 w-12 text-ink-subtle" aria-hidden={true} />
+      <span className="bg-surface-sunken flex h-24 w-24 items-center justify-center rounded-2xl">
+        <Icon className="text-ink-subtle h-12 w-12" aria-hidden={true} />
       </span>
       <div className="space-y-1">
-        <h2 className="text-balance text-lg font-semibold text-ink">{title}</h2>
+        <h2 className="text-ink text-lg font-semibold text-balance">{title}</h2>
         {description ? (
-          <p className="text-pretty max-w-[42ch] text-[0.9375rem] text-ink-muted">{description}</p>
+          <p className="text-ink-muted max-w-[42ch] text-[0.9375rem] text-pretty">{description}</p>
         ) : null}
       </div>
       {action}

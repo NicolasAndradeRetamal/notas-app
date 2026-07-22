@@ -98,7 +98,7 @@ export function TagDialog({ open, onClose, tag }: TagDialogProps) {
           maxLength={40}
         />
         {name.trim() ? (
-          <p className="text-[0.8125rem] text-ink-subtle">
+          <p className="text-ink-subtle text-[0.8125rem]">
             Se guardará como <span className="font-mono">#{previewSlug(name)}</span>
           </p>
         ) : null}

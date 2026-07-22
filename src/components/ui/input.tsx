@@ -39,19 +39,19 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     <div className="flex flex-col gap-1.5">
       <label
         htmlFor={inputId}
-        className={cn('text-sm font-medium text-ink', hideLabel && 'sr-only')}
+        className={cn('text-ink text-sm font-medium', hideLabel && 'sr-only')}
       >
         {label}
         {required ? (
-          <span aria-hidden="true" className="ml-0.5 text-ink-muted">
+          <span aria-hidden="true" className="text-ink-muted ml-0.5">
             *
           </span>
         ) : null}
-        {optional ? <span className="ml-1 font-normal text-ink-subtle">(opcional)</span> : null}
+        {optional ? <span className="text-ink-subtle ml-1 font-normal">(opcional)</span> : null}
       </label>
       <div className="relative flex items-center">
         {icon ? (
-          <span className="pointer-events-none absolute left-3 text-ink-subtle [&_svg]:h-[18px] [&_svg]:w-[18px]">
+          <span className="text-ink-subtle pointer-events-none absolute left-3 [&_svg]:h-[18px] [&_svg]:w-[18px]">
             {icon}
           </span>
         ) : null}
@@ -62,11 +62,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           aria-invalid={Boolean(error) || undefined}
           aria-describedby={hint || error ? hintId : undefined}
           className={cn(
-            'h-11 w-full rounded-md border border-line-strong bg-surface-sunken px-3 text-[0.9375rem] text-ink',
-            'transition-colors duration-150 ease-out placeholder:text-ink-subtle',
+            'border-line-strong bg-surface-sunken text-ink h-11 w-full rounded-md border px-3 text-[0.9375rem]',
+            'placeholder:text-ink-subtle transition-colors duration-150 ease-out',
             'hover:border-ink-subtle',
-            'focus-visible:border-primary focus-visible:bg-surface-raised focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2',
-            'disabled:cursor-not-allowed disabled:border-line disabled:bg-surface-sunken/60 disabled:text-ink-subtle',
+            'focus-visible:border-primary focus-visible:bg-surface-raised focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-2',
+            'disabled:border-line disabled:bg-surface-sunken/60 disabled:text-ink-subtle disabled:cursor-not-allowed',
             'read-only:border-transparent read-only:bg-transparent',
             icon && 'pl-10',
             trailingSlot && 'pr-11',
@@ -79,7 +79,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       </div>
       <p id={hintId} className="min-h-[1.125rem] text-[0.8125rem]">
         {error ? (
-          <span className="flex items-center gap-1 text-danger">
+          <span className="text-danger flex items-center gap-1">
             <CircleAlert className="h-4 w-4" aria-hidden="true" />
             {error}
           </span>

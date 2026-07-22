@@ -30,9 +30,9 @@ export default async function NotebookPage({ params, searchParams }: NotebookPag
       notebooks={notebooks}
       tags={tags}
       heading={
-        <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-ink md:text-3xl">
+        <h1 className="text-ink flex items-center gap-2 text-2xl font-bold tracking-tight md:text-3xl">
           <span
-            className="h-2.5 w-2.5 shrink-0 rounded-full border border-line"
+            className="border-line h-2.5 w-2.5 shrink-0 rounded-full border"
             style={{ backgroundColor: notebook.color ?? 'var(--color-ink-subtle)' }}
             aria-hidden="true"
           />

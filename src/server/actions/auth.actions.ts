@@ -9,7 +9,12 @@ import { signIn, signOut } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { hashPassword } from '@/server/auth/password';
 import { fail, type ActionResult } from '@/lib/action-result';
-import { loginSchema, registerSchema, type LoginInput, type RegisterInput } from '@/schemas/auth.schema';
+import {
+  loginSchema,
+  registerSchema,
+  type LoginInput,
+  type RegisterInput,
+} from '@/schemas/auth.schema';
 import type { UserDTO } from '@/types/dto';
 
 export async function registerAction(
@@ -24,7 +29,11 @@ export async function registerAction(
   });
 
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos del formulario.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos del formulario.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { name, email, password } = parsed.data;
@@ -41,7 +50,10 @@ export async function registerAction(
     // A deactivated account keeps its email: registering again reactivates it
     // instead of leaving the identifier permanently unusable.
     if (existing) {
-      await prisma.user.update({ where: { id: existing.id }, data: { name, passwordHash, active: true } });
+      await prisma.user.update({
+        where: { id: existing.id },
+        data: { name, passwordHash, active: true },
+      });
     } else {
       await prisma.user.create({ data: { name, email, passwordHash } });
     }
@@ -50,7 +62,10 @@ export async function registerAction(
       await signIn('credentials', { email, password, redirect: false });
     } catch (error) {
       console.error('registerAction: sign-in after register failed', error);
-      return fail('INTERNAL_ERROR', 'Tu cuenta se creó, pero no se pudo iniciar sesión. Inicia sesión manualmente.');
+      return fail(
+        'INTERNAL_ERROR',
+        'Tu cuenta se creó, pero no se pudo iniciar sesión. Inicia sesión manualmente.',
+      );
     }
   } catch (error) {
     console.error('registerAction failed', error);
@@ -70,7 +85,11 @@ export async function loginAction(
   });
 
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos del formulario.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos del formulario.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { email, password } = parsed.data;

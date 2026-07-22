@@ -36,7 +36,7 @@ export function SidebarDrawer({ children }: { children: ReactNode }) {
       <div
         id="mobile-sidebar"
         className={cn(
-          'fixed inset-y-0 left-0 z-40 w-[272px] bg-surface-raised shadow-lg transition-transform duration-300 ease-out',
+          'bg-surface-raised fixed inset-y-0 left-0 z-40 w-[272px] shadow-lg transition-transform duration-300 ease-out',
           open ? 'translate-x-0' : '-translate-x-full',
         )}
       >

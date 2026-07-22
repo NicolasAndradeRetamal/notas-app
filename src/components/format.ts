@@ -1,4 +1,8 @@
-const dateFormatter = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'short', year: 'numeric' });
+const dateFormatter = new Intl.DateTimeFormat('es', {
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+});
 const dateTimeFormatter = new Intl.DateTimeFormat('es', {
   day: 'numeric',
   month: 'short',

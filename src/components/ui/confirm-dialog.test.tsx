@@ -18,7 +18,9 @@ describe('ConfirmDialog', () => {
       />,
     );
 
-    expect(screen.getByText('La nota se moverá a la papelera.').closest('dialog')).not.toHaveAttribute('open');
+    expect(
+      screen.getByText('La nota se moverá a la papelera.').closest('dialog'),
+    ).not.toHaveAttribute('open');
   });
 
   it('renders the title, description and default action labels when open', () => {
@@ -117,6 +119,8 @@ describe('ConfirmDialog', () => {
       />,
     );
 
-    expect(screen.getByText('No se pudo completar la acción. Inténtalo de nuevo.')).toBeInTheDocument();
+    expect(
+      screen.getByText('No se pudo completar la acción. Inténtalo de nuevo.'),
+    ).toBeInTheDocument();
   });
 });

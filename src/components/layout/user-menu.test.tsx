@@ -41,7 +41,9 @@ describe('UserMenu — theme switcher', () => {
 
     await user.click(screen.getByRole('button', { name: 'Cuenta de Nicolás Andrade' }));
 
-    expect(screen.getByRole('menuitemradio', { name: /Automático \(sistema\)/ })).toBeInTheDocument();
+    expect(
+      screen.getByRole('menuitemradio', { name: /Automático \(sistema\)/ }),
+    ).toBeInTheDocument();
     expect(screen.getByRole('menuitemradio', { name: /Claro/ })).toBeInTheDocument();
     expect(screen.getByRole('menuitemradio', { name: /Oscuro/ })).toBeInTheDocument();
     expect(screen.getByRole('menuitem', { name: /Cerrar sesión/ })).toBeInTheDocument();
@@ -57,7 +59,10 @@ describe('UserMenu — theme switcher', () => {
       'aria-checked',
       'true',
     );
-    expect(screen.getByRole('menuitemradio', { name: /Claro/ })).toHaveAttribute('aria-checked', 'false');
+    expect(screen.getByRole('menuitemradio', { name: /Claro/ })).toHaveAttribute(
+      'aria-checked',
+      'false',
+    );
   });
 
   it('switches to dark theme, persists it and reflects the checked state on reopen', async () => {
@@ -71,7 +76,10 @@ describe('UserMenu — theme switcher', () => {
     expect(document.documentElement.dataset.theme).toBe('dark');
 
     await user.click(screen.getByRole('button', { name: 'Cuenta de Nicolás Andrade' }));
-    expect(screen.getByRole('menuitemradio', { name: /Oscuro/ })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('menuitemradio', { name: /Oscuro/ })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
   });
 
   it('shows a confirmation toast naming the selected theme', async () => {

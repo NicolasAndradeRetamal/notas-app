@@ -13,8 +13,15 @@ export function SidebarNotebooksGroup({ notebooks }: { notebooks: NotebookDTO[] 
   return (
     <div>
       <div className="flex items-center justify-between px-3">
-        <h2 className="text-xs font-semibold tracking-wider text-ink-subtle uppercase">Cuadernos</h2>
-        <Button variant="ghost" size="icon" onClick={() => setCreating(true)} aria-label="Crear cuaderno">
+        <h2 className="text-ink-subtle text-xs font-semibold tracking-wider uppercase">
+          Cuadernos
+        </h2>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setCreating(true)}
+          aria-label="Crear cuaderno"
+        >
           <Plus aria-hidden="true" />
         </Button>
       </div>
@@ -24,7 +31,7 @@ export function SidebarNotebooksGroup({ notebooks }: { notebooks: NotebookDTO[] 
         </div>
       ) : (
         <div className="px-3 py-2">
-          <p className="text-[0.8125rem] text-ink-subtle">Aún no tienes cuadernos</p>
+          <p className="text-ink-subtle text-[0.8125rem]">Aún no tienes cuadernos</p>
           <Button variant="ghost" size="sm" onClick={() => setCreating(true)} className="mt-1 px-0">
             Crear el primero
           </Button>

@@ -28,7 +28,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <ThemeScript />
       </head>
-      <body className={`${plexSans.variable} ${plexSerif.variable} ${plexMono.variable} antialiased`}>
+      <body
+        className={`${plexSans.variable} ${plexSerif.variable} ${plexMono.variable} antialiased`}
+      >
         <ThemeProvider>
           <ToastProvider>{children}</ToastProvider>
         </ThemeProvider>

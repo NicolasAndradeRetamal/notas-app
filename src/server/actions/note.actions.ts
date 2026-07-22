@@ -31,19 +31,27 @@ async function verifyNotebookAndTagsOwnership(
   tagIds: string[],
 ): Promise<ActionFailure | null> {
   if (notebookId) {
-    const notebook = await prisma.notebook.findFirst({ where: { id: notebookId, userId, active: true } });
-    if (!notebook) return fail('FORBIDDEN', 'El cuaderno seleccionado no existe o no te pertenece.');
+    const notebook = await prisma.notebook.findFirst({
+      where: { id: notebookId, userId, active: true },
+    });
+    if (!notebook)
+      return fail('FORBIDDEN', 'El cuaderno seleccionado no existe o no te pertenece.');
   }
 
   if (tagIds.length > 0) {
     const owned = await prisma.tag.count({ where: { id: { in: tagIds }, userId, active: true } });
-    if (owned !== tagIds.length) return fail('FORBIDDEN', 'Alguna etiqueta seleccionada no existe o no te pertenece.');
+    if (owned !== tagIds.length)
+      return fail('FORBIDDEN', 'Alguna etiqueta seleccionada no existe o no te pertenece.');
   }
 
   return null;
 }
 
-async function syncNoteTags(tx: Prisma.TransactionClient, noteId: string, tagIds: string[]): Promise<void> {
+async function syncNoteTags(
+  tx: Prisma.TransactionClient,
+  noteId: string,
+  tagIds: string[],
+): Promise<void> {
   await tx.noteTag.updateMany({ where: { noteId, active: true }, data: { active: false } });
 
   for (const tagId of tagIds) {
@@ -60,7 +68,11 @@ export async function createNoteAction(
 ): Promise<ActionResult<NoteDetailDTO, CreateNoteInput>> {
   const parsed = createNoteSchema.safeParse(input);
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos de la nota.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos de la nota.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { title, content, notebookId, tagIds } = parsed.data;
@@ -103,7 +115,11 @@ export async function updateNoteAction(
 ): Promise<ActionResult<NoteDetailDTO, UpdateNoteInput>> {
   const parsed = updateNoteSchema.safeParse(input);
   if (!parsed.success) {
-    return fail('VALIDATION_ERROR', 'Revisa los datos de la nota.', z.flattenError(parsed.error).fieldErrors);
+    return fail(
+      'VALIDATION_ERROR',
+      'Revisa los datos de la nota.',
+      z.flattenError(parsed.error).fieldErrors,
+    );
   }
 
   const { id, title, content, notebookId, tagIds } = parsed.data;
@@ -140,7 +156,9 @@ export async function updateNoteAction(
   }
 }
 
-export async function deleteNoteAction(input: { id: string }): Promise<ActionResult<{ id: string }>> {
+export async function deleteNoteAction(input: {
+  id: string;
+}): Promise<ActionResult<{ id: string }>> {
   const parsed = noteIdSchema.safeParse(input);
   if (!parsed.success) return fail('VALIDATION_ERROR', 'Identificador de nota no válido.');
 
@@ -165,7 +183,9 @@ export async function deleteNoteAction(input: { id: string }): Promise<ActionRes
   }
 }
 
-export async function restoreNoteAction(input: { id: string }): Promise<ActionResult<NoteSummaryDTO>> {
+export async function restoreNoteAction(input: {
+  id: string;
+}): Promise<ActionResult<NoteSummaryDTO>> {
   const parsed = noteIdSchema.safeParse(input);
   if (!parsed.success) return fail('VALIDATION_ERROR', 'Identificador de nota no válido.');
 
@@ -195,7 +215,9 @@ export async function restoreNoteAction(input: { id: string }): Promise<ActionRe
   }
 }
 
-export async function purgeNoteAction(input: { id: string }): Promise<ActionResult<{ id: string }>> {
+export async function purgeNoteAction(input: {
+  id: string;
+}): Promise<ActionResult<{ id: string }>> {
   const parsed = noteIdSchema.safeParse(input);
   if (!parsed.success) return fail('VALIDATION_ERROR', 'Identificador de nota no válido.');
 
@@ -214,7 +236,10 @@ export async function purgeNoteAction(input: { id: string }): Promise<ActionResu
       return fail('UNAUTHENTICATED', 'Debes iniciar sesión para continuar.');
     }
     console.error('purgeNoteAction failed', error);
-    return fail('INTERNAL_ERROR', 'No se pudo eliminar la nota definitivamente. Inténtalo de nuevo.');
+    return fail(
+      'INTERNAL_ERROR',
+      'No se pudo eliminar la nota definitivamente. Inténtalo de nuevo.',
+    );
   }
 }
 
@@ -249,8 +274,11 @@ export async function moveNoteAction(
     const user = await requireUser();
 
     if (notebookId) {
-      const notebook = await prisma.notebook.findFirst({ where: { id: notebookId, userId: user.id, active: true } });
-      if (!notebook) return fail('FORBIDDEN', 'El cuaderno seleccionado no existe o no te pertenece.');
+      const notebook = await prisma.notebook.findFirst({
+        where: { id: notebookId, userId: user.id, active: true },
+      });
+      if (!notebook)
+        return fail('FORBIDDEN', 'El cuaderno seleccionado no existe o no te pertenece.');
     }
 
     const existing = await prisma.note.findFirst({ where: { id, userId: user.id, active: true } });
@@ -289,11 +317,15 @@ export async function setNoteTagsAction(
   try {
     const user = await requireUser();
 
-    const existing = await prisma.note.findFirst({ where: { id: noteId, userId: user.id, active: true } });
+    const existing = await prisma.note.findFirst({
+      where: { id: noteId, userId: user.id, active: true },
+    });
     if (!existing) return fail('NOT_FOUND', 'La nota no existe.');
 
     if (uniqueTagIds.length > 0) {
-      const owned = await prisma.tag.count({ where: { id: { in: uniqueTagIds }, userId: user.id, active: true } });
+      const owned = await prisma.tag.count({
+        where: { id: { in: uniqueTagIds }, userId: user.id, active: true },
+      });
       if (owned !== uniqueTagIds.length) {
         return fail('FORBIDDEN', 'Alguna etiqueta seleccionada no existe o no te pertenece.');
       }

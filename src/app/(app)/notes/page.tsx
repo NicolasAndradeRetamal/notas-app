@@ -19,7 +19,7 @@ export default async function NotesPage({ searchParams }: NotesPageProps) {
       notebooks={notebooks}
       tags={tags}
       heading={
-        <h1 className="text-2xl font-bold tracking-tight text-ink md:text-3xl">
+        <h1 className="text-ink text-2xl font-bold tracking-tight md:text-3xl">
           {params.q ? 'Resultados de búsqueda' : 'Todas las notas'}
         </h1>
       }

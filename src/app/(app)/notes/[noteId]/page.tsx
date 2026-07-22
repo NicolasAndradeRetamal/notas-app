@@ -17,7 +17,11 @@ type NotePageProps = {
 
 export default async function NotePage({ params }: NotePageProps) {
   const { noteId } = await params;
-  const [note, notebooks, tags] = await Promise.all([getNoteById(noteId), getNotebooks(), getTags()]);
+  const [note, notebooks, tags] = await Promise.all([
+    getNoteById(noteId),
+    getNotebooks(),
+    getTags(),
+  ]);
 
   if (!note) notFound();
 
@@ -26,21 +30,26 @@ export default async function NotePage({ params }: NotePageProps) {
       {note.notebook ? (
         <Link
           href={`/notebooks/${note.notebook.id}`}
-          className="mb-4 inline-flex items-center gap-1 text-sm text-ink-muted hover:text-ink"
+          className="text-ink-muted hover:text-ink mb-4 inline-flex items-center gap-1 text-sm"
         >
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           Volver a {note.notebook.name}
         </Link>
       ) : (
-        <Link href="/notes" className="mb-4 inline-flex items-center gap-1 text-sm text-ink-muted hover:text-ink">
+        <Link
+          href="/notes"
+          className="text-ink-muted hover:text-ink mb-4 inline-flex items-center gap-1 text-sm"
+        >
           <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           Volver a mis notas
         </Link>
       )}
 
-      <div className="flex flex-col gap-4 border-b border-line pb-6 sm:flex-row sm:items-start sm:justify-between">
+      <div className="border-line flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight text-balance text-ink md:text-3xl">{note.title}</h1>
+          <h1 className="text-ink text-2xl font-bold tracking-tight text-balance md:text-3xl">
+            {note.title}
+          </h1>
           {note.notebook || note.tags.length > 0 ? (
             <div className="flex flex-wrap items-center gap-1.5">
               {note.notebook ? (
@@ -66,10 +75,20 @@ export default async function NotePage({ params }: NotePageProps) {
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          <LinkButton href={`/notes/${note.id}/edit`} icon={<Pencil aria-hidden="true" />} className="flex-1 sm:flex-none">
+          <LinkButton
+            href={`/notes/${note.id}/edit`}
+            icon={<Pencil aria-hidden="true" />}
+            className="flex-1 sm:flex-none"
+          >
             Editar
           </LinkButton>
-          <NoteActionsMenu note={note} notebooks={notebooks} tags={tags} showOpen={false} showCopyMarkdown />
+          <NoteActionsMenu
+            note={note}
+            notebooks={notebooks}
+            tags={tags}
+            showOpen={false}
+            showCopyMarkdown
+          />
         </div>
       </div>
 

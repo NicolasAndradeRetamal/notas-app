@@ -2,7 +2,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 function NoteCardSkeleton() {
   return (
-    <div className="min-h-40 rounded-lg border border-line bg-surface-raised p-4">
+    <div className="border-line bg-surface-raised min-h-40 rounded-lg border p-4">
       <Skeleton className="h-4 w-3/5" />
       <div className="mt-3 space-y-2">
         <Skeleton className="h-3 w-full" />

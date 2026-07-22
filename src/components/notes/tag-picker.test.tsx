@@ -120,7 +120,9 @@ describe('TagPicker', () => {
     await user.type(input, 'urgente');
     await user.click(screen.getByRole('button', { name: 'Crear la etiqueta «urgente»' }));
 
-    await waitFor(() => expect(onChange).toHaveBeenCalledWith([{ id: 'tag-new', name: 'urgente' }]));
+    await waitFor(() =>
+      expect(onChange).toHaveBeenCalledWith([{ id: 'tag-new', name: 'urgente' }]),
+    );
     expect(mockedCreateTagAction).toHaveBeenCalledWith({ name: 'urgente' });
   });
 
@@ -148,6 +150,8 @@ describe('TagPicker', () => {
 
     const input = screen.getByLabelText('Etiquetas');
     expect(input).toBeDisabled();
-    expect(screen.getByText('Has alcanzado el máximo de 20 etiquetas por nota.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Has alcanzado el máximo de 20 etiquetas por nota.'),
+    ).toBeInTheDocument();
   });
 });

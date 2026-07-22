@@ -17,7 +17,9 @@ test.describe('search', () => {
     await page.waitForURL(/[?&]q=presupuesto/);
 
     await expect(page.getByText('1 resultado para «presupuesto»')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Presupuesto anual del departamento' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Presupuesto anual del departamento' }),
+    ).toBeVisible();
   });
 
   test('finds a note by a word in its body', async ({ page }) => {
@@ -33,7 +35,9 @@ test.describe('search', () => {
     await expect(page.getByRole('heading', { name: 'Notas sueltas' })).toBeVisible();
   });
 
-  test('matches accented search terms against unaccented content and vice versa', async ({ page }) => {
+  test('matches accented search terms against unaccented content and vice versa', async ({
+    page,
+  }) => {
     await createNote(page, {
       title: 'Reunión de planificación',
       content: 'Se define el plan de acción para el próximo trimestre.',

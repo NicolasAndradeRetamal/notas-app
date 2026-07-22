@@ -10,7 +10,10 @@ if (typeof HTMLDialogElement !== 'undefined' && !HTMLDialogElement.prototype.sho
     this.open = true;
     this.setAttribute('open', '');
   };
-  HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement, returnValue?: string) {
+  HTMLDialogElement.prototype.close = function close(
+    this: HTMLDialogElement,
+    returnValue?: string,
+  ) {
     const wasOpen = this.open;
     this.open = false;
     this.removeAttribute('open');
@@ -22,16 +25,17 @@ if (typeof HTMLDialogElement !== 'undefined' && !HTMLDialogElement.prototype.sho
 // jsdom does not implement window.matchMedia, which ThemeProvider reads to
 // resolve the "system" theme preference.
 if (typeof window !== 'undefined' && !window.matchMedia) {
-  window.matchMedia = (query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => false,
-  }) as unknown as MediaQueryList;
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }) as unknown as MediaQueryList;
 }
 
 afterEach(() => {

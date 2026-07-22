@@ -27,7 +27,9 @@ vi.mock('next/navigation', () => ({
 const mockedCreateNoteAction = vi.mocked(createNoteAction);
 const mockedUpdateNoteAction = vi.mocked(updateNoteAction);
 
-const NOTEBOOKS: NotebookDTO[] = [{ id: 'nb-1', name: 'Trabajo', slug: 'trabajo', color: null, position: 0 }];
+const NOTEBOOKS: NotebookDTO[] = [
+  { id: 'nb-1', name: 'Trabajo', slug: 'trabajo', color: null, position: 0 },
+];
 const TAGS: TagDTO[] = [{ id: 'tag-1', name: 'ideas', slug: 'ideas', noteCount: 2 }];
 
 const EXISTING_NOTE: NoteDetailDTO = {

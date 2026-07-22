@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { toNoteDetailDTO, toNoteSummaryDTO, type NoteWithRelations } from '@/server/mappers/note.mapper';
+import {
+  toNoteDetailDTO,
+  toNoteSummaryDTO,
+  type NoteWithRelations,
+} from '@/server/mappers/note.mapper';
 
 function buildNote(overrides: Partial<NoteWithRelations> = {}): NoteWithRelations {
   return {

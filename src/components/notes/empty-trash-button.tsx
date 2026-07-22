@@ -20,7 +20,10 @@ export function EmptyTrashButton({ disabled }: { disabled?: boolean }) {
         toast({ variant: 'error', title: result.message });
         return;
       }
-      toast({ variant: 'success', title: `Papelera vaciada: se eliminaron ${result.data.deleted} notas.` });
+      toast({
+        variant: 'success',
+        title: `Papelera vaciada: se eliminaron ${result.data.deleted} notas.`,
+      });
       setOpen(false);
       router.refresh();
     });
