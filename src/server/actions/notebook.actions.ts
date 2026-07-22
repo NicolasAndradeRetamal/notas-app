@@ -1,5 +1,7 @@
 'use server';
 
+import 'server-only';
+
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { Prisma } from '@/generated/prisma/client';
@@ -39,10 +41,25 @@ export async function createNotebookAction(
     const user = await requireUser();
     const slug = slugify(name, NOTEBOOK_SLUG_MAX_LENGTH);
 
-    const notebook = await prisma.notebook.create({
-      data: { userId: user.id, name, slug, color },
-      include: activeNoteCount,
+    const existing = await prisma.notebook.findUnique({
+      where: { userId_slug: { userId: user.id, slug } },
     });
+
+    if (existing?.active) {
+      return fail('CONFLICT', 'Ya existe un cuaderno con ese nombre.');
+    }
+
+    // An inactive notebook with the same slug is reactivated instead of creating a duplicate.
+    const notebook = existing
+      ? await prisma.notebook.update({
+          where: { id: existing.id },
+          data: { name, color, active: true },
+          include: activeNoteCount,
+        })
+      : await prisma.notebook.create({
+          data: { userId: user.id, name, slug, color },
+          include: activeNoteCount,
+        });
 
     revalidatePath('/(app)', 'layout');
     return ok(toNotebookDTO(notebook));
