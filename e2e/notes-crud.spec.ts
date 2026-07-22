@@ -7,7 +7,10 @@ test.describe('note CRUD', () => {
   });
 
   test('creates a note and shows it in the listing', async ({ page }) => {
-    await createNote(page, { title: 'Nota de prueba end-to-end', content: 'Cuerpo de la nota de prueba.' });
+    await createNote(page, {
+      title: 'Nota de prueba end-to-end',
+      content: 'Cuerpo de la nota de prueba.',
+    });
 
     await page.goto('/notes');
     await expect(page.getByRole('heading', { name: 'Nota de prueba end-to-end' })).toBeVisible();
@@ -16,17 +19,22 @@ test.describe('note CRUD', () => {
   test('shows a live preview while writing markdown', async ({ page }) => {
     await page.goto('/notes/new');
     await page.getByPlaceholder('Título de la nota').fill('Nota con vista previa');
-    await page.getByLabel('Contenido en markdown').fill('## Encabezado en vivo\n\nUn **párrafo** en negrita.');
+    await page
+      .getByLabel('Contenido en markdown')
+      .fill('## Encabezado en vivo\n\nUn **párrafo** en negrita.');
 
     await page.getByRole('tab', { name: 'Vista previa' }).click();
     await expect(page.getByRole('heading', { name: 'Encabezado en vivo' })).toBeVisible();
     await expect(page.locator('.prose-note strong', { hasText: 'párrafo' })).toBeVisible();
   });
 
-  test('renders sanitized markdown on the read view, with headings shifted down', async ({ page }) => {
+  test('renders sanitized markdown on the read view, with headings shifted down', async ({
+    page,
+  }) => {
     const noteId = await createNote(page, {
       title: 'Nota con markdown',
-      content: '# Encabezado principal\n\nTexto con <script>window.__pwned = true;</script> incrustado.',
+      content:
+        '# Encabezado principal\n\nTexto con <script>window.__pwned = true;</script> incrustado.',
     });
 
     await page.goto(`/notes/${noteId}`);
@@ -39,7 +47,10 @@ test.describe('note CRUD', () => {
   });
 
   test('edits a note and its content persists after reload', async ({ page }) => {
-    const noteId = await createNote(page, { title: 'Nota editable', content: 'Contenido original' });
+    const noteId = await createNote(page, {
+      title: 'Nota editable',
+      content: 'Contenido original',
+    });
 
     await page.goto(`/notes/${noteId}/edit`);
     const content = page.getByLabel('Contenido en markdown');
@@ -51,7 +62,9 @@ test.describe('note CRUD', () => {
     await expect(page.getByText(/^Guardado/)).toBeVisible();
 
     await page.reload();
-    await expect(page.getByLabel('Contenido en markdown')).toHaveValue('Contenido editado end-to-end');
+    await expect(page.getByLabel('Contenido en markdown')).toHaveValue(
+      'Contenido editado end-to-end',
+    );
   });
 
   test('handles an empty note body and a very long title', async ({ page }) => {
@@ -69,7 +82,9 @@ test.describe('note CRUD', () => {
     await createNote(page, { title: 'Nota para la papelera' });
 
     await page.goto('/notes');
-    const card = page.locator('li', { has: page.getByRole('heading', { name: 'Nota para la papelera' }) });
+    const card = page.locator('li', {
+      has: page.getByRole('heading', { name: 'Nota para la papelera' }),
+    });
     await card.getByRole('button', { name: /Acciones de la nota/ }).click();
     await page.getByRole('menuitem', { name: 'Enviar a la papelera' }).click();
 
@@ -86,7 +101,9 @@ test.describe('note CRUD', () => {
     await expect(page.getByRole('heading', { name: 'Nota para la papelera' })).toBeVisible();
 
     // Trash it again and purge it for good this time.
-    const cardAgain = page.locator('li', { has: page.getByRole('heading', { name: 'Nota para la papelera' }) });
+    const cardAgain = page.locator('li', {
+      has: page.getByRole('heading', { name: 'Nota para la papelera' }),
+    });
     await cardAgain.getByRole('button', { name: /Acciones de la nota/ }).click();
     await page.getByRole('menuitem', { name: 'Enviar a la papelera' }).click();
     await expect(page.getByText('Nota enviada a la papelera.')).toBeVisible();
@@ -122,23 +139,10 @@ test.describe('note CRUD', () => {
     await expect(page.getByText('Esta nota no existe o ya no tienes acceso a ella.')).toBeVisible();
   });
 
-  test('clicking "Guardar nota" right after typing races the autosave debounce and can create a duplicate note', async ({
-    page,
-  }) => {
-    // BUG (see QA_REPORT.md): NoteEditor's autosave effect (note-editor.tsx)
-    // schedules a save ~1.2s after the last keystroke and only cancels it on
-    // unmount. Clicking "Guardar nota" fires a second, independent save
-    // immediately. On success, createNoteAction() redirects instead of
-    // updating the component's noteId, so if client-side navigation away
-    // from /notes/new takes longer than the remaining debounce window (slow
-    // network/server), the debounce fires too and calls createNoteAction()
-    // again — creating two identical notes from a single save. Confirmed via
-    // a direct database query during QA (two rows with the identical title),
-    // but the race is timing-dependent (server/network speed), so it does
-    // not reproduce on every run — skipped rather than asserted with
-    // test.fail(), which would make this spec itself flaky.
-    test.skip(true, 'Documents a known race condition; see QA_REPORT.md. Not reliably reproducible on every run.');
-
+  test('saving right after typing creates exactly one note', async ({ page }) => {
+    // Clicking "Guardar nota" leaves the autosave timer armed. Without the
+    // in-flight guard in NoteEditor it fires a second create while the first
+    // is still navigating, leaving two copies of the same note.
     const title = `Nota carrera doble ${Date.now()}`;
     await page.goto('/notes/new');
     await page.getByPlaceholder('Título de la nota').fill(title);
