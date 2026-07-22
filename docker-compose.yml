@@ -9,9 +9,11 @@ services:
       POSTGRES_PASSWORD: notas
       POSTGRES_DB: notas_app
     ports:
-      - '5432:5432'
+      # 5433 en el host: el 5432 lo ocupa otro proyecto del portafolio
+      - '5433:5432'
     volumes:
-      - notas-db-data:/var/lib/postgresql/data
+      # PostgreSQL 18 espera el montaje aqui, no en /data
+      - notas-db-data:/var/lib/postgresql
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U notas -d notas_app']
       interval: 5s

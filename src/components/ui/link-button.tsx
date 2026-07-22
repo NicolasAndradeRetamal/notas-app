@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { ComponentProps, ReactNode } from 'react';
-import type { ButtonSize, ButtonVariant } from './button';
-import { buttonClasses } from './button';
+import type { ButtonSize, ButtonVariant } from './button-classes';
+import { buttonClasses } from './button-classes';
 
 type LinkButtonProps = ComponentProps<typeof Link> & {
   variant?: ButtonVariant;

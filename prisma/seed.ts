@@ -2,9 +2,9 @@
 // imports only: the `@/*` path alias is a bundler/tsconfig feature, not
 // available to plain Node module resolution.
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../src/generated/prisma/client';
-import { hashPassword } from '../src/server/auth/password';
-import { deriveExcerpt } from '../src/lib/excerpt';
+import { PrismaClient } from '../src/generated/prisma/client.ts';
+import { hashPassword } from '../src/server/auth/password.ts';
+import { deriveExcerpt } from '../src/lib/excerpt.ts';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });

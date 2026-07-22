@@ -1,6 +1,9 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+
+  // Explicit extensions let plain Node resolve the client when running the seed.
+  importFileExtension = "ts"
 }
 
 datasource db {
