@@ -110,7 +110,9 @@ describe('RegisterForm', () => {
     await user.type(confirmPasswordLabel(), 'contrasena-demo-123');
     await user.click(screen.getByRole('button', { name: 'Crear cuenta' }));
 
-    await waitFor(() => expect(screen.getByRole('button', { name: /Creando cuenta…/ })).toBeDisabled());
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: /Creando cuenta…/ })).toBeDisabled(),
+    );
 
     resolveAction({ ok: false, code: 'CONFLICT', message: 'Ya existe una cuenta con ese correo.' });
   });

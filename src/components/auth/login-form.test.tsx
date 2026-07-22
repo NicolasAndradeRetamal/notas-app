@@ -31,10 +31,10 @@ describe('LoginForm', () => {
     const password = passwordLabel();
     expect(password).toHaveAttribute('type', 'password');
 
-    await user.click(screen.getByRole('button', { name: 'Mostrar contraseña' }));
+    await user.click(screen.getByRole('button', { name: 'Mostrar la contraseña' }));
     expect(password).toHaveAttribute('type', 'text');
 
-    await user.click(screen.getByRole('button', { name: 'Ocultar contraseña' }));
+    await user.click(screen.getByRole('button', { name: 'Ocultar la contraseña' }));
     expect(password).toHaveAttribute('type', 'password');
   });
 
@@ -90,6 +90,10 @@ describe('LoginForm', () => {
 
     await waitFor(() => expect(screen.getByRole('button', { name: /Entrando…/ })).toBeDisabled());
 
-    resolveAction({ ok: false, code: 'UNAUTHENTICATED', message: 'Correo o contraseña incorrectos.' });
+    resolveAction({
+      ok: false,
+      code: 'UNAUTHENTICATED',
+      message: 'Correo o contraseña incorrectos.',
+    });
   });
 });
