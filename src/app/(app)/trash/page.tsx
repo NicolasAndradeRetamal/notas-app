@@ -1,3 +1,4 @@
+import { noteListParamsSchema } from '@/schemas/search.schema';
 import { getTrashedNotes } from '@/server/queries/note.queries';
 import { TrashedNoteCard } from '@/components/notes/trashed-note-card';
 import { EmptyTrashButton } from '@/components/notes/empty-trash-button';
@@ -12,7 +13,7 @@ type TrashPageProps = {
 
 export default async function TrashPage({ searchParams }: TrashPageProps) {
   const raw = await searchParams;
-  const page = Number(raw.page ?? 1) || 1;
+  const { page } = noteListParamsSchema.parse({ page: raw.page });
   const result = await getTrashedNotes(page);
 
   return (
