@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Ephemeral database that only exists for the lifetime of the job: safe to hardcode.
+  DATABASE_URL: postgresql://notas:notas@localhost:5432/notas_app_ci?schema=public
+  # Placeholder value, never used outside this CI run: satisfies the 32-char minimum in src/lib/env.ts.
+  AUTH_SECRET: ci-only-placeholder-secret-not-used-in-production
+  AUTH_TRUST_HOST: 'true'
+
+jobs:
+  ci:
+    name: Typecheck, lint, test and build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        # Same image as docker-compose.yml, so migrations behave the same way locally and in CI.
+        image: pgvector/pgvector:pg18
+        env:
+          POSTGRES_USER: notas
+          POSTGRES_PASSWORD: notas
+          POSTGRES_DB: notas_app_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U notas -d notas_app_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.1.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.13.0
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Apply database migrations
+        run: pnpm db:deploy
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
