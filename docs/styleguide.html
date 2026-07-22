@@ -1,0 +1,1561 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>notas-app · Guía de estilos</title>
+    <meta name="description" content="Guía de estilos viva de notas-app: paleta, tipografía y componentes base en modo claro y oscuro." />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf7f2" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141312" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* =====================================================================
+         TOKENS — reflejo exacto del bloque @theme de DESIGN.md
+         ===================================================================== */
+      :root {
+        color-scheme: light dark;
+
+        --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+        --font-serif: "IBM Plex Serif", ui-serif, Georgia, "Times New Roman", serif;
+        --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+        --text-2xs: 0.6875rem;
+        --text-meta: 0.8125rem;
+        --text-ui: 0.9375rem;
+        --text-prose: 1.0625rem;
+
+        --color-surface: light-dark(#faf7f2, #141312);
+        --color-surface-raised: light-dark(#ffffff, #1c1a19);
+        --color-surface-sunken: light-dark(#f2ede5, #262322);
+
+        --color-ink: light-dark(#1c1917, #f5f1eb);
+        --color-ink-muted: light-dark(#57534e, #b5aea7);
+        --color-ink-subtle: light-dark(#6b645f, #9a938d);
+
+        --color-line: light-dark(#e5ded4, #332f2d);
+        --color-line-strong: light-dark(#8a8078, #7a736d);
+
+        --color-primary: light-dark(#0f766e, #2dd4bf);
+        --color-primary-strong: light-dark(#115e59, #5eead4);
+        --color-primary-soft: light-dark(#d5f0eb, #10302e);
+        --color-on-primary: light-dark(#ffffff, #0b1f1d);
+
+        --color-success: light-dark(#116b32, #4ade80);
+        --color-success-soft: light-dark(#e3f7e9, #0d2a18);
+        --color-on-success: light-dark(#ffffff, #0b1f1d);
+
+        --color-danger: light-dark(#b91c1c, #f87171);
+        --color-danger-strong: light-dark(#991b1b, #fca5a5);
+        --color-danger-soft: light-dark(#fbe4e4, #341414);
+        --color-on-danger: light-dark(#ffffff, #1f0b0b);
+
+        --color-warning: light-dark(#9a4a08, #fbbf24);
+        --color-warning-soft: light-dark(#fbeed2, #33230a);
+        --color-on-warning: light-dark(#ffffff, #1f1503);
+
+        --color-info: light-dark(#6d28d9, #c4b5fd);
+        --color-info-soft: light-dark(#ede4fd, #241a3d);
+        --color-on-info: light-dark(#ffffff, #1a1033);
+
+        --color-highlight: light-dark(#fde68a, #4d3c0f);
+        --color-scrim: light-dark(rgb(28 25 23 / 0.45), rgb(0 0 0 / 0.65));
+
+        --radius-xs: 0.25rem;
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+        --radius-2xl: 1.5rem;
+
+        --shadow-xs: 0 1px 2px light-dark(rgb(28 25 23 / 0.06), rgb(0 0 0 / 0.5));
+        --shadow-sm: 0 1px 3px light-dark(rgb(28 25 23 / 0.08), rgb(0 0 0 / 0.55)),
+          0 1px 2px -1px light-dark(rgb(28 25 23 / 0.06), rgb(0 0 0 / 0.4));
+        --shadow-md: 0 4px 12px -2px light-dark(rgb(28 25 23 / 0.1), rgb(0 0 0 / 0.6)),
+          0 2px 4px -2px light-dark(rgb(28 25 23 / 0.06), rgb(0 0 0 / 0.4));
+        --shadow-lg: 0 12px 28px -6px light-dark(rgb(28 25 23 / 0.16), rgb(0 0 0 / 0.7)),
+          0 4px 8px -4px light-dark(rgb(28 25 23 / 0.08), rgb(0 0 0 / 0.5));
+
+        --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+        --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
+        --ease-in-soft: cubic-bezier(0.32, 0, 0.67, 0);
+        --duration-fast: 150ms;
+        --duration-normal: 200ms;
+        --duration-slow: 250ms;
+      }
+
+      [data-theme="light"] { color-scheme: light; }
+      [data-theme="dark"] { color-scheme: dark; }
+
+      /* Paneles de comparación forzados */
+      .force-light { color-scheme: light; }
+      .force-dark { color-scheme: dark; }
+
+      /* =====================================================================
+         BASE
+         ===================================================================== */
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--color-surface);
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+        font-size: var(--text-ui);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        border-radius: var(--radius-xs);
+      }
+
+      ::selection { background: var(--color-primary-soft); color: var(--color-ink); }
+      ::placeholder { color: var(--color-ink-subtle); }
+
+      h1, h2, h3, h4 { margin: 0; letter-spacing: -0.01em; }
+      p { margin: 0; }
+      code { font-family: var(--font-mono); font-size: 0.875em; }
+
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--color-primary);
+        color: var(--color-on-primary);
+        padding: 12px 16px;
+        border-radius: var(--radius-md);
+        z-index: 99;
+      }
+      .skip:focus { left: 12px; top: 12px; }
+
+      /* =====================================================================
+         ESTRUCTURA DE LA GUÍA
+         ===================================================================== */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: space-between;
+        height: 64px;
+        padding: 0 20px;
+        background: var(--color-surface-raised);
+        border-bottom: 1px solid var(--color-line);
+      }
+
+      .brand { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+      .brand::before {
+        content: "";
+        width: 8px; height: 8px; border-radius: 999px;
+        background: var(--color-primary);
+      }
+      .brand small { color: var(--color-ink-subtle); font-weight: 400; font-size: var(--text-meta); }
+
+      .wrap { max-width: 76rem; margin: 0 auto; padding: 32px 20px 96px; }
+
+      section { margin-block: 56px; scroll-margin-top: 80px; }
+      section > h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--color-line);
+        margin-bottom: 8px;
+      }
+      section > p.lead { color: var(--color-ink-muted); margin-bottom: 24px; max-width: 62ch; }
+
+      h3.sub {
+        font-size: 1.0625rem;
+        font-weight: 600;
+        margin-top: 32px;
+        margin-bottom: 12px;
+      }
+      .hint { color: var(--color-ink-subtle); font-size: var(--text-meta); margin-top: 8px; }
+
+      .grid { display: grid; gap: 16px; }
+      .cols-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+      .cols-3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+
+      .panel {
+        background: var(--color-surface-raised);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+      }
+
+      .demo {
+        background: var(--color-surface);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+      }
+      .demo > .demo-title {
+        font-size: var(--text-meta);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-ink-subtle);
+        margin-bottom: 14px;
+      }
+
+      table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+      th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--color-line); }
+      thead th { background: var(--color-surface-sunken); font-weight: 600; }
+      td.num { font-variant-numeric: tabular-nums; }
+
+      /* =====================================================================
+         PALETA
+         ===================================================================== */
+      .swatches { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+      .swatch {
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        background: var(--color-surface-raised);
+      }
+      .swatch .chip { height: 56px; display: flex; align-items: center; justify-content: center; font-size: var(--text-meta); font-weight: 500; }
+      .swatch .meta { padding: 8px 10px; font-size: var(--text-meta); }
+      .swatch .name { font-weight: 600; }
+      .swatch .val { color: var(--color-ink-subtle); font-family: var(--font-mono); font-size: 0.75rem; }
+
+      /* =====================================================================
+         COMPONENTES — BOTONES
+         ===================================================================== */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 44px;
+        padding: 0 16px;
+        border-radius: var(--radius-md);
+        border: 1px solid transparent;
+        font: inherit;
+        font-size: var(--text-ui);
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-standard),
+          color var(--duration-fast) var(--ease-standard),
+          border-color var(--duration-fast) var(--ease-standard),
+          box-shadow var(--duration-fast) var(--ease-standard),
+          transform 100ms var(--ease-standard);
+      }
+      .btn svg { width: 20px; height: 20px; }
+      .btn-sm { height: 36px; padding: 0 12px; font-size: 0.875rem; }
+      .btn-sm svg { width: 16px; height: 16px; }
+      .btn-lg { height: 48px; padding: 0 20px; font-size: 1rem; }
+      .btn-icon { width: 44px; padding: 0; }
+
+      .btn-primary { background: var(--color-primary); color: var(--color-on-primary); box-shadow: var(--shadow-xs); }
+      .btn-primary:hover { background: var(--color-primary-strong); }
+      .btn-primary:active { background: var(--color-primary-strong); transform: translateY(1px); box-shadow: none; }
+
+      .btn-secondary { background: var(--color-surface-raised); color: var(--color-ink); border-color: var(--color-line-strong); }
+      .btn-secondary:hover { background: var(--color-surface-sunken); }
+      .btn-secondary:active { background: var(--color-surface-sunken); transform: translateY(1px); }
+
+      .btn-ghost { background: transparent; color: var(--color-ink-muted); }
+      .btn-ghost:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
+      .btn-ghost:active { background: var(--color-surface-sunken); transform: translateY(1px); }
+
+      .btn-danger { background: var(--color-danger); color: var(--color-on-danger); }
+      .btn-danger:hover { background: var(--color-danger-strong); }
+      .btn-danger:active { transform: translateY(1px); }
+      .btn-danger:focus-visible { outline-color: var(--color-danger); }
+
+      .btn-danger-ghost { background: transparent; color: var(--color-danger); }
+      .btn-danger-ghost:hover { background: var(--color-danger-soft); }
+      .btn-danger-ghost:focus-visible { outline-color: var(--color-danger); }
+
+      .btn-link {
+        background: none; border: 0; height: auto; padding: 0;
+        color: var(--color-primary); text-decoration: none;
+      }
+      .btn-link:hover { color: var(--color-primary-strong); text-decoration: underline; text-underline-offset: 2px; }
+
+      .btn:disabled,
+      .btn[aria-disabled="true"] { cursor: not-allowed; transform: none; box-shadow: none; }
+      .btn-primary:disabled, .btn-danger:disabled { background: var(--color-surface-sunken); color: var(--color-ink-subtle); }
+      .btn-secondary:disabled { border-color: var(--color-line); color: var(--color-ink-subtle); }
+      .btn-ghost:disabled, .btn-danger-ghost:disabled { color: var(--color-ink-subtle); background: none; }
+
+      /* estado simulado para la demo */
+      .is-hover.btn-primary { background: var(--color-primary-strong); }
+      .is-hover.btn-secondary, .is-hover.btn-ghost { background: var(--color-surface-sunken); color: var(--color-ink); }
+      .is-hover.btn-danger { background: var(--color-danger-strong); }
+      .is-hover.btn-danger-ghost { background: var(--color-danger-soft); }
+      .is-focus { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+      .is-focus.btn-danger, .is-focus.btn-danger-ghost { outline-color: var(--color-danger); }
+      .is-active { transform: translateY(1px); box-shadow: none; }
+      .is-active.btn-primary { background: var(--color-primary-strong); }
+      .is-active.btn-secondary, .is-active.btn-ghost { background: var(--color-surface-sunken); }
+
+      .spinner {
+        width: 18px; height: 18px;
+        border-radius: 999px;
+        border: 2px solid currentColor;
+        border-right-color: transparent;
+        animation: spin 900ms linear infinite;
+      }
+      .spinner-sm { width: 14px; height: 14px; border-width: 2px; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      .state-tag {
+        display: block;
+        font-size: var(--text-2xs);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-ink-subtle);
+        margin-bottom: 6px;
+      }
+      .state-cell { display: flex; flex-direction: column; align-items: flex-start; }
+
+      /* =====================================================================
+         FORMULARIOS
+         ===================================================================== */
+      .field { display: flex; flex-direction: column; gap: 6px; max-width: 22rem; }
+      .field > label { font-size: 0.875rem; font-weight: 500; }
+      .field .help { font-size: var(--text-meta); color: var(--color-ink-subtle); min-height: 1.125rem; }
+      .field .error { font-size: var(--text-meta); color: var(--color-danger); display: flex; align-items: center; gap: 6px; min-height: 1.125rem; }
+      .field .error svg { width: 16px; height: 16px; flex: none; }
+
+      .input,
+      .select,
+      .textarea {
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 12px;
+        background: var(--color-surface-sunken);
+        color: var(--color-ink);
+        border: 1px solid var(--color-line-strong);
+        border-radius: var(--radius-md);
+        font: inherit;
+        font-size: var(--text-ui);
+        transition: background-color var(--duration-fast) var(--ease-standard),
+          border-color var(--duration-fast) var(--ease-standard);
+      }
+      .textarea { min-height: 96px; resize: vertical; }
+      .input:hover, .select:hover, .textarea:hover { border-color: var(--color-ink-subtle); }
+      .input:focus, .select:focus, .textarea:focus { background: var(--color-surface-raised); border-color: var(--color-primary); }
+      .input:disabled, .select:disabled, .textarea:disabled { opacity: 0.6; cursor: not-allowed; }
+      .input.is-error { border-color: var(--color-danger); background: var(--color-danger-soft); }
+      .input.is-focus-demo { background: var(--color-surface-raised); border-color: var(--color-primary); outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+      .select {
+        appearance: none;
+        padding-right: 40px;
+        background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+          linear-gradient(135deg, currentColor 50%, transparent 50%);
+        background-position: calc(100% - 20px) 20px, calc(100% - 14px) 20px;
+        background-size: 6px 6px, 6px 6px;
+        background-repeat: no-repeat;
+      }
+
+      .check { display: flex; align-items: center; gap: 12px; min-height: 44px; font-size: 0.875rem; }
+      .check input {
+        appearance: none;
+        width: 20px; height: 20px; margin: 0; flex: none;
+        border: 1.5px solid var(--color-line-strong);
+        border-radius: var(--radius-sm);
+        background: var(--color-surface-sunken);
+        display: grid; place-content: center;
+        cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-standard), border-color var(--duration-fast) var(--ease-standard);
+      }
+      .check input::after {
+        content: "";
+        width: 11px; height: 6px;
+        border-left: 2px solid var(--color-on-primary);
+        border-bottom: 2px solid var(--color-on-primary);
+        transform: rotate(-45deg) scale(0);
+        transition: transform var(--duration-fast) var(--ease-out-soft);
+      }
+      .check input:checked { background: var(--color-primary); border-color: var(--color-primary); }
+      .check input:checked::after { transform: rotate(-45deg) scale(1); }
+      .check input:indeterminate { background: var(--color-primary); border-color: var(--color-primary); }
+      .check input:indeterminate::after {
+        width: 10px; height: 0;
+        border-left: 0; border-bottom: 2px solid var(--color-on-primary);
+        transform: none;
+      }
+      .check input:disabled { opacity: 0.55; cursor: not-allowed; }
+      .check input.is-error { border-color: var(--color-danger); }
+
+      /* =====================================================================
+         BADGES Y CHIPS
+         ===================================================================== */
+      .badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        height: 24px; padding: 0 8px;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem; font-weight: 500;
+        background: var(--color-surface-sunken);
+        color: var(--color-ink-muted);
+        border: 1px solid transparent;
+      }
+      .badge-tag { border-color: var(--color-line); color: var(--color-ink); }
+      .badge-tag .hash { color: var(--color-ink-subtle); }
+      .badge-tag-active { background: var(--color-primary-soft); border-color: var(--color-primary); color: var(--color-primary); }
+      .badge-success { background: var(--color-success-soft); color: var(--color-success); }
+      .badge-danger { background: var(--color-danger-soft); color: var(--color-danger); }
+      .badge-warning { background: var(--color-warning-soft); color: var(--color-warning); }
+      .badge-info { background: var(--color-info-soft); color: var(--color-info); }
+      .dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; flex: none; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12); }
+
+      .chip {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 6px 0 12px;
+        border-radius: 999px;
+        background: var(--color-primary-soft);
+        border: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+        color: var(--color-primary);
+        font-size: var(--text-meta);
+      }
+      .chip button {
+        all: unset;
+        width: 20px; height: 20px;
+        display: grid; place-content: center;
+        border-radius: 999px;
+        cursor: pointer;
+        color: inherit;
+      }
+      .chip button svg { width: 14px; height: 14px; }
+      .chip button:hover { background: color-mix(in srgb, var(--color-primary) 18%, transparent); }
+
+      /* =====================================================================
+         TARJETA DE NOTA
+         ===================================================================== */
+      .note-card {
+        position: relative;
+        display: block;
+        background: var(--color-surface-raised);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-lg);
+        padding: 16px;
+        min-height: 160px;
+        color: inherit;
+        text-decoration: none;
+        transition: border-color var(--duration-fast) var(--ease-standard),
+          box-shadow var(--duration-fast) var(--ease-standard),
+          transform var(--duration-fast) var(--ease-standard);
+      }
+      .note-card:hover { border-color: var(--color-line-strong); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+      .note-card h4 { font-size: 1rem; font-weight: 600; padding-right: 48px; }
+      .note-card .excerpt {
+        margin-top: 6px; color: var(--color-ink-muted); font-size: 0.875rem;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      }
+      .note-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+      .note-card .date { margin-top: 10px; font-size: var(--text-meta); color: var(--color-ink-subtle); font-variant-numeric: tabular-nums; }
+      .note-card .menu-btn { position: absolute; top: 8px; right: 8px; }
+      .note-card.is-selected { border-color: var(--color-primary); background: var(--color-primary-soft); }
+      .note-card.is-trashed h4 { color: var(--color-ink-muted); }
+
+      mark { background: var(--color-highlight); color: var(--color-ink); font-weight: 600; padding: 0 2px; border-radius: var(--radius-xs); }
+
+      /* =====================================================================
+         MENÚ, MODAL, TOAST, ALERTA
+         ===================================================================== */
+      .menu {
+        width: 15rem;
+        background: var(--color-surface-raised);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 4px 0;
+      }
+      .menu-item {
+        display: flex; align-items: center; gap: 12px;
+        min-height: 40px; padding: 0 12px;
+        font-size: 0.875rem; color: var(--color-ink);
+        cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-standard);
+      }
+      .menu-item svg { width: 16px; height: 16px; color: var(--color-ink-subtle); flex: none; }
+      .menu-item:hover, .menu-item.is-hover { background: var(--color-surface-sunken); }
+      .menu-item:hover svg, .menu-item.is-hover svg { color: var(--color-ink); }
+      .menu-item.is-disabled { opacity: 0.55; cursor: not-allowed; }
+      .menu-item.is-checked { justify-content: space-between; }
+      .menu-item .check-mark { color: var(--color-primary); }
+      .menu-sep { height: 1px; background: var(--color-line); margin: 4px 0; }
+      .menu-item-danger { color: var(--color-danger); }
+      .menu-item-danger svg { color: var(--color-danger); }
+      .menu-item-danger:hover { background: var(--color-danger-soft); }
+      .menu-head { padding: 10px 12px 8px; }
+      .menu-head strong { display: block; font-size: 0.875rem; }
+      .menu-head span { font-size: var(--text-meta); color: var(--color-ink-subtle); word-break: break-all; }
+
+      .modal-stage {
+        position: relative;
+        border-radius: var(--radius-lg);
+        background: var(--color-scrim);
+        padding: 28px 16px;
+        display: grid;
+        place-items: center;
+        min-height: 260px;
+      }
+      .modal {
+        width: min(28rem, 100%);
+        background: var(--color-surface-raised);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-lg);
+        padding: 24px;
+      }
+      .modal-head { display: flex; align-items: flex-start; gap: 12px; }
+      .modal-head svg.lead-icon { width: 20px; height: 20px; color: var(--color-danger); flex: none; margin-top: 2px; }
+      .modal h3 { font-size: 1.125rem; font-weight: 600; flex: 1; }
+      .modal p { margin-top: 10px; color: var(--color-ink-muted); }
+      .modal .actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+
+      .toast {
+        display: flex; gap: 12px;
+        width: min(24rem, 100%);
+        position: relative;
+        background: var(--color-surface-raised);
+        border: 1px solid transparent;
+        border-left-width: 3px;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        padding: 16px;
+        overflow: hidden;
+      }
+      .toast svg.icon { width: 20px; height: 20px; flex: none; margin-top: 1px; }
+      .toast .body { flex: 1; }
+      .toast .title { font-weight: 500; }
+      .toast .desc { font-size: var(--text-meta); color: var(--color-ink-muted); margin-top: 2px; }
+      .toast .close {
+        all: unset;
+        width: 32px; height: 32px; flex: none;
+        display: grid; place-content: center;
+        border-radius: var(--radius-md);
+        color: var(--color-ink-subtle);
+        cursor: pointer;
+      }
+      .toast .close svg { width: 18px; height: 18px; }
+      .toast .close:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
+      .toast .timer { position: absolute; left: 0; bottom: 0; height: 2px; width: 62%; }
+
+      .toast-success { border-color: color-mix(in srgb, var(--color-success) 40%, transparent); border-left-color: var(--color-success); }
+      .toast-success svg.icon { color: var(--color-success); }
+      .toast-success .timer { background: color-mix(in srgb, var(--color-success) 60%, transparent); }
+      .toast-info { border-color: color-mix(in srgb, var(--color-info) 40%, transparent); border-left-color: var(--color-info); }
+      .toast-info svg.icon { color: var(--color-info); }
+      .toast-info .timer { background: color-mix(in srgb, var(--color-info) 60%, transparent); }
+      .toast-warning { border-color: color-mix(in srgb, var(--color-warning) 40%, transparent); border-left-color: var(--color-warning); }
+      .toast-warning svg.icon { color: var(--color-warning); }
+      .toast-warning .timer { background: color-mix(in srgb, var(--color-warning) 60%, transparent); }
+      .toast-error { border-color: color-mix(in srgb, var(--color-danger) 40%, transparent); border-left-color: var(--color-danger); }
+      .toast-error svg.icon { color: var(--color-danger); }
+      .toast-error .timer { background: color-mix(in srgb, var(--color-danger) 60%, transparent); }
+
+      .alert {
+        display: flex; gap: 12px;
+        border: 1px solid transparent;
+        border-left-width: 3px;
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+      }
+      .alert svg { width: 20px; height: 20px; flex: none; margin-top: 1px; }
+      .alert .title { font-weight: 500; }
+      .alert .desc { font-size: 0.875rem; color: var(--color-ink); }
+      .alert-error { background: var(--color-danger-soft); border-color: color-mix(in srgb, var(--color-danger) 40%, transparent); border-left-color: var(--color-danger); }
+      .alert-error svg { color: var(--color-danger); }
+      .alert-warning { background: var(--color-warning-soft); border-color: color-mix(in srgb, var(--color-warning) 40%, transparent); border-left-color: var(--color-warning); }
+      .alert-warning svg { color: var(--color-warning); }
+      .alert-info { background: var(--color-info-soft); border-color: color-mix(in srgb, var(--color-info) 40%, transparent); border-left-color: var(--color-info); }
+      .alert-info svg { color: var(--color-info); }
+      .alert-success { background: var(--color-success-soft); border-color: color-mix(in srgb, var(--color-success) 40%, transparent); border-left-color: var(--color-success); }
+      .alert-success svg { color: var(--color-success); }
+
+      /* =====================================================================
+         NAVEGACIÓN
+         ===================================================================== */
+      .sidebar {
+        width: 17rem;
+        background: var(--color-surface-raised);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-lg);
+        padding: 12px;
+      }
+      .nav-item {
+        position: relative;
+        display: flex; align-items: center; gap: 12px;
+        min-height: 40px; padding: 0 12px;
+        border-radius: var(--radius-md);
+        color: var(--color-ink-muted);
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+      }
+      .nav-item .count { margin-left: auto; font-size: var(--text-meta); color: var(--color-ink-subtle); font-variant-numeric: tabular-nums; }
+      .nav-item:hover { background: var(--color-surface-sunken); color: var(--color-ink); }
+      .nav-item.is-active {
+        background: var(--color-primary-soft);
+        color: var(--color-ink);
+        font-weight: 500;
+      }
+      .nav-item.is-active::before {
+        content: "";
+        position: absolute; left: 0; top: 8px; bottom: 8px;
+        width: 3px; border-radius: 999px;
+        background: var(--color-primary);
+      }
+      .nav-group {
+        display: flex; align-items: center; justify-content: space-between;
+        margin: 16px 0 4px; padding-left: 12px;
+        font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--color-ink-subtle);
+      }
+
+      /* =====================================================================
+         ESTADOS VACÍOS Y ESQUELETOS
+         ===================================================================== */
+      .empty { text-align: center; padding: 48px 16px; max-width: 28rem; margin: 0 auto; }
+      .empty .icon-wrap {
+        width: 96px; height: 96px; margin: 0 auto 20px;
+        border-radius: var(--radius-2xl);
+        background: var(--color-surface-sunken);
+        display: grid; place-content: center;
+        color: var(--color-ink-subtle);
+      }
+      .empty .icon-wrap svg { width: 48px; height: 48px; }
+      .empty h4 { font-size: 1.125rem; font-weight: 600; }
+      .empty p { margin-top: 8px; color: var(--color-ink-muted); }
+      .empty .btn { margin-top: 20px; }
+
+      .sk {
+        background: var(--color-surface-sunken);
+        border-radius: var(--radius-sm);
+        background-image: linear-gradient(
+          90deg,
+          transparent 0%,
+          color-mix(in srgb, var(--color-ink) 8%, transparent) 50%,
+          transparent 100%
+        );
+        background-size: 160% 100%;
+        background-repeat: no-repeat;
+        animation: shimmer 1.4s linear infinite;
+      }
+      @keyframes shimmer {
+        from { background-position: -160% 0; }
+        to { background-position: 160% 0; }
+      }
+
+      .save-status { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-meta); }
+      .save-status svg { width: 16px; height: 16px; }
+
+      /* =====================================================================
+         TIPOGRAFÍA / PROSA
+         ===================================================================== */
+      .prose-note { max-width: 68ch; font-family: var(--font-serif); font-size: var(--text-prose); line-height: 1.75; }
+      .prose-note h1, .prose-note h2, .prose-note h3 { font-family: var(--font-sans); font-weight: 600; }
+      .prose-note h1 { font-size: 1.75rem; line-height: 1.25; margin: 2.5rem 0 0.75rem; }
+      .prose-note h2 { font-size: 1.375rem; line-height: 1.3; margin: 2rem 0 0.625rem; }
+      .prose-note h3 { font-size: 1.125rem; line-height: 1.4; margin: 1.75rem 0 0.5rem; }
+      .prose-note > :first-child { margin-top: 0; }
+      .prose-note p { margin: 1rem 0; }
+      .prose-note ul { padding-left: 1.5rem; margin: 1rem 0; }
+      .prose-note li { margin: 0.375rem 0; }
+      .prose-note li::marker { color: var(--color-ink-subtle); }
+      .prose-note blockquote {
+        margin: 1rem 0; padding-left: 1rem;
+        border-left: 3px solid var(--color-line-strong);
+        color: var(--color-ink-muted); font-style: italic;
+      }
+      .prose-note code {
+        background: var(--color-surface-sunken);
+        padding: 0.125rem 0.375rem;
+        border-radius: var(--radius-xs);
+      }
+      .prose-note pre {
+        background: var(--color-surface-sunken);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-md);
+        padding: 1rem;
+        overflow-x: auto;
+        margin: 1rem 0;
+      }
+      .prose-note pre code { background: none; padding: 0; font-size: 0.875rem; line-height: 1.6; }
+      .prose-note a { color: var(--color-primary); text-underline-offset: 2px; font-weight: 500; }
+      .prose-note table { font-family: var(--font-sans); font-size: 0.875rem; margin: 1rem 0; }
+
+      .specimen { border-bottom: 1px solid var(--color-line); padding: 14px 0; display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline; justify-content: space-between; }
+      .specimen .label { font-size: var(--text-meta); color: var(--color-ink-subtle); font-family: var(--font-mono); }
+
+      /* Panel de comparación claro/oscuro */
+      .compare { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+      .compare > div {
+        background: var(--color-surface);
+        border: 1px solid var(--color-line);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, ::before, ::after {
+          animation-duration: 1ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Saltar al contenido</a>
+
+    <header class="topbar">
+      <div class="brand">notas <small>Guía de estilos</small></div>
+      <div class="row" role="group" aria-label="Tema de la página">
+        <button class="btn btn-sm btn-secondary" data-set-theme="system" aria-pressed="false">Automático</button>
+        <button class="btn btn-sm btn-secondary" data-set-theme="light" aria-pressed="false">Claro</button>
+        <button class="btn btn-sm btn-secondary" data-set-theme="dark" aria-pressed="true">Oscuro</button>
+      </div>
+    </header>
+
+    <main class="wrap" id="main">
+      <h1 style="font-size: 2rem; font-weight: 700">Sistema de diseño de notas-app</h1>
+      <p class="lead" style="margin-top: 12px; color: var(--color-ink-muted); max-width: 62ch">
+        Referencia visual viva del sistema descrito en <code>DESIGN.md</code>. Papel cálido y
+        tinta verde: la interfaz cede el protagonismo al texto. Usa el conmutador de arriba para
+        ver todo el sistema en claro, en oscuro o siguiendo la preferencia del sistema operativo.
+      </p>
+
+      <!-- ================================================================= -->
+      <section id="paleta">
+        <h2>1 · Paleta</h2>
+        <p class="lead">
+          Cinco familias cromáticas sobre neutros cálidos. Cada token tiene valor en claro y en
+          oscuro; los ratios de contraste están verificados uno a uno.
+        </p>
+
+        <h3 class="sub">Superficies y texto</h3>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-surface); color: var(--color-ink)">Aa texto</div>
+            <div class="meta"><div class="name">surface</div><div class="val">#faf7f2 / #141312</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-surface-raised); color: var(--color-ink)">Aa texto</div>
+            <div class="meta"><div class="name">surface-raised</div><div class="val">#ffffff / #1c1a19</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-surface-sunken); color: var(--color-ink)">Aa texto</div>
+            <div class="meta"><div class="name">surface-sunken</div><div class="val">#f2ede5 / #262322</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-ink); color: var(--color-surface)">ink</div>
+            <div class="meta"><div class="name">ink</div><div class="val">#1c1917 / #f5f1eb</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-ink-muted); color: var(--color-surface)">ink-muted</div>
+            <div class="meta"><div class="name">ink-muted</div><div class="val">#57534e / #b5aea7</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-ink-subtle); color: var(--color-surface)">ink-subtle</div>
+            <div class="meta"><div class="name">ink-subtle</div><div class="val">#6b645f / #9a938d</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-line)">&nbsp;</div>
+            <div class="meta"><div class="name">line</div><div class="val">#e5ded4 / #332f2d</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-line-strong)">&nbsp;</div>
+            <div class="meta"><div class="name">line-strong</div><div class="val">#8a8078 / #7a736d</div></div>
+          </div>
+        </div>
+
+        <h3 class="sub">Marca y semánticos</h3>
+        <div class="swatches">
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-primary); color: var(--color-on-primary)">primary</div>
+            <div class="meta"><div class="name">primary</div><div class="val">#0f766e / #2dd4bf</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-primary-strong); color: var(--color-on-primary)">primary-strong</div>
+            <div class="meta"><div class="name">primary-strong</div><div class="val">#115e59 / #5eead4</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-primary-soft); color: var(--color-primary)">primary-soft</div>
+            <div class="meta"><div class="name">primary-soft</div><div class="val">#d5f0eb / #10302e</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-success); color: var(--color-on-success)">success</div>
+            <div class="meta"><div class="name">success</div><div class="val">#116b32 / #4ade80</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-success-soft); color: var(--color-success)">success-soft</div>
+            <div class="meta"><div class="name">success-soft</div><div class="val">#e3f7e9 / #0d2a18</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-danger); color: var(--color-on-danger)">danger</div>
+            <div class="meta"><div class="name">danger</div><div class="val">#b91c1c / #f87171</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-danger-soft); color: var(--color-danger)">danger-soft</div>
+            <div class="meta"><div class="name">danger-soft</div><div class="val">#fbe4e4 / #341414</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-warning); color: var(--color-on-warning)">warning</div>
+            <div class="meta"><div class="name">warning</div><div class="val">#9a4a08 / #fbbf24</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-warning-soft); color: var(--color-warning)">warning-soft</div>
+            <div class="meta"><div class="name">warning-soft</div><div class="val">#fbeed2 / #33230a</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-info); color: var(--color-on-info)">info</div>
+            <div class="meta"><div class="name">info</div><div class="val">#6d28d9 / #c4b5fd</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-info-soft); color: var(--color-info)">info-soft</div>
+            <div class="meta"><div class="name">info-soft</div><div class="val">#ede4fd / #241a3d</div></div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: var(--color-highlight); color: var(--color-ink)">highlight</div>
+            <div class="meta"><div class="name">highlight</div><div class="val">#fde68a / #4d3c0f</div></div>
+          </div>
+        </div>
+
+        <h3 class="sub">Contrastes verificados (WCAG 2.1)</h3>
+        <div class="panel">
+          <table>
+            <thead>
+              <tr><th>Combinación</th><th class="num">Claro</th><th class="num">Oscuro</th><th>Umbral</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>ink sobre surface</td><td class="num">16.37:1</td><td class="num">16.49:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>ink-muted sobre surface</td><td class="num">7.14:1</td><td class="num">7.36:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>ink-subtle sobre surface-sunken</td><td class="num">4.99:1</td><td class="num">5.15:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>primary sobre surface</td><td class="num">5.12:1</td><td class="num">9.97:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>on-primary sobre primary</td><td class="num">5.47:1</td><td class="num">9.19:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>danger sobre danger-soft</td><td class="num">5.34:1</td><td class="num">6.04:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>success sobre success-soft</td><td class="num">5.91:1</td><td class="num">8.85:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>warning sobre warning-soft</td><td class="num">5.44:1</td><td class="num">9.08:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>info sobre info-soft</td><td class="num">5.79:1</td><td class="num">8.82:1</td><td>4.5:1 ✓</td></tr>
+              <tr><td>line-strong sobre surface (borde de control)</td><td class="num">3.61:1</td><td class="num">3.98:1</td><td>3:1 ✓</td></tr>
+              <tr><td>anillo de foco sobre surface</td><td class="num">5.12:1</td><td class="num">9.97:1</td><td>3:1 ✓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="tipografia">
+        <h2>2 · Tipografía</h2>
+        <p class="lead">
+          Superfamilia IBM Plex: <strong>Sans</strong> para la interfaz y los encabezados del
+          markdown, <strong>Serif</strong> para el cuerpo del contenido y <strong>Mono</strong>
+          para el código y el editor.
+        </p>
+
+        <div class="panel">
+          <div class="specimen"><span style="font-size: 1.875rem; font-weight: 700; letter-spacing: -0.01em">Título de vista</span><span class="label">sans 30/700</span></div>
+          <div class="specimen"><span style="font-size: 1.5rem; font-weight: 700">Título de vista en móvil</span><span class="label">sans 24/700</span></div>
+          <div class="specimen"><span style="font-size: 1.125rem; font-weight: 600">Encabezado de sección</span><span class="label">sans 18/600</span></div>
+          <div class="specimen"><span style="font-size: 1rem; font-weight: 600">Título de tarjeta de nota</span><span class="label">sans 16/600</span></div>
+          <div class="specimen"><span style="font-size: 0.9375rem">Cuerpo de interfaz: el texto por defecto de la aplicación.</span><span class="label">sans 15/400</span></div>
+          <div class="specimen"><span style="font-size: 0.875rem">Cuerpo compacto de listas y celdas.</span><span class="label">sans 14/400</span></div>
+          <div class="specimen"><span style="font-size: 0.8125rem; color: var(--color-ink-subtle)">Metadatos: editada el 21 jul 2026, 14:32</span><span class="label">sans 13/400</span></div>
+          <div class="specimen"><span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-ink-subtle)">Etiqueta de grupo</span><span class="label">sans 12/600</span></div>
+          <div class="specimen"><span style="font-family: var(--font-mono); font-size: 0.9375rem">const nota = "editor en monoespaciada";</span><span class="label">mono 15/400</span></div>
+        </div>
+
+        <h3 class="sub">Markdown renderizado (<code>.prose-note</code>)</h3>
+        <div class="panel">
+          <div class="prose-note">
+            <h1>Acta de la reunión del martes</h1>
+            <p>
+              El cuerpo del contenido se lee en <strong>IBM Plex Serif</strong> a 17 px con
+              interlineado de 1.75 y una medida máxima de 68 caracteres. Los encabezados van en
+              sans para que la estructura se escanee de un vistazo.
+            </p>
+            <h2>Puntos tratados</h2>
+            <ul>
+              <li>Presupuesto del trimestre</li>
+              <li>Calendario de entregas</li>
+              <li>Revisión de <code>note_search_vector_idx</code></li>
+            </ul>
+            <blockquote>Lo importante es que las notas vuelvan a encontrarse.</blockquote>
+            <pre><code>SELECT n.id, n.title
+FROM note n
+WHERE n.user_id = $1 AND n.active;</code></pre>
+            <p>
+              Un enlace se pinta en <a href="#tipografia">color de marca</a> y el resaltado de
+              búsqueda usa <mark>fondo ámbar con negrita</mark> para no depender solo del color.
+            </p>
+            <table>
+              <thead><tr><th>Cuaderno</th><th>Notas</th></tr></thead>
+              <tbody>
+                <tr><td>Trabajo</td><td>42</td></tr>
+                <tr><td>Personal</td><td>18</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="botones">
+        <h2>3 · Botones</h2>
+        <p class="lead">
+          Alto por defecto de 44 px. Los botones de solo icono son 44 × 44 px con iconos de
+          20 px. Los estados están simulados para poder verlos todos a la vez; los reales
+          responden a <code>:hover</code>, <code>:focus-visible</code>, <code>:active</code> y
+          <code>:disabled</code>.
+        </p>
+
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">primary</div>
+            <div class="grid cols-3">
+              <div class="state-cell"><span class="state-tag">reposo</span><button class="btn btn-primary">Guardar nota</button></div>
+              <div class="state-cell"><span class="state-tag">hover</span><button class="btn btn-primary is-hover">Guardar nota</button></div>
+              <div class="state-cell"><span class="state-tag">foco</span><button class="btn btn-primary is-focus">Guardar nota</button></div>
+              <div class="state-cell"><span class="state-tag">activo</span><button class="btn btn-primary is-active">Guardar nota</button></div>
+              <div class="state-cell"><span class="state-tag">cargando</span><button class="btn btn-primary" disabled aria-busy="true"><span class="spinner"></span>Guardando…</button></div>
+              <div class="state-cell"><span class="state-tag">deshabilitado</span><button class="btn btn-primary" disabled>Guardar nota</button></div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">secondary</div>
+            <div class="grid cols-3">
+              <div class="state-cell"><span class="state-tag">reposo</span><button class="btn btn-secondary">Cancelar</button></div>
+              <div class="state-cell"><span class="state-tag">hover</span><button class="btn btn-secondary is-hover">Cancelar</button></div>
+              <div class="state-cell"><span class="state-tag">foco</span><button class="btn btn-secondary is-focus">Cancelar</button></div>
+              <div class="state-cell"><span class="state-tag">activo</span><button class="btn btn-secondary is-active">Cancelar</button></div>
+              <div class="state-cell"><span class="state-tag">cargando</span><button class="btn btn-secondary" disabled aria-busy="true"><span class="spinner"></span>Cargando…</button></div>
+              <div class="state-cell"><span class="state-tag">deshabilitado</span><button class="btn btn-secondary" disabled>Cancelar</button></div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">ghost</div>
+            <div class="grid cols-3">
+              <div class="state-cell"><span class="state-tag">reposo</span><button class="btn btn-ghost">Ver todas</button></div>
+              <div class="state-cell"><span class="state-tag">hover</span><button class="btn btn-ghost is-hover">Ver todas</button></div>
+              <div class="state-cell"><span class="state-tag">foco</span><button class="btn btn-ghost is-focus">Ver todas</button></div>
+              <div class="state-cell"><span class="state-tag">activo</span><button class="btn btn-ghost is-active">Ver todas</button></div>
+              <div class="state-cell"><span class="state-tag">deshabilitado</span><button class="btn btn-ghost" disabled>Ver todas</button></div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">danger y danger-ghost</div>
+            <div class="grid cols-3">
+              <div class="state-cell"><span class="state-tag">reposo</span><button class="btn btn-danger">Eliminar</button></div>
+              <div class="state-cell"><span class="state-tag">hover</span><button class="btn btn-danger is-hover">Eliminar</button></div>
+              <div class="state-cell"><span class="state-tag">foco</span><button class="btn btn-danger is-focus">Eliminar</button></div>
+              <div class="state-cell"><span class="state-tag">cargando</span><button class="btn btn-danger" disabled aria-busy="true"><span class="spinner"></span>Eliminando…</button></div>
+              <div class="state-cell"><span class="state-tag">ghost</span><button class="btn btn-danger-ghost">Vaciar la papelera</button></div>
+              <div class="state-cell"><span class="state-tag">ghost hover</span><button class="btn btn-danger-ghost is-hover">Vaciar la papelera</button></div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">tamaños</div>
+            <div class="row">
+              <button class="btn btn-sm btn-secondary">sm · 36 px</button>
+              <button class="btn btn-primary">md · 44 px</button>
+              <button class="btn btn-lg btn-primary">lg · 48 px</button>
+            </div>
+            <p class="hint">
+              El tamaño <code>sm</code> solo se usa con puntero fino; en pantallas táctiles crece
+              a 44 px.
+            </p>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">solo icono · 44 × 44 con icono de 20 px</div>
+            <div class="row">
+              <button class="btn btn-icon btn-ghost" aria-label="Acciones de la nota">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+              </button>
+              <button class="btn btn-icon btn-secondary" aria-label="Buscar en tus notas">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </button>
+              <button class="btn btn-icon btn-primary" aria-label="Nueva nota">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              </button>
+              <button class="btn btn-icon btn-ghost is-focus" aria-label="Modo enfoque">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+              </button>
+              <button class="btn btn-link">Enlace de acción</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="formularios">
+        <h2>4 · Campos de formulario</h2>
+        <p class="lead">
+          Etiqueta siempre visible, altura de 44 px, borde funcional <code>line-strong</code> y
+          espacio reservado para el mensaje: el formulario no salta al validar.
+        </p>
+
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">input · estados</div>
+            <div class="grid" style="gap: 18px">
+              <div class="field">
+                <label for="i1">Correo electrónico</label>
+                <input class="input" id="i1" type="email" placeholder="tu@correo.com" />
+                <span class="help">Reposo</span>
+              </div>
+              <div class="field">
+                <label for="i2">Título de la nota</label>
+                <input class="input is-focus-demo" id="i2" value="Acta de la reunión" />
+                <span class="help">Foco</span>
+              </div>
+              <div class="field">
+                <label for="i3">Correo electrónico</label>
+                <input class="input is-error" id="i3" value="correo-invalido" aria-invalid="true" aria-describedby="e3" />
+                <span class="error" id="e3">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+                  Introduce un correo válido
+                </span>
+              </div>
+              <div class="field">
+                <label for="i4">Correo electrónico</label>
+                <input class="input" id="i4" value="nota@ejemplo.com" disabled />
+                <span class="help">Deshabilitado</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">textarea, select y checkbox</div>
+            <div class="grid" style="gap: 18px">
+              <div class="field">
+                <label for="t1">Contenido</label>
+                <textarea class="textarea" id="t1" style="font-family: var(--font-mono); line-height: 1.7">
+# Acta de la reunión
+
+Puntos **tratados**:
+- Presupuesto</textarea>
+                <span class="help">1 240 / 100 000 caracteres</span>
+              </div>
+              <div class="field">
+                <label for="s1">Cuaderno</label>
+                <select class="select" id="s1">
+                  <option>Sin cuaderno</option>
+                  <option selected>Trabajo</option>
+                  <option>Personal</option>
+                </select>
+                <span class="help">La opción vacía se escribe, nunca se deja en blanco</span>
+              </div>
+              <div>
+                <label class="check"><input type="checkbox" checked /> Seleccionada</label>
+                <label class="check"><input type="checkbox" /> Sin seleccionar</label>
+                <label class="check"><input type="checkbox" id="ind" /> Indeterminada</label>
+                <label class="check"><input type="checkbox" disabled checked /> Deshabilitada</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="badges">
+        <h2>5 · Badges, etiquetas y chips de filtro</h2>
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">badges</div>
+            <div class="row">
+              <span class="badge">128 notas</span>
+              <span class="badge badge-tag"><span class="hash">#</span>ideas</span>
+              <span class="badge badge-tag badge-tag-active"><span class="hash">#</span>reunión</span>
+              <span class="badge"><span class="dot" style="background: #0ea5e9"></span>Trabajo</span>
+              <span class="badge"><span class="dot" style="background: var(--color-ink-subtle)"></span>Sin cuaderno</span>
+              <span class="badge badge-success">Guardada</span>
+              <span class="badge badge-danger">Error</span>
+              <span class="badge badge-warning">Sin guardar</span>
+              <span class="badge badge-info">Resumen</span>
+            </div>
+          </div>
+          <div class="demo">
+            <div class="demo-title">chips de filtro activo</div>
+            <div class="row">
+              <span class="chip">Búsqueda: «reunión»
+                <button aria-label="Quitar el filtro de búsqueda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+              </span>
+              <span class="chip">Cuaderno: Trabajo
+                <button aria-label="Quitar el filtro de cuaderno"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+              </span>
+              <button class="btn btn-sm btn-ghost">Limpiar filtros</button>
+            </div>
+            <p class="hint">
+              Los filtros se escriben en palabras: el usuario nunca tiene que deducir por qué la
+              lista cambió.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="tarjetas">
+        <h2>6 · Tarjeta de nota</h2>
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">reposo · resultado de búsqueda · papelera</div>
+            <div class="grid" style="gap: 16px">
+              <div class="note-card">
+                <button class="btn btn-icon btn-ghost menu-btn" aria-label="Acciones de la nota «Acta de la reunión del martes»">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                </button>
+                <h4>Acta de la reunión del martes</h4>
+                <p class="excerpt">Puntos tratados: presupuesto del trimestre, calendario de entregas y revisión del índice de búsqueda.</p>
+                <div class="tags">
+                  <span class="badge"><span class="dot" style="background: #0ea5e9"></span>Trabajo</span>
+                  <span class="badge badge-tag"><span class="hash">#</span>actas</span>
+                  <span class="badge badge-tag"><span class="hash">#</span>ideas</span>
+                  <span class="badge">+2</span>
+                </div>
+                <p class="date">Editada el 21 jul 2026, 14:32</p>
+              </div>
+
+              <div class="note-card">
+                <h4>Acta de la reunión del martes</h4>
+                <p class="excerpt">…se acordó que la <mark>reunión</mark> semanal pasa al jueves a las 10:00…</p>
+                <div class="tags"><span class="badge"><span class="dot" style="background: #0ea5e9"></span>Trabajo</span></div>
+                <p class="date">Editada el 14 jul 2026, 09:05</p>
+              </div>
+
+              <div class="note-card is-trashed">
+                <h4>🗑 Borrador de propuesta</h4>
+                <p class="excerpt">Primera versión de la propuesta comercial, pendiente de revisar.</p>
+                <p class="date">Eliminada el 20 jul 2026, 18:04</p>
+                <div class="row" style="margin-top: 12px">
+                  <button class="btn btn-sm btn-secondary">Restaurar</button>
+                  <button class="btn btn-sm btn-danger-ghost">Eliminar definitivamente</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">esqueleto de carga</div>
+            <div class="grid" style="gap: 16px">
+              <div class="note-card" aria-hidden="true">
+                <div class="sk" style="width: 60%; height: 16px"></div>
+                <div class="sk" style="width: 100%; height: 12px; margin-top: 14px"></div>
+                <div class="sk" style="width: 80%; height: 12px; margin-top: 8px"></div>
+                <div class="row" style="margin-top: 18px">
+                  <div class="sk" style="width: 56px; height: 20px"></div>
+                  <div class="sk" style="width: 56px; height: 20px"></div>
+                </div>
+                <div class="sk" style="width: 120px; height: 12px; margin-top: 14px"></div>
+              </div>
+              <div class="note-card" aria-hidden="true">
+                <div class="sk" style="width: 45%; height: 16px"></div>
+                <div class="sk" style="width: 100%; height: 12px; margin-top: 14px"></div>
+                <div class="sk" style="width: 72%; height: 12px; margin-top: 8px"></div>
+                <div class="row" style="margin-top: 18px">
+                  <div class="sk" style="width: 72px; height: 20px"></div>
+                </div>
+                <div class="sk" style="width: 120px; height: 12px; margin-top: 14px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="navegacion">
+        <h2>7 · Navegación y menús</h2>
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">sidebar</div>
+            <div class="sidebar">
+              <div class="nav-item is-active" aria-current="page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h10"/></svg>
+                Todas las notas <span class="count">128</span>
+              </div>
+              <div class="nav-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg>
+                Papelera <span class="count">3</span>
+              </div>
+              <div class="nav-group">Cuadernos
+                <button class="btn btn-icon btn-ghost" style="height: 32px; width: 32px" aria-label="Crear un cuaderno">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+              </div>
+              <div class="nav-item"><span class="dot" style="background: #0ea5e9"></span>Trabajo <span class="count">42</span></div>
+              <div class="nav-item"><span class="dot" style="background: #a855f7"></span>Personal <span class="count">18</span></div>
+              <div class="nav-item"><span class="dot" style="background: var(--color-ink-subtle)"></span>Sin cuaderno <span class="count">12</span></div>
+              <div class="nav-group">Etiquetas</div>
+              <div class="nav-item">#ideas <span class="count">12</span></div>
+              <div class="nav-item">#reunión <span class="count">7</span></div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">menú de la nota y menú de usuario</div>
+            <div class="row" style="align-items: flex-start; gap: 16px">
+              <div class="menu" role="menu" aria-label="Acciones de la nota">
+                <div class="menu-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v14H4z"/></svg>Abrir</div>
+                <div class="menu-item is-hover" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20h4l10-10-4-4L4 16z"/></svg>Editar</div>
+                <div class="menu-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7h6l2 2h10v10H3z"/></svg>Mover a un cuaderno…</div>
+                <div class="menu-item is-disabled" role="menuitem" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 6h12v12H6z"/></svg>Editar etiquetas…</div>
+                <div class="menu-sep"></div>
+                <div class="menu-item menu-item-danger" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M9 7V5h6v2M6 7l1 13h10l1-13"/></svg>Enviar a la papelera</div>
+              </div>
+
+              <div class="menu" role="menu" aria-label="Cuenta">
+                <div class="menu-head"><strong>Nicolás Andrade</strong><span>nicolas@ejemplo.com</span></div>
+                <div class="menu-sep"></div>
+                <div class="menu-item is-checked" role="menuitemradio" aria-checked="false"><span style="display: flex; gap: 12px; align-items: center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1"/><path d="M9 20h6"/></svg>Automático</span></div>
+                <div class="menu-item is-checked" role="menuitemradio" aria-checked="false"><span style="display: flex; gap: 12px; align-items: center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>Claro</span></div>
+                <div class="menu-item is-checked" role="menuitemradio" aria-checked="true"><span style="display: flex; gap: 12px; align-items: center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 14A8 8 0 1 1 10 4a7 7 0 0 0 10 10z"/></svg>Oscuro</span><svg class="check-mark" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg></div>
+                <div class="menu-sep"></div>
+                <div class="menu-item" role="menuitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h9"/></svg>Cerrar sesión</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="retro">
+        <h2>8 · Retroalimentación: toasts, alertas y diálogo</h2>
+        <p class="lead">
+          Cada variante tiene icono, color y texto propios. El botón de cerrar hereda el color
+          neutro del toast, nunca el de marca.
+        </p>
+
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">toasts · cierre automático 5 s (éxito e info) y 8 s (aviso y error)</div>
+            <div class="grid" style="gap: 12px">
+              <div class="toast toast-success" role="status">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+                <div class="body">
+                  <div class="title">Nota guardada.</div>
+                  <div class="desc">Los cambios se guardaron a las 14:32.</div>
+                </div>
+                <button class="close" aria-label="Cerrar la notificación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+                <div class="timer"></div>
+              </div>
+
+              <div class="toast toast-info" role="status">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+                <div class="body">
+                  <div class="title">Tema oscuro activado.</div>
+                </div>
+                <button class="close" aria-label="Cerrar la notificación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+                <div class="timer" style="width: 40%"></div>
+              </div>
+
+              <div class="toast toast-warning" role="status">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg>
+                <div class="body">
+                  <div class="title">Tienes cambios sin guardar.</div>
+                  <div class="desc">Se guardarán solos en unos segundos.</div>
+                </div>
+                <button class="close" aria-label="Cerrar la notificación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+                <div class="timer" style="width: 78%"></div>
+              </div>
+
+              <div class="toast toast-error" role="alert">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+                <div class="body">
+                  <div class="title">No se pudo guardar la nota.</div>
+                  <div class="desc">Revisa tu conexión. El texto sigue aquí.</div>
+                  <button class="btn btn-link" style="margin-top: 6px; font-size: 0.8125rem">Reintentar</button>
+                </div>
+                <button class="close" aria-label="Cerrar la notificación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+                <div class="timer" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">alertas en bloque</div>
+            <div class="grid" style="gap: 12px">
+              <div class="alert alert-error">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+                <div><div class="title">El correo o la contraseña no son correctos.</div></div>
+              </div>
+              <div class="alert alert-warning">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg>
+                <div>
+                  <div class="title">Has alcanzado el límite diario</div>
+                  <div class="desc">Vuelve a intentarlo mañana.</div>
+                </div>
+              </div>
+              <div class="alert alert-info">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+                <div>
+                  <div class="title">El asistente no está disponible</div>
+                  <div class="desc">Tus notas y la búsqueda funcionan con normalidad.</div>
+                </div>
+              </div>
+              <div class="alert alert-success">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+                <div><div class="title">Cuenta creada. Ya puedes escribir tu primera nota.</div></div>
+              </div>
+            </div>
+
+            <h3 class="sub">Indicador de guardado</h3>
+            <div class="grid" style="gap: 10px">
+              <span class="save-status" style="color: var(--color-ink-subtle)">Guardado el 21 jul 2026, 14:32</span>
+              <span class="save-status" style="color: var(--color-warning)"><span class="dot" style="background: currentColor"></span>Cambios sin guardar</span>
+              <span class="save-status" style="color: var(--color-ink-muted)"><span class="spinner spinner-sm"></span>Guardando…</span>
+              <span class="save-status" style="color: var(--color-success)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg>Guardado a las 14:32</span>
+              <span class="save-status" style="color: var(--color-danger)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>No se pudo guardar · <button class="btn btn-link" style="font-size: 0.8125rem">Reintentar</button></span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="sub">Diálogo de confirmación destructiva</h3>
+        <div class="modal-stage">
+          <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+            <div class="modal-head">
+              <svg class="lead-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg>
+              <h3 id="dlg-title">Vaciar la papelera</h3>
+              <button class="btn btn-icon btn-ghost" aria-label="Cerrar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
+            </div>
+            <p>Se eliminarán 3 notas definitivamente. Esta acción no se puede deshacer.</p>
+            <div class="actions">
+              <button class="btn btn-secondary is-focus">Cancelar</button>
+              <button class="btn btn-danger">Eliminar 3 notas</button>
+            </div>
+          </div>
+        </div>
+        <p class="hint">
+          El foco inicial va a «Cancelar»; el velo usa <code>--color-scrim</code> con desenfoque
+          de 2 px; en móvil el panel se ancla abajo como hoja inferior.
+        </p>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="vacios">
+        <h2>9 · Estados vacíos y de carga</h2>
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">estado vacío · cuenta nueva</div>
+            <div class="empty">
+              <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 3h9l5 5v13H6z"/><path d="M15 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+              </div>
+              <h4>Aún no tienes notas</h4>
+              <p>Crea la primera y aparecerá aquí. Puedes escribir en markdown y organizarla en cuadernos y etiquetas.</p>
+              <button class="btn btn-lg btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                Nueva nota
+              </button>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">estado vacío · búsqueda sin resultados</div>
+            <div class="empty">
+              <div class="icon-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              </div>
+              <h4>Sin resultados para «reunión»</h4>
+              <p>Prueba con otras palabras o revisa los filtros activos.</p>
+              <button class="btn btn-secondary">Quitar filtros</button>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">esqueleto de nota</div>
+            <div aria-hidden="true">
+              <div class="sk" style="width: 70%; height: 28px"></div>
+              <div class="sk" style="width: 40%; height: 14px; margin-top: 14px"></div>
+              <div class="sk" style="width: 100%; height: 14px; margin-top: 24px"></div>
+              <div class="sk" style="width: 92%; height: 14px; margin-top: 10px"></div>
+              <div class="sk" style="width: 78%; height: 14px; margin-top: 10px"></div>
+              <div class="sk" style="width: 96%; height: 14px; margin-top: 10px"></div>
+              <div class="sk" style="width: 64%; height: 14px; margin-top: 10px"></div>
+            </div>
+          </div>
+
+          <div class="demo">
+            <div class="demo-title">error de sección</div>
+            <div class="empty">
+              <div class="icon-wrap" style="color: var(--color-danger)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+              </div>
+              <h4>Algo salió mal</h4>
+              <p>No pudimos cargar esta sección. Inténtalo de nuevo.</p>
+              <div class="row" style="justify-content: center">
+                <button class="btn btn-primary">Reintentar</button>
+                <button class="btn btn-ghost">Volver a mis notas</button>
+              </div>
+              <p class="hint" style="font-family: var(--font-mono)">Referencia: a1b2c3</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="comparacion">
+        <h2>10 · Claro y oscuro, lado a lado</h2>
+        <p class="lead">
+          Los mismos componentes con los dos juegos de valores. La aplicación arranca siguiendo
+          <code>prefers-color-scheme</code> y recuerda la elección del usuario.
+        </p>
+        <div class="compare">
+          <div class="force-light">
+            <div class="demo-title" style="color: var(--color-ink-subtle); font-size: var(--text-meta); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px">Modo claro</div>
+            <div class="note-card" style="margin-bottom: 16px">
+              <h4>Acta de la reunión del martes</h4>
+              <p class="excerpt">Puntos tratados: presupuesto del trimestre y calendario de entregas.</p>
+              <div class="tags">
+                <span class="badge"><span class="dot" style="background: #0ea5e9"></span>Trabajo</span>
+                <span class="badge badge-tag"><span class="hash">#</span>actas</span>
+              </div>
+              <p class="date">Editada el 21 jul 2026, 14:32</p>
+            </div>
+            <div class="row" style="margin-bottom: 16px">
+              <button class="btn btn-primary">Guardar nota</button>
+              <button class="btn btn-secondary">Cancelar</button>
+              <button class="btn btn-danger-ghost">Eliminar</button>
+            </div>
+            <div class="field" style="margin-bottom: 16px">
+              <label for="cl1">Título</label>
+              <input class="input" id="cl1" value="Acta de la reunión" />
+            </div>
+            <div class="toast toast-error" role="status">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+              <div class="body"><div class="title">No se pudo guardar la nota.</div></div>
+              <button class="close" aria-label="Cerrar la notificación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+              <div class="timer" style="width: 70%"></div>
+            </div>
+          </div>
+
+          <div class="force-dark">
+            <div class="demo-title" style="color: var(--color-ink-subtle); font-size: var(--text-meta); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px">Modo oscuro</div>
+            <div class="note-card" style="margin-bottom: 16px">
+              <h4>Acta de la reunión del martes</h4>
+              <p class="excerpt">Puntos tratados: presupuesto del trimestre y calendario de entregas.</p>
+              <div class="tags">
+                <span class="badge"><span class="dot" style="background: #0ea5e9"></span>Trabajo</span>
+                <span class="badge badge-tag"><span class="hash">#</span>actas</span>
+              </div>
+              <p class="date">Editada el 21 jul 2026, 14:32</p>
+            </div>
+            <div class="row" style="margin-bottom: 16px">
+              <button class="btn btn-primary">Guardar nota</button>
+              <button class="btn btn-secondary">Cancelar</button>
+              <button class="btn btn-danger-ghost">Eliminar</button>
+            </div>
+            <div class="field" style="margin-bottom: 16px">
+              <label for="cd1">Título</label>
+              <input class="input" id="cd1" value="Acta de la reunión" />
+            </div>
+            <div class="toast toast-error" role="status">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+              <div class="body"><div class="title">No se pudo guardar la nota.</div></div>
+              <button class="close" aria-label="Cerrar la notificación"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+              <div class="timer" style="width: 70%"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================= -->
+      <section id="tokens">
+        <h2>11 · Radios, sombras y movimiento</h2>
+        <div class="grid cols-2">
+          <div class="demo">
+            <div class="demo-title">radios</div>
+            <div class="row">
+              <div style="width: 72px; height: 56px; background: var(--color-surface-sunken); border: 1px solid var(--color-line); border-radius: var(--radius-xs); display: grid; place-content: center; font-size: 0.75rem">xs 4</div>
+              <div style="width: 72px; height: 56px; background: var(--color-surface-sunken); border: 1px solid var(--color-line); border-radius: var(--radius-sm); display: grid; place-content: center; font-size: 0.75rem">sm 6</div>
+              <div style="width: 72px; height: 56px; background: var(--color-surface-sunken); border: 1px solid var(--color-line); border-radius: var(--radius-md); display: grid; place-content: center; font-size: 0.75rem">md 8</div>
+              <div style="width: 72px; height: 56px; background: var(--color-surface-sunken); border: 1px solid var(--color-line); border-radius: var(--radius-lg); display: grid; place-content: center; font-size: 0.75rem">lg 12</div>
+              <div style="width: 72px; height: 56px; background: var(--color-surface-sunken); border: 1px solid var(--color-line); border-radius: var(--radius-xl); display: grid; place-content: center; font-size: 0.75rem">xl 16</div>
+              <div style="width: 72px; height: 56px; background: var(--color-surface-sunken); border: 1px solid var(--color-line); border-radius: var(--radius-2xl); display: grid; place-content: center; font-size: 0.75rem">2xl 24</div>
+            </div>
+          </div>
+          <div class="demo">
+            <div class="demo-title">sombras</div>
+            <div class="row" style="gap: 20px">
+              <div style="width: 96px; height: 64px; background: var(--color-surface-raised); border-radius: var(--radius-md); box-shadow: var(--shadow-xs); display: grid; place-content: center; font-size: 0.75rem">xs</div>
+              <div style="width: 96px; height: 64px; background: var(--color-surface-raised); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: grid; place-content: center; font-size: 0.75rem">sm</div>
+              <div style="width: 96px; height: 64px; background: var(--color-surface-raised); border-radius: var(--radius-md); box-shadow: var(--shadow-md); display: grid; place-content: center; font-size: 0.75rem">md</div>
+              <div style="width: 96px; height: 64px; background: var(--color-surface-raised); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); display: grid; place-content: center; font-size: 0.75rem">lg</div>
+            </div>
+          </div>
+          <div class="demo" style="grid-column: 1 / -1">
+            <div class="demo-title">movimiento</div>
+            <table>
+              <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+              <tbody>
+                <tr><td><code>--duration-instant</code></td><td class="num">100 ms</td><td>Color de texto en hover</td></tr>
+                <tr><td><code>--duration-fast</code></td><td class="num">150 ms</td><td>Hover, activo, foco; salida de menús</td></tr>
+                <tr><td><code>--duration-normal</code></td><td class="num">200 ms</td><td>Entrada de menús, toasts y chips</td></tr>
+                <tr><td><code>--duration-slow</code></td><td class="num">250 ms</td><td>Modales y paneles</td></tr>
+                <tr><td><code>--duration-drawer</code></td><td class="num">300 ms</td><td>Cajón lateral en móvil</td></tr>
+                <tr><td><code>--ease-out-soft</code></td><td><code>cubic-bezier(0.33, 1, 0.68, 1)</code></td><td>Todo lo que entra</td></tr>
+                <tr><td><code>--ease-in-soft</code></td><td><code>cubic-bezier(0.32, 0, 0.67, 0)</code></td><td>Todo lo que sale</td></tr>
+                <tr><td><code>--ease-standard</code></td><td><code>cubic-bezier(0.2, 0, 0, 1)</code></td><td>Cambio entre dos estados</td></tr>
+              </tbody>
+            </table>
+            <p class="hint">
+              Con <code>prefers-reduced-motion: reduce</code> todas las duraciones caen a 1 ms y
+              los desplazamientos se sustituyen por aparición directa.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <footer style="border-top: 1px solid var(--color-line); padding-top: 24px; color: var(--color-ink-subtle); font-size: var(--text-meta)">
+        notas-app · guía de estilos generada a partir de DESIGN.md · los valores de esta página
+        son los mismos tokens que consume la aplicación.
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var media = window.matchMedia("(prefers-color-scheme: dark)");
+        var stored = null;
+        try { stored = localStorage.getItem("styleguide-theme"); } catch (e) {}
+        var preference = stored || "system";
+
+        function resolve(pref) {
+          return pref === "system" ? (media.matches ? "dark" : "light") : pref;
+        }
+
+        function apply(pref) {
+          preference = pref;
+          root.dataset.theme = resolve(pref);
+          try { localStorage.setItem("styleguide-theme", pref); } catch (e) {}
+          document.querySelectorAll("[data-set-theme]").forEach(function (btn) {
+            btn.setAttribute("aria-pressed", String(btn.dataset.setTheme === pref));
+          });
+        }
+
+        document.querySelectorAll("[data-set-theme]").forEach(function (btn) {
+          btn.addEventListener("click", function () { apply(btn.dataset.setTheme); });
+        });
+
+        media.addEventListener("change", function () {
+          if (preference === "system") root.dataset.theme = resolve("system");
+        });
+
+        apply(preference);
+
+        var indeterminate = document.getElementById("ind");
+        if (indeterminate) indeterminate.indeterminate = true;
+      })();
+    </script>
+  </body>
+</html>
