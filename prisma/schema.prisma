@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+
+  // Explicit extensions let plain Node resolve the client when running the seed.
+  importFileExtension = "ts"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid(7)) @db.Uuid
+  email        String   @unique @db.VarChar(254)
+  name         String   @db.VarChar(80)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  active       Boolean  @default(true)
+
+  notebooks Notebook[]
+  notes     Note[]
+  tags      Tag[]
+
+  @@map("user")
+}
+
+model Notebook {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  name      String   @db.VarChar(80)
+  slug      String   @db.VarChar(96)
+  color     String?  @db.VarChar(7)
+  position  Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  active    Boolean  @default(true)
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notes Note[]
+
+  @@unique([userId, slug])
+  @@index([userId, active, position])
+  @@map("notebook")
+}
+
+model Note {
+  id         String  @id @default(uuid(7)) @db.Uuid
+  userId     String  @map("user_id") @db.Uuid
+  notebookId String? @map("notebook_id") @db.Uuid
+  title      String  @db.VarChar(200)
+  content    String  @db.Text
+  excerpt    String? @db.VarChar(280)
+
+  // Generated column maintained by PostgreSQL; Prisma declares it but never writes it.
+  searchVector Unsupported("tsvector")? @map("search_vector")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  active    Boolean  @default(true)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notebook Notebook? @relation(fields: [notebookId], references: [id], onDelete: SetNull)
+  noteTags NoteTag[]
+
+  @@index([userId, active, updatedAt(sort: Desc)])
+  @@index([notebookId, active, updatedAt(sort: Desc)])
+  @@map("note")
+}
+
+model Tag {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  name      String   @db.VarChar(40)
+  slug      String   @db.VarChar(48)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  active    Boolean  @default(true)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  noteTags NoteTag[]
+
+  @@unique([userId, slug])
+  @@index([userId, active, name])
+  @@map("tag")
+}
+
+model NoteTag {
+  noteId    String   @map("note_id") @db.Uuid
+  tagId     String   @map("tag_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  active    Boolean  @default(true)
+
+  note Note @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([noteId, tagId])
+  @@index([tagId, active])
+  @@map("note_tag")
+}

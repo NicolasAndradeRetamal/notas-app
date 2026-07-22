@@ -45,6 +45,9 @@ Thumbs.db
 # TypeScript
 *.tsbuildinfo
 
+# Prisma generated client
+src/generated/
+
 # Internal working documents
 CLAUDE.md
 QA_REPORT.md

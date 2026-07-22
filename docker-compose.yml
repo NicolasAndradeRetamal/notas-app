@@ -1,0 +1,24 @@
+services:
+  db:
+    # pgvector desde el inicio para no cambiar la imagen al llegar la busqueda semantica
+    image: pgvector/pgvector:pg18
+    container_name: notas-app-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: notas
+      POSTGRES_PASSWORD: notas
+      POSTGRES_DB: notas_app
+    ports:
+      # 5433 en el host: el 5432 lo ocupa otro proyecto del portafolio
+      - '5433:5432'
+    volumes:
+      # PostgreSQL 18 espera el montaje aqui, no en /data
+      - notas-db-data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U notas -d notas_app']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  notas-db-data:
