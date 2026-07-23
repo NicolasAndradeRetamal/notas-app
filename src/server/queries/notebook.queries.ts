@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth/session';
@@ -18,7 +19,8 @@ export async function getNotebooks(): Promise<NotebookDTO[]> {
   return notebooks.map(toNotebookDTO);
 }
 
-export async function getNotebookById(id: string): Promise<NotebookDTO | null> {
+// Cached so a page and its generateMetadata share a single lookup per request.
+export const getNotebookById = cache(async (id: string): Promise<NotebookDTO | null> => {
   if (!z.uuid().safeParse(id).success) return null;
 
   const user = await requireUser();
@@ -28,4 +30,4 @@ export async function getNotebookById(id: string): Promise<NotebookDTO | null> {
   });
 
   return notebook ? toNotebookDTO(notebook) : null;
-}
+});

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { noteListParamsSchema } from '@/schemas/search.schema';
 import { getTrashedNotes } from '@/server/queries/note.queries';
 import { TrashedNoteCard } from '@/components/notes/trashed-note-card';
@@ -6,6 +7,8 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { Pagination } from '@/components/ui/pagination';
 import { pluralize } from '@/components/format';
 import { Trash2 } from 'lucide-react';
+
+export const metadata: Metadata = { title: 'Papelera' };
 
 type TrashPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
