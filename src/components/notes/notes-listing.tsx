@@ -68,6 +68,9 @@ export async function NotesListing({
           <p aria-live="polite" className="text-meta text-ink-subtle tabular-nums">
             {pluralize(result.total, 'resultado', 'resultados')} para «{params.q}»
           </p>
+          <p className="text-ink-subtle text-[0.8125rem]">
+            Se busca en el título y el contenido de tus notas.
+          </p>
         </div>
         <NotesFilterBar
           basePath={basePath}
