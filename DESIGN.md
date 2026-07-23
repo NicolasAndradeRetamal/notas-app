@@ -61,6 +61,46 @@ Sin degradados, sin sombras dramáticas, sin bordes de colores saturados, sin
 iconografía decorativa dentro del contenido. El único elemento con licencia
 expresiva es el punto de color del cuaderno, y mide 8 px.
 
+### 1.4 Identidad de aplicación: favicon y título de pestaña
+
+El favicon y el título de la pestaña son **entregables de identidad**, no un
+detalle opcional: son lo primero que identifica la aplicación en una pestaña o
+un marcador.
+
+**Favicon.** Un cuadrado redondeado (radio 7 sobre lienzo de 32) relleno en
+`primary` (`#0f766e`, el mismo teal de marca), con una glifo de «nota» en
+crema `#faf7f2`: un punto de marca arriba a la izquierda —el mismo punto que
+acompaña al logotipo textual «notas» en la barra superior— seguido de una línea
+de título y dos líneas de cuerpo. Es reconocible a 16 px y funciona sobre
+pestañas claras y oscuras porque el fondo teal es opaco y de marca, no
+transparente.
+
+- Se entrega como **`src/app/icon.svg`**, que el App Router convierte en el
+  `<link rel="icon">` automáticamente; el color teal es fijo (no cambia con el
+  tema, igual que un logotipo de app). El SVG es el único activo: escala a
+  cualquier densidad sin versiones PNG.
+- La barra de dirección/estado del navegador ya usa `theme-color`
+  (`#faf7f2` claro, `#141312` oscuro), declarada en el `viewport`.
+
+**Título de pestaña.** Marca siempre en minúsculas «notas», coherente con el
+logotipo. Plantilla de metadatos:
+
+| Contexto                | `title`                                            |
+| ----------------------- | -------------------------------------------------- |
+| Plantilla (por defecto) | `%s · notas`                                       |
+| Landing `/`             | `notas — tus notas en markdown, siempre encontrables` |
+| Iniciar sesión          | `Iniciar sesión · notas`                           |
+| Crear cuenta            | `Crear cuenta · notas`                             |
+| Todas las notas         | `Todas las notas · notas`                          |
+| Cuaderno                | `Cuaderno: Trabajo · notas`                        |
+| Etiqueta                | `Etiqueta: #ideas · notas`                         |
+| Resultados de búsqueda  | `Resultados de búsqueda · notas`                   |
+| Nota en lectura         | `Acta de la reunión del martes · notas`            |
+| Editor de nota          | `Editar: Acta de la reunión · notas` / nota nueva: `Nueva nota · notas` |
+
+El separador es el punto medio « · » (U+00B7). El título de cada vista repite
+el `h1` de la pantalla, para que la pestaña y la página digan lo mismo.
+
 ---
 
 ## 2. Paleta de color
@@ -782,6 +822,24 @@ con `gap-2`; el texto no se desplaza porque el spinner ocupa el hueco reservado.
 comunica en el campo (validación) o en un toast (fallo de servidor). Un botón
 rojo permanente confundiría acción destructiva con acción fallida.
 
+**El botón nunca ignora el clic en silencio.** Un botón visible y con
+apariencia activa **siempre** produce una reacción al pulsarlo. Está prohibido
+el botón que parece pulsable pero descarta la pulsación sin decir nada. Dos
+caminos legítimos, uno prohibido:
+
+- **Validación pendiente → el botón sí actúa.** Si faltan datos obligatorios
+  (caso «Guardar nota» sin título), el botón permanece **activo**: la pulsación
+  no completa la acción, pero dispara la validación, revela el error inline en
+  el campo culpable y le mueve el foco. El usuario ve exactamente qué falta.
+- **Bloqueo objetivo → el botón se ve deshabilitado.** Cuando un control sí
+  deba bloquearse —acción en curso (`aria-busy`), o un formulario de diálogo
+  con el campo aún vacío (p. ej. «Crear cuaderno»)— se pinta con el estado
+  **deshabilitado** de la tabla anterior (`bg-surface-sunken`, texto
+  `ink-subtle`, `cursor-not-allowed`, `aria-disabled`), de modo que su
+  inactividad es evidente a la vista, nunca disfrazada de botón activo.
+- **Prohibido:** un botón con estilo de reposo que al hacer clic no hace nada
+  ni comunica por qué.
+
 Todos los botones que disparan una server action se envuelven en el estado
 pendiente correspondiente (`useActionState` / `useTransition`), de modo que el
 estado de carga es real y no una animación decorativa.
@@ -822,6 +880,27 @@ El mensaje de error sustituye al texto de ayuda en el mismo espacio reservado
 Los `fieldErrors` que devuelve una acción se asocian por nombre de campo; si hay
 `_form`, se pinta un `Alert` de error sobre el primer campo del formulario.
 
+**Preservación de lo tipeado (regla para todos los formularios: registro,
+inicio de sesión y editor de nota).** Un error de validación **nunca vacía el
+formulario**. Cada campo conserva exactamente lo que el usuario escribió y
+**solo** el campo o los campos culpables muestran el estado de error; el resto
+sigue en reposo. Esto vale también para las contraseñas: son estado del cliente
+y no se descartan al validar, para que el usuario corrija el campo señalado sin
+volver a teclearlo todo. La implementación mantiene los campos controlados (o
+los repuebla con el valor enviado) de modo que un fallo de servidor solo añada
+los errores. Tras un envío fallido, el foco se mueve al **primer** campo con
+error (orden del DOM) y el lector de pantalla anuncia el mensaje vía
+`aria-describedby`.
+
+**Campo obligatorio.** El `label` lleva un asterisco `*` en `ink-muted`
+(`aria-hidden="true"`, y el campo lleva el atributo `required`). Cuando en el
+mismo formulario conviven campos obligatorios y opcionales, los opcionales se
+marcan con «(opcional)» en `ink-subtle`. El asterisco es un **recordatorio
+previo**, no el mecanismo de validación: el error real aparece inline al
+intentar enviar, con el patrón de estado de error de arriba. Un campo
+obligatorio sin rellenar jamás se traduce en un botón que ignora el clic
+(§7.1).
+
 ### 7.3 Área de texto (`Textarea`)
 
 Mismos estados que `Input`. Diferencias:
@@ -843,6 +922,11 @@ móvil con el selector del sistema y no arrastra dependencias.
   de 16 px en `ink-muted` posicionado por CSS (`appearance: none`).
 - La opción vacía se escribe explícita: «Sin cuaderno», nunca en blanco.
 - Deshabilitado: chevron al 55 %.
+- **Label visible siempre.** El `label` del `Select` es visible salvo en la
+  barra de orden de la lista, donde el propio texto de la opción («Orden:
+  Última edición») ya lo explica. En el editor, el selector de cuaderno lleva su
+  label «Cuaderno» a la vista (§8.7): un `<select>` cuya única pista sea «Sin
+  cuaderno» no comunica de qué trata el control.
 
 Se usa para elegir cuaderno y orden de la lista. El selector de etiquetas no es
 un `select` porque necesita búsqueda y creación en línea (§7.11).
@@ -1015,6 +1099,17 @@ botón con avatar) + panel flotante.
   vertical 4 px, ancho mínimo 12 rem, ancho máximo 18 rem.
 - Ítem: alto 40 px (44 px en táctil), padding horizontal 12 px, `gap-3`, icono
   16 px en `ink-subtle`, texto 14 px `ink`.
+- **Cuadrícula uniforme de todos los ítems.** Todos los ítems del mismo menú
+  comparten la misma estructura horizontal: `[icono 16 px][gap 12 px][etiqueta]`,
+  con la etiqueta alineada a la izquierda y en una sola línea
+  (`white-space: nowrap`; el panel se ensancha hasta su máximo antes de
+  truncar). **La columna del icono se reserva siempre**, incluso si un ítem
+  puntual no lo lleva, para que todas las etiquetas arranquen en la misma
+  vertical y ninguna —como «Mover a un cuaderno…»— quede descolgada respecto a
+  las demás. Los ítems terminados en «…» (los que abren un diálogo) no reciben
+  ningún tratamiento distinto: la elipsis es solo texto. El indicador de estado
+  de un ítem de radio (la palomita) va pegado a la derecha con `margin-left:
+  auto` y **no desplaza** la etiqueta.
 - Hover y foco de teclado comparten estilo: `bg-surface-sunken`, icono pasa a
   `ink`.
 - Ítem destructivo: texto e icono en `danger`, hover `bg-danger-soft`; **va
@@ -1039,7 +1134,7 @@ Combobox con creación en línea, patrón ARIA `combobox` + `listbox`.
 ```
 Etiquetas
 ┌──────────────────────────────────────────────┐
-│ #ideas ×  #reunión ×  |escribe para buscar…  │
+│ #ideas ×  #reunión ×  |Escribe para buscar…  │
 └──────────────────────────────────────────────┘
    ┌────────────────────────────────────────┐
    │ #ideas                          12     │  ← opción existente + nº de notas
@@ -1048,6 +1143,10 @@ Etiquetas
    └────────────────────────────────────────┘
 ```
 
+- Lleva su `label` «Etiquetas» visible arriba (mismo estilo de label de campo,
+  14 px `font-medium`), alineado con el label «Cuaderno» del selector contiguo
+  en el editor (§8.7). El placeholder del campo interno es «Escribe para
+  buscar…» —con mayúscula inicial y elipsis tipográfica, según §10.7—.
 - Contenedor con las mismas métricas y estados que `Input`; los badges de
   etiqueta seleccionada viven dentro, con su `×`.
 - La lista tiene un máximo de 6 ítems visibles con scroll; el ítem resaltado
@@ -1126,9 +1225,15 @@ Etiquetas
   que despliega el resto en el propio sidebar.
 - Estado vacío del grupo: texto de 13 px en `ink-subtle` («Aún no tienes
   cuadernos») y un botón `ghost sm` «Crear el primero».
-- **Reservado para la fase 2:** un ítem «Pregunta a tus notas» con icono en
-  `info`, situado bajo «Todas las notas», que abre el panel del asistente. El
-  hueco existe desde ahora en el orden visual.
+- **Acciones por fila (renombrar y eliminar cuadernos y etiquetas).** Cada fila
+  de cuaderno y de etiqueta ofrece un botón de solo icono `⋮` que abre su menú
+  de acciones (§7.10, §7.21). El `⋮` se sitúa al final de la fila, **fuera** del
+  enlace de navegación (mismo patrón que la tarjeta de nota): en punteros finos
+  aparece al pasar el ratón o al enfocar la fila con el teclado y **sustituye al
+  contador** en ese momento; en táctil (sin hover) es siempre visible. Recuadro
+  visual de 28 px con icono de 18 px y área pulsable ampliada a 44 px mediante
+  `.hit-44`; `aria-label` «Acciones del cuaderno «Trabajo»» / «Acciones de la
+  etiqueta #ideas».
 
 ### 7.13 Conmutador de tema (`ThemeToggle`) — Client Component
 
@@ -1168,6 +1273,13 @@ Semántica `role="menuitemradio"` con `aria-checked`.
   neutro, para no introducir color sin significado.
 - Siempre incluye la acción que resuelve el vacío, salvo cuando el vacío es el
   resultado deseado (papelera vacía), donde se omite el botón.
+- **El primer vacío presenta la aplicación.** El estado de «cuenta nueva sin
+  notas» es la primera pantalla real que ve un usuario recién registrado: no
+  puede limitarse a decir «Aún no tienes notas», tiene que explicar en una
+  frase qué es la aplicación y qué hacer primero, con una llamada a la acción
+  única e inequívoca. El resto de vacíos (cuaderno vacío, etiqueta sin notas,
+  búsqueda o filtros sin resultados) son contextuales y sí pueden ser breves,
+  pero siempre dicen qué hacer a continuación.
 - Los textos concretos de cada caso están en §10.4.
 
 ### 7.15 Estados de carga
@@ -1259,6 +1371,56 @@ sea ambiguo.
   desaparecen) para que la fila no salte.
 - Debajo, en `ink-subtle`: «Mostrando 21–40 de 128 notas».
 - Durante la navegación, el botón pulsado entra en estado cargando.
+
+### 7.21 Ciclo de vida de cuadernos y etiquetas
+
+Cuadernos y etiquetas se pueden **crear, renombrar y eliminar** desde el mismo
+lugar donde viven: el sidebar (§7.12). Las tres acciones se agrupan del modo
+que el sector ha estandarizado (Notion, Todoist, Linear): crear con el `+` del
+encabezado del grupo, renombrar y eliminar en el menú `⋮` de cada fila. No hay
+una pantalla de «ajustes de cuadernos» aparte; se administra en contexto.
+
+**Contenido de los menús `⋮` de fila** (patrón §7.10, columna de icono
+reservada, destructivo separado al final):
+
+| Fila     | Ítem                     | Icono         | Abre                                     |
+| -------- | ------------------------ | ------------- | ---------------------------------------- |
+| Cuaderno | «Editar cuaderno…»       | Lápiz         | Diálogo de cuaderno en modo edición (nombre + color) |
+| Cuaderno | — divisor —              |               |                                          |
+| Cuaderno | «Eliminar cuaderno»      | Papelera (danger) | Confirmación destructiva              |
+| Etiqueta | «Renombrar etiqueta…»    | Lápiz         | Diálogo de etiqueta en modo edición (nombre) |
+| Etiqueta | — divisor —              |               |                                          |
+| Etiqueta | «Eliminar etiqueta»      | Papelera (danger) | Confirmación destructiva              |
+
+**Renombrado: modal, no inline.** Se reutiliza el mismo diálogo de creación en
+modo edición, con el campo prellenado y el título «Editar cuaderno» / «Editar
+etiqueta». Se elige modal y no edición inline en el sidebar porque el cuaderno
+además tiene color, porque el `slug` de la etiqueta se previsualiza mientras se
+escribe («Se guardará como `#ideas-2026`») y porque un modal ofrece un lugar
+natural para el error `CONFLICT` de nombre duplicado. El diálogo:
+
+- Un solo campo obligatorio «Nombre» (con su asterisco), más el selector de
+  color en el caso del cuaderno.
+- Botón principal «Guardar cambios» (→ «Guardando…»); «Cancelar» a su izquierda.
+- Error `CONFLICT` inline bajo el campo de nombre: «Ya tienes un cuaderno con
+  este nombre.» / «Ya tienes una etiqueta con este nombre.»
+- Al confirmar: el sidebar refleja el nuevo nombre al instante (reacción
+  visible) y aparece un toast de éxito (§10.3).
+
+**Eliminación: confirmación destructiva que dice qué pasa con las notas.** Usa
+el `ConfirmDialog` (§7.8): ancho 28 rem, foco inicial en «Cancelar», botón de
+confirmar `danger`. **Ninguna nota se pierde**; el copy lo deja explícito antes
+de actuar:
+
+| Acción             | Título del diálogo   | Descripción                                                                 | Botón de confirmar   |
+| ------------------ | -------------------- | --------------------------------------------------------------------------- | -------------------- |
+| Eliminar cuaderno  | «Eliminar cuaderno»  | «Las 42 notas de este cuaderno no se eliminarán: quedarán sin cuaderno.» (0 notas: «Este cuaderno no tiene notas.») | «Eliminar cuaderno» → «Eliminando…» |
+| Eliminar etiqueta  | «Eliminar etiqueta»  | «Se quitará de las 12 notas que la usan. Las notas no se eliminan.» (0 notas: «Ninguna nota usa esta etiqueta.») | «Eliminar etiqueta» → «Eliminando…» |
+
+Los recuentos siempre con su unidad («42 notas»). Si al eliminar el usuario
+estaba viendo ese cuaderno o esa etiqueta (`/notebooks/[id]` o `/tags/[slug]`),
+se le lleva a «Todas las notas» y el sidebar deja de mostrar la fila. El
+resultado se confirma con toast (§10.3).
 
 ---
 
@@ -1447,7 +1609,8 @@ Misma estructura que el listado, con estas diferencias:
 ```
 ┌──────────────────────────────────────────────────────┐
 │ Resultados de búsqueda                               │  h1
-│ 12 resultados para «reunión» · en todas las notas    │  aria-live polite
+│ 12 resultados para «reunión»                         │  aria-live polite
+│ Se busca en el título y el contenido de tus notas.   │  13px ink-subtle
 │ [Búsqueda: «reunión» ×] [Cuaderno: Trabajo ×] [Limpiar filtros]
 │ ┌──────────────────────────────────────────────────┐ │
 │ │ Acta de la reunión del martes              [⋮]   │ │
@@ -1462,11 +1625,22 @@ Misma estructura que el listado, con estas diferencias:
   `xl`): el fragmento resaltado necesita ancho para leerse.
 - El término buscado aparece en el título de la sección entre comillas latinas
   y se mantiene en el campo de búsqueda: nunca hay que adivinar qué se buscó.
+- **Alcance de la búsqueda, comunicado en la propia pantalla.** La búsqueda
+  cubre el **título y el contenido** de **todas tus notas activas**, sin
+  distinguir cuaderno ni etiqueta (los filtros se acumulan aparte, como chips).
+  Las **notas eliminadas quedan excluidas a propósito**: el borrado es lógico
+  (`active = false`) y no se expone como corpus de búsqueda en el MVP. Esto se
+  comunica sin que el usuario tenga que suponerlo:
+  - El `placeholder` del campo es «Buscar en tus notas…» (§10.7).
+  - Bajo el título de resultados, una línea de ayuda en `ink-subtle`: «Se busca
+    en el título y el contenido de tus notas.»
+  - En el estado sin resultados, la descripción recuerda la exclusión (§10.4):
+    «…La búsqueda no incluye las notas eliminadas.»
 - Mientras el debounce está en marcha, el icono de lupa del campo se sustituye
   por un spinner de 16 px; la lista anterior se atenúa al 60 % con `opacity` en
   150 ms en lugar de desaparecer, para no dar sensación de parpadeo.
 - Sin resultados: estado vacío específico (§10.4) que conserva los chips de
-  filtro y ofrece «Quitar filtros» y «Buscar en la papelera».
+  filtro y ofrece «Quitar filtros».
 - **Reservado para la fase 2:** a la derecha del campo de búsqueda queda un
   hueco de 180 px para el conmutador «Literal | Por significado»
   (`SearchModeToggle`), que en fase 2 añadirá `?mode=semantic` a la URL. La
@@ -1513,8 +1687,10 @@ diálogos.
 ┌──────────────────────────────────────┐
 │ ‹ Cancelar          ● Guardado 14:32 │  SaveStatus a la derecha
 ├──────────────────────────────────────┤
+│ Título *                             │  label 14px font-medium
 │ [ Título de la nota                ] │  input sin borde, 22px/600
-│ [ Cuaderno ▾ ]  [ #ideas × #… ]      │  select + TagPicker
+│ Cuaderno         Etiquetas           │  labels de campo, misma fila
+│ [ Sin cuaderno ▾][ Escribe para b… ] │  select + TagPicker, tope alineado
 ├──────────────────────────────────────┤
 │ ┌────────────┬────────────┐          │  segmentado, sticky bajo la cabecera
 │ │  Escribir  │Vista previa│          │  alto 44px
@@ -1538,8 +1714,10 @@ diálogos.
 ┌───────────────────────────────────────────────────────────────────────┐
 │ ‹ Cancelar                        ● Guardado a las 14:32   [Guardar]  │
 ├───────────────────────────────────────────────────────────────────────┤
+│ Título *                                                              │
 │ [ Título de la nota                                                 ] │
-│ [ Cuaderno ▾ ]  [ #ideas ×  #reunión ×  escribe para buscar…       ]  │
+│ Cuaderno              Etiquetas                                       │
+│ [ Sin cuaderno    ▾ ] [ #ideas ×  #reunión ×  Escribe para buscar… ] │
 ├─────────────────────────────────┬─────────────────────────────────────┤
 │ [B][I][H][•][</>][🔗]   [⛶]     │  Vista previa                       │
 ├─────────────────────────────────┼─────────────────────────────────────┤
@@ -1554,6 +1732,33 @@ diálogos.
 └─────────────────────────────────┴─────────────────────────────────────┘
 ```
 
+- **Cabecera de metadatos (Título, Cuaderno, Etiquetas): campos etiquetados y
+  alineados.** Los tres campos llevan su `label` visible en el mismo estilo
+  (14 px `font-medium`, `ink`), de modo que ningún control quede sin explicar:
+  - **Título** — obligatorio. Su label «Título \*» va sobre el input grande de
+    22 px/600 (el input conserva su aspecto de encabezado, sin borde). El
+    asterisco en `ink-muted` (`aria-hidden`, campo `required`).
+  - **Cuaderno** y **Etiquetas** comparten una fila que en `sm+` es una
+    cuadrícula de dos columnas: el selector de cuaderno con ancho fijo (14 rem /
+    224 px) y el `TagPicker` ocupando el resto (`flex-1`). **Ambas columnas
+    comparten la misma fila de label y la misma altura de control (44 px) y se
+    alinean por su borde superior**; así el selector «Sin cuaderno» y el campo
+    de etiquetas dejan de quedar descolgados uno respecto al otro. En móvil se
+    apilan a ancho completo, cada uno con su label.
+  - El selector de cuaderno muestra «Sin cuaderno» como opción por defecto
+    explícita; su label «Cuaderno» arriba es lo que da sentido al control.
+- **Título obligatorio con error visible (nunca un botón muerto).** «Guardar
+  nota» permanece **siempre activo** (§7.1). Si se pulsa —o se dispara
+  `Ctrl/Cmd + S`— sin título:
+  - No se guarda, pero **aparece un error inline** bajo el campo Título:
+    icono de alerta 16 px + «Ponle un título para guardar la nota.» en `danger`;
+    el input recibe `aria-invalid="true"`, su borde inferior pasa a `danger` y
+    **el foco salta al campo Título**.
+  - El autoguardado no dispara hasta que hay título; mientras tanto `SaveStatus`
+    muestra «Ponle un título para guardar» en `ink-subtle` (aviso pasivo,
+    distinto del error activo que solo aparece al intentar guardar).
+  - En cuanto se escribe un título, el error inline desaparece y el guardado
+    procede con normalidad.
 - Las dos columnas son 50/50 con un divisor vertical `line` de 1 px. El panel
   izquierdo usa `surface` y el derecho `surface-raised`: la diferencia de
   superficie, mínima pero perceptible, dice cuál es la fuente y cuál el
@@ -1572,9 +1777,8 @@ diálogos.
   lista, código, enlace) como botones de solo icono; en punteros finos miden
   36 px con iconos de 16 px, y en táctil crecen a 44 px vía `.control-sm`.
 - **Autoguardado**: 1,2 s de inactividad tras el último tecleo, o inmediato con
-  `Ctrl/Cmd + S`. El estado se refleja en `SaveStatus` (§7.17). Una nota nueva
-  no se guarda automáticamente hasta que tiene título: mientras tanto,
-  `SaveStatus` muestra «Ponle un título para guardar» en `ink-subtle`.
+  `Ctrl/Cmd + S`. El estado se refleja en `SaveStatus` (§7.17). El requisito de
+  título para guardar se detalla en el punto anterior.
 - **Salida con cambios sin guardar**: diálogo de confirmación «Tienes cambios
   sin guardar» con «Descartar» (`danger-ghost`) y «Seguir editando»
   (`primary`).
@@ -1623,6 +1827,9 @@ diálogos.
 y los diálogos, CC.
 
 ### 8.9 Diálogos de cuaderno y etiqueta (CC)
+
+Se abren desde el `+` del encabezado de grupo (crear) y desde el menú `⋮` de
+cada fila del sidebar (editar, eliminar); el flujo completo está en §7.21.
 
 - **Crear/editar cuaderno:** campo «Nombre» + selector de color con ocho
   muestras de 32 × 32 px (área 44) y opción «Sin color»; la muestra
@@ -1773,8 +1980,11 @@ paréntesis en el `title`.
 | Nota purgada            | success  | «Nota eliminada definitivamente.»                                                                |
 | Papelera vaciada        | success  | «Papelera vaciada: se eliminaron 3 notas.»                                                       |
 | Cuaderno creado         | success  | «Cuaderno «Trabajo» creado.»                                                                     |
-| Cuaderno eliminado      | success  | «Cuaderno eliminado. 42 notas quedaron sin cuaderno.»                                            |
+| Cuaderno renombrado     | success  | «Cuaderno «Trabajo» actualizado.»                                                                |
+| Cuaderno eliminado      | success  | «Cuaderno eliminado. 42 notas quedaron sin cuaderno.» / sin notas: «Cuaderno eliminado.»         |
 | Etiqueta creada         | success  | «Etiqueta #ideas creada.»                                                                        |
+| Etiqueta renombrada     | success  | «Etiqueta #ideas actualizada.»                                                                   |
+| Etiqueta eliminada      | success  | «Etiqueta #ideas eliminada. Se quitó de 12 notas.» / sin notas: «Etiqueta #ideas eliminada.»     |
 | Nota movida             | success  | «Nota movida a «Trabajo».» / a ninguno: «Nota quitada del cuaderno.»                             |
 | Tema cambiado           | info     | «Tema oscuro activado.» / «Tema claro activado.» / «El tema sigue al sistema.»                   |
 | Sin conexión al guardar | error    | «No se pudo guardar la nota.» / «Revisa tu conexión. El texto sigue aquí.» + acción «Reintentar» |
@@ -1783,10 +1993,10 @@ paréntesis en el `title`.
 
 | Pantalla                 | Título                                | Descripción                                                                                           | Acción                      |
 | ------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------- |
-| Sin notas (cuenta nueva) | Aún no tienes notas                   | Crea la primera y aparecerá aquí. Puedes escribir en markdown y organizarla en cuadernos y etiquetas. | Nueva nota                  |
+| Sin notas (cuenta nueva) | Empieza tu primera nota               | notas guarda tus apuntes en markdown y los mantiene siempre encontrables. Escribe la primera, organízala en cuadernos y etiquetas, y búscala al instante. | Nueva nota                  |
 | Cuaderno vacío           | Este cuaderno está vacío              | Las notas que muevas a «Trabajo» aparecerán aquí.                                                     | Nueva nota en este cuaderno |
 | Etiqueta sin notas       | Ninguna nota con esta etiqueta        | Añade #ideas a una nota y la verás aquí.                                                              | Ir a todas las notas        |
-| Búsqueda sin resultados  | Sin resultados para «reunión»         | Prueba con otras palabras o revisa los filtros activos.                                               | Quitar filtros              |
+| Búsqueda sin resultados  | Sin resultados para «reunión»         | Prueba con otras palabras o revisa los filtros activos. La búsqueda no incluye las notas eliminadas.  | Quitar filtros              |
 | Filtros sin resultados   | Ninguna nota coincide con los filtros | Tienes 128 notas en total. Quita algún filtro para verlas.                                            | Limpiar filtros             |
 | Papelera vacía           | La papelera está vacía                | Las notas que elimines aparecerán aquí hasta que las elimines definitivamente.                        | —                           |
 | Sin cuadernos (sidebar)  | Aún no tienes cuadernos               | —                                                                                                     | Crear el primero            |
@@ -1831,6 +2041,27 @@ trazas.
 | Mostrar contraseña         | Mostrar la contraseña / Ocultar la contraseña              |
 | Buscar                     | Buscar en tus notas                                        |
 | Modo enfoque               | Activar el modo enfoque / Salir del modo enfoque           |
+
+### 10.7 Reglas de placeholders
+
+- **Mayúscula inicial siempre.** Todo `placeholder` empieza con mayúscula, como
+  cualquier label o microcopy de la interfaz.
+- **Elipsis tipográfica, no tres puntos.** Cuando el texto sugiere continuación,
+  termina en «…» (un solo carácter, U+2026), nunca en tres puntos «...».
+- **El placeholder no sustituye al label.** Es una pista de qué escribir; el
+  `label` del campo es siempre visible (§7.2). Los campos con label suficiente
+  por sí mismo (correo, contraseña) pueden no llevar placeholder.
+
+Inventario completo de placeholders del MVP:
+
+| Campo                          | Placeholder                    |
+| ------------------------------ | ------------------------------ |
+| Título de la nota              | Título de la nota              |
+| Contenido de la nota (editor)  | Escribe tu nota en markdown…   |
+| Búsqueda del header            | Buscar en tus notas…           |
+| Selector de etiquetas          | Escribe para buscar…           |
+| Nombre de cuaderno / etiqueta  | — (label «Nombre» suficiente)  |
+| Correo / contraseña            | — (label suficiente)           |
 
 ---
 
