@@ -1,4 +1,4 @@
-import { FileText, Sparkles, Trash2 } from 'lucide-react';
+import { FileText, Trash2 } from 'lucide-react';
 import type { NotebookDTO, TagDTO } from '@/types/dto';
 import { SidebarNavLink } from './sidebar-nav-link';
 import { SidebarNotebooksGroup } from '@/components/notebooks/sidebar-notebooks-group';
@@ -35,12 +35,6 @@ export function Sidebar({ notesTotal, trashTotal, notebooks, tags }: SidebarProp
           >
             Papelera
           </SidebarNavLink>
-        </li>
-        <li>
-          <span className="text-ink-subtle flex h-10 items-center gap-3 rounded-md px-3 text-sm opacity-70">
-            <Sparkles className="text-info h-4 w-4 shrink-0" aria-hidden="true" />
-            Pregunta a tus notas
-          </span>
         </li>
       </ul>
 
