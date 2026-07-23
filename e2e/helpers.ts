@@ -47,12 +47,9 @@ export async function loginUser(
 // Fills the editor and waits for the autosave debounce to persist the note,
 // then reads the note id back out of the resulting URL.
 //
-// Deliberately does NOT click "Guardar nota" here: doing so right after
-// filling the fields races the ~1.2s autosave debounce timer (see the
-// documented bug in notes-crud.spec.ts — "Guardar nota" clicked while a
-// save is already scheduled can create a duplicate note). Waiting for
-// autosave alone keeps this helper — and everything built on top of it —
-// deterministic.
+// Autosave creates the note in place without navigating: it swaps the URL to
+// the note's edit route (/notes/{id}/edit) and the editor stays mounted. The
+// id is read back from that URL.
 export async function createNote(
   page: Page,
   opts: { title: string; content?: string },
@@ -62,9 +59,8 @@ export async function createNote(
   if (opts.content) {
     await page.getByLabel('Contenido en markdown').fill(opts.content);
   }
-  await page.waitForURL(/\/notes\/[0-9a-f-]{36}$/, { timeout: 10_000 });
-  const url = page.url();
-  const match = url.match(/\/notes\/([0-9a-f-]{36})$/);
-  if (!match) throw new Error(`Could not extract note id from URL: ${url}`);
+  await page.waitForURL(/\/notes\/[0-9a-f-]{36}\/edit$/, { timeout: 10_000 });
+  const match = page.url().match(/\/notes\/([0-9a-f-]{36})\/edit$/);
+  if (!match) throw new Error(`Could not extract note id from URL: ${page.url()}`);
   return match[1]!;
 }

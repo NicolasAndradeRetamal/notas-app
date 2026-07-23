@@ -71,10 +71,11 @@ test.describe('note CRUD', () => {
     const longTitle = 'T'.repeat(200);
     await page.goto('/notes/new');
     await page.getByPlaceholder('Título de la nota').fill(longTitle);
-    // Relies on autosave rather than clicking "Guardar nota" — see the
-    // duplicate-note race documented below.
-    await page.waitForURL(/\/notes\/[0-9a-f-]{36}$/, { timeout: 10_000 });
+    // Autosave persists the note in place and swaps the URL to its edit route.
+    await page.waitForURL(/\/notes\/[0-9a-f-]{36}\/edit$/, { timeout: 10_000 });
+    const noteId = page.url().match(/\/notes\/([0-9a-f-]{36})\/edit$/)?.[1];
 
+    await page.goto(`/notes/${noteId}`);
     await expect(page.getByRole('heading', { name: longTitle })).toBeVisible();
   });
 
@@ -140,15 +141,15 @@ test.describe('note CRUD', () => {
   });
 
   test('saving right after typing creates exactly one note', async ({ page }) => {
-    // Clicking "Guardar nota" leaves the autosave timer armed. Without the
-    // in-flight guard in NoteEditor it fires a second create while the first
-    // is still navigating, leaving two copies of the same note.
+    // Clicking "Guardar nota" leaves the autosave timer armed. The in-flight
+    // guard in NoteEditor stops it from firing a second create; once the note
+    // has an id, any later autosave updates it in place instead of duplicating.
     const title = `Nota carrera doble ${Date.now()}`;
     await page.goto('/notes/new');
     await page.getByPlaceholder('Título de la nota').fill(title);
     await page.getByLabel('Contenido en markdown').fill('Contenido de la carrera.');
     await page.getByRole('button', { name: 'Guardar nota' }).click();
-    await page.waitForURL(/\/notes\/[0-9a-f-]{36}$/, { timeout: 10_000 });
+    await page.waitForURL(/\/notes\/[0-9a-f-]{36}\/edit$/, { timeout: 10_000 });
 
     // Give the still-pending autosave debounce (~1.2s from the last
     // keystroke) time to fire its own, duplicate create call.

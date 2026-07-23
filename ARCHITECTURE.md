@@ -1187,7 +1187,8 @@ export function createNoteAction(
   input: CreateNoteInput,
 ): Promise<ActionResult<NoteDetailDTO, CreateNoteInput>>;
 // Deriva excerpt del contenido. Verifica que notebookId y tagIds sean del usuario.
-// Éxito: revalidatePath('/notes') y redirect a /notes/{id}.
+// Éxito: revalidatePath('/notes') y devuelve la nota creada; el editor adopta su
+// id en el sitio, sin navegar, para no interrumpir la escritura.
 
 export function updateNoteAction(
   input: UpdateNoteInput,

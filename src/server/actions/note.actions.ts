@@ -2,7 +2,6 @@
 
 import 'server-only';
 
-import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
@@ -78,7 +77,6 @@ export async function createNoteAction(
   const { title, content, notebookId, tagIds } = parsed.data;
   const uniqueTagIds = [...new Set(tagIds)];
 
-  let noteId: string;
   try {
     const user = await requireUser();
 
@@ -94,9 +92,15 @@ export async function createNoteAction(
         notebookId,
         noteTags: { create: uniqueTagIds.map((tagId) => ({ tagId })) },
       },
+      include: noteWithRelationsInclude,
     });
 
-    noteId = note.id;
+    revalidatePath('/notes');
+    revalidatePath('/(app)', 'layout');
+
+    // The note is returned instead of redirecting so the editor can adopt its id
+    // in place: autosaving a new note must never yank the user to another view.
+    return ok(toNoteDetailDTO(note));
   } catch (error) {
     if (error instanceof UnauthenticatedError) {
       return fail('UNAUTHENTICATED', 'Debes iniciar sesión para continuar.');
@@ -104,10 +108,6 @@ export async function createNoteAction(
     console.error('createNoteAction failed', error);
     return fail('INTERNAL_ERROR', 'No se pudo crear la nota. Inténtalo de nuevo.');
   }
-
-  revalidatePath('/notes');
-  revalidatePath('/(app)', 'layout');
-  redirect(`/notes/${noteId}`);
 }
 
 export async function updateNoteAction(
