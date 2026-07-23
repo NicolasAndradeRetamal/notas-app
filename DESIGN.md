@@ -85,17 +85,17 @@ transparente.
 **Título de pestaña.** Marca siempre en minúsculas «notas», coherente con el
 logotipo. Plantilla de metadatos:
 
-| Contexto                | `title`                                            |
-| ----------------------- | -------------------------------------------------- |
-| Plantilla (por defecto) | `%s · notas`                                       |
-| Landing `/`             | `notas — tus notas en markdown, siempre encontrables` |
-| Iniciar sesión          | `Iniciar sesión · notas`                           |
-| Crear cuenta            | `Crear cuenta · notas`                             |
-| Todas las notas         | `Todas las notas · notas`                          |
-| Cuaderno                | `Cuaderno: Trabajo · notas`                        |
-| Etiqueta                | `Etiqueta: #ideas · notas`                         |
-| Resultados de búsqueda  | `Resultados de búsqueda · notas`                   |
-| Nota en lectura         | `Acta de la reunión del martes · notas`            |
+| Contexto                | `title`                                                                 |
+| ----------------------- | ----------------------------------------------------------------------- |
+| Plantilla (por defecto) | `%s · notas`                                                            |
+| Landing `/`             | `notas — tus notas en markdown, siempre encontrables`                   |
+| Iniciar sesión          | `Iniciar sesión · notas`                                                |
+| Crear cuenta            | `Crear cuenta · notas`                                                  |
+| Todas las notas         | `Todas las notas · notas`                                               |
+| Cuaderno                | `Cuaderno: Trabajo · notas`                                             |
+| Etiqueta                | `Etiqueta: #ideas · notas`                                              |
+| Resultados de búsqueda  | `Resultados de búsqueda · notas`                                        |
+| Nota en lectura         | `Acta de la reunión del martes · notas`                                 |
 | Editor de nota          | `Editar: Acta de la reunión · notas` / nota nueva: `Nueva nota · notas` |
 
 El separador es el punto medio « · » (U+00B7). El título de cada vista repite
@@ -1109,7 +1109,7 @@ botón con avatar) + panel flotante.
   las demás. Los ítems terminados en «…» (los que abren un diálogo) no reciben
   ningún tratamiento distinto: la elipsis es solo texto. El indicador de estado
   de un ítem de radio (la palomita) va pegado a la derecha con `margin-left:
-  auto` y **no desplaza** la etiqueta.
+auto` y **no desplaza** la etiqueta.
 - Hover y foco de teclado comparten estilo: `bg-surface-sunken`, icono pasa a
   `ink`.
 - Ítem destructivo: texto e icono en `danger`, hover `bg-danger-soft`; **va
@@ -1383,14 +1383,14 @@ una pantalla de «ajustes de cuadernos» aparte; se administra en contexto.
 **Contenido de los menús `⋮` de fila** (patrón §7.10, columna de icono
 reservada, destructivo separado al final):
 
-| Fila     | Ítem                     | Icono         | Abre                                     |
-| -------- | ------------------------ | ------------- | ---------------------------------------- |
-| Cuaderno | «Editar cuaderno…»       | Lápiz         | Diálogo de cuaderno en modo edición (nombre + color) |
-| Cuaderno | — divisor —              |               |                                          |
-| Cuaderno | «Eliminar cuaderno»      | Papelera (danger) | Confirmación destructiva              |
-| Etiqueta | «Renombrar etiqueta…»    | Lápiz         | Diálogo de etiqueta en modo edición (nombre) |
-| Etiqueta | — divisor —              |               |                                          |
-| Etiqueta | «Eliminar etiqueta»      | Papelera (danger) | Confirmación destructiva              |
+| Fila     | Ítem                  | Icono             | Abre                                                 |
+| -------- | --------------------- | ----------------- | ---------------------------------------------------- |
+| Cuaderno | «Editar cuaderno…»    | Lápiz             | Diálogo de cuaderno en modo edición (nombre + color) |
+| Cuaderno | — divisor —           |                   |                                                      |
+| Cuaderno | «Eliminar cuaderno»   | Papelera (danger) | Confirmación destructiva                             |
+| Etiqueta | «Renombrar etiqueta…» | Lápiz             | Diálogo de etiqueta en modo edición (nombre)         |
+| Etiqueta | — divisor —           |                   |                                                      |
+| Etiqueta | «Eliminar etiqueta»   | Papelera (danger) | Confirmación destructiva                             |
 
 **Renombrado: modal, no inline.** Se reutiliza el mismo diálogo de creación en
 modo edición, con el campo prellenado y el título «Editar cuaderno» / «Editar
@@ -1412,10 +1412,10 @@ el `ConfirmDialog` (§7.8): ancho 28 rem, foco inicial en «Cancelar», botón d
 confirmar `danger`. **Ninguna nota se pierde**; el copy lo deja explícito antes
 de actuar:
 
-| Acción             | Título del diálogo   | Descripción                                                                 | Botón de confirmar   |
-| ------------------ | -------------------- | --------------------------------------------------------------------------- | -------------------- |
-| Eliminar cuaderno  | «Eliminar cuaderno»  | «Las 42 notas de este cuaderno no se eliminarán: quedarán sin cuaderno.» (0 notas: «Este cuaderno no tiene notas.») | «Eliminar cuaderno» → «Eliminando…» |
-| Eliminar etiqueta  | «Eliminar etiqueta»  | «Se quitará de las 12 notas que la usan. Las notas no se eliminan.» (0 notas: «Ninguna nota usa esta etiqueta.») | «Eliminar etiqueta» → «Eliminando…» |
+| Acción            | Título del diálogo  | Descripción                                                                                                         | Botón de confirmar                  |
+| ----------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| Eliminar cuaderno | «Eliminar cuaderno» | «Las 42 notas de este cuaderno no se eliminarán: quedarán sin cuaderno.» (0 notas: «Este cuaderno no tiene notas.») | «Eliminar cuaderno» → «Eliminando…» |
+| Eliminar etiqueta | «Eliminar etiqueta» | «Se quitará de las 12 notas que la usan. Las notas no se eliminan.» (0 notas: «Ninguna nota usa esta etiqueta.»)    | «Eliminar etiqueta» → «Eliminando…» |
 
 Los recuentos siempre con su unidad («42 notas»). Si al eliminar el usuario
 estaba viendo ese cuaderno o esa etiqueta (`/notebooks/[id]` o `/tags/[slug]`),
@@ -1991,16 +1991,16 @@ paréntesis en el `title`.
 
 ### 10.4 Estados vacíos
 
-| Pantalla                 | Título                                | Descripción                                                                                           | Acción                      |
-| ------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------- |
+| Pantalla                 | Título                                | Descripción                                                                                                                                               | Acción                      |
+| ------------------------ | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
 | Sin notas (cuenta nueva) | Empieza tu primera nota               | notas guarda tus apuntes en markdown y los mantiene siempre encontrables. Escribe la primera, organízala en cuadernos y etiquetas, y búscala al instante. | Nueva nota                  |
-| Cuaderno vacío           | Este cuaderno está vacío              | Las notas que muevas a «Trabajo» aparecerán aquí.                                                     | Nueva nota en este cuaderno |
-| Etiqueta sin notas       | Ninguna nota con esta etiqueta        | Añade #ideas a una nota y la verás aquí.                                                              | Ir a todas las notas        |
-| Búsqueda sin resultados  | Sin resultados para «reunión»         | Prueba con otras palabras o revisa los filtros activos. La búsqueda no incluye las notas eliminadas.  | Quitar filtros              |
-| Filtros sin resultados   | Ninguna nota coincide con los filtros | Tienes 128 notas en total. Quita algún filtro para verlas.                                            | Limpiar filtros             |
-| Papelera vacía           | La papelera está vacía                | Las notas que elimines aparecerán aquí hasta que las elimines definitivamente.                        | —                           |
-| Sin cuadernos (sidebar)  | Aún no tienes cuadernos               | —                                                                                                     | Crear el primero            |
-| Sin etiquetas (sidebar)  | Aún no tienes etiquetas               | —                                                                                                     | —                           |
+| Cuaderno vacío           | Este cuaderno está vacío              | Las notas que muevas a «Trabajo» aparecerán aquí.                                                                                                         | Nueva nota en este cuaderno |
+| Etiqueta sin notas       | Ninguna nota con esta etiqueta        | Añade #ideas a una nota y la verás aquí.                                                                                                                  | Ir a todas las notas        |
+| Búsqueda sin resultados  | Sin resultados para «reunión»         | Prueba con otras palabras o revisa los filtros activos. La búsqueda no incluye las notas eliminadas.                                                      | Quitar filtros              |
+| Filtros sin resultados   | Ninguna nota coincide con los filtros | Tienes 128 notas en total. Quita algún filtro para verlas.                                                                                                | Limpiar filtros             |
+| Papelera vacía           | La papelera está vacía                | Las notas que elimines aparecerán aquí hasta que las elimines definitivamente.                                                                            | —                           |
+| Sin cuadernos (sidebar)  | Aún no tienes cuadernos               | —                                                                                                                                                         | Crear el primero            |
+| Sin etiquetas (sidebar)  | Aún no tienes etiquetas               | —                                                                                                                                                         | —                           |
 
 ### 10.5 Mensajes de error por código del contrato
 
@@ -2054,14 +2054,14 @@ trazas.
 
 Inventario completo de placeholders del MVP:
 
-| Campo                          | Placeholder                    |
-| ------------------------------ | ------------------------------ |
-| Título de la nota              | Título de la nota              |
-| Contenido de la nota (editor)  | Escribe tu nota en markdown…   |
-| Búsqueda del header            | Buscar en tus notas…           |
-| Selector de etiquetas          | Escribe para buscar…           |
-| Nombre de cuaderno / etiqueta  | — (label «Nombre» suficiente)  |
-| Correo / contraseña            | — (label suficiente)           |
+| Campo                         | Placeholder                   |
+| ----------------------------- | ----------------------------- |
+| Título de la nota             | Título de la nota             |
+| Contenido de la nota (editor) | Escribe tu nota en markdown…  |
+| Búsqueda del header           | Buscar en tus notas…          |
+| Selector de etiquetas         | Escribe para buscar…          |
+| Nombre de cuaderno / etiqueta | — (label «Nombre» suficiente) |
+| Correo / contraseña           | — (label suficiente)          |
 
 ---
 
