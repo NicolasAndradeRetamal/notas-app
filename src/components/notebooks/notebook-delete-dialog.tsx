@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { deleteNotebookAction } from '@/server/actions/notebook.actions';
 import type { NotebookDTO } from '@/types/dto';
@@ -17,6 +17,7 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string>();
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
 
   const handleConfirm = () => {
@@ -31,8 +32,12 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
         variant: 'success',
         title: `Cuaderno eliminado. ${result.data.detachedNotes} notas quedaron sin cuaderno.`,
       });
-      router.push('/notes');
-      router.refresh();
+      // Only leave the page when the user is looking at the notebook they deleted.
+      if (pathname === `/notebooks/${notebook.id}`) {
+        router.push('/notes');
+      } else {
+        router.refresh();
+      }
       onClose();
     });
   };
