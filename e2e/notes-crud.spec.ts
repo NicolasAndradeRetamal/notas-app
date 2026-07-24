@@ -131,7 +131,7 @@ test.describe('note CRUD', () => {
     await page.goto('/trash');
     await page.getByRole('button', { name: 'Vaciar la papelera' }).click();
     await page.getByRole('button', { name: 'Eliminar notas' }).click();
-    await expect(page.getByText(/Papelera vaciada: se eliminaron \d+ notas\./)).toBeVisible();
+    await expect(page.getByText(/Papelera vaciada: \d+ notas eliminadas\./)).toBeVisible();
     await expect(page.getByText('La papelera está vacía')).toBeVisible();
   });
 
