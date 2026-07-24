@@ -134,7 +134,7 @@ export function TagPicker({ value, onChange, availableTags, label = 'Etiquetas' 
           onFocus={() => setOpen(true)}
           onBlur={() => setTimeout(() => setOpen(false), 120)}
           onKeyDown={handleKeyDown}
-          placeholder={atLimit ? '' : 'escribe para buscar…'}
+          placeholder={atLimit ? '' : 'Escribe para buscar…'}
           className="text-ink placeholder:text-ink-subtle min-w-32 flex-1 bg-transparent px-1 py-1 text-[0.9375rem] outline-none"
         />
       </div>

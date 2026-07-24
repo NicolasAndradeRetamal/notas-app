@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getNotebooks } from '@/server/queries/notebook.queries';
 import { getTags } from '@/server/queries/tag.queries';
 import { noteListParamsSchema } from '@/schemas/search.schema';
@@ -6,6 +7,11 @@ import { NotesListing } from '@/components/notes/notes-listing';
 type NotesPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
+
+export async function generateMetadata({ searchParams }: NotesPageProps): Promise<Metadata> {
+  const { q } = noteListParamsSchema.parse(await searchParams);
+  return { title: q ? 'Resultados de búsqueda' : 'Todas las notas' };
+}
 
 export default async function NotesPage({ searchParams }: NotesPageProps) {
   const rawParams = await searchParams;

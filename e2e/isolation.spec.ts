@@ -47,7 +47,7 @@ test.describe('cross-user isolation', () => {
       ).not.toBeVisible();
       await expect(pageB.getByRole('link', { name: /Cuaderno privado de A/ })).not.toBeVisible();
       await expect(pageB.getByRole('link', { name: /secreto-de-a/ })).not.toBeVisible();
-      await expect(pageB.getByText('Aún no tienes notas')).toBeVisible();
+      await expect(pageB.getByText('Empieza tu primera nota')).toBeVisible();
 
       // Direct URL access to A's resources must be denied, not merely hidden from the UI.
       await pageB.goto(`/notes/${noteId}`);

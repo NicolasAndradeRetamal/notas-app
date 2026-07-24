@@ -11,9 +11,17 @@ type SidebarNavLinkProps = {
   count?: number;
   icon?: ReactNode;
   matchQuery?: string;
+  countDimsOnHover?: boolean;
 };
 
-export function SidebarNavLink({ href, children, count, icon, matchQuery }: SidebarNavLinkProps) {
+export function SidebarNavLink({
+  href,
+  children,
+  count,
+  icon,
+  matchQuery,
+  countDimsOnHover = false,
+}: SidebarNavLinkProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -47,7 +55,15 @@ export function SidebarNavLink({ href, children, count, icon, matchQuery }: Side
       {icon}
       <span className="min-w-0 flex-1 truncate">{children}</span>
       {count !== undefined ? (
-        <span className="text-meta text-ink-subtle tabular-nums">{count}</span>
+        <span
+          className={cn(
+            'text-meta text-ink-subtle tabular-nums',
+            countDimsOnHover &&
+              'transition-opacity group-focus-within/row:opacity-0 group-hover/row:opacity-0 [@media(hover:none)]:opacity-0',
+          )}
+        >
+          {count}
+        </span>
       ) : null}
     </Link>
   );

@@ -6,6 +6,7 @@ import { emptyTrashAction } from '@/server/actions/note.actions';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { useToast } from '@/components/ui/toast';
+import { pluralize } from '@/components/format';
 
 export function EmptyTrashButton({ disabled }: { disabled?: boolean }) {
   const [open, setOpen] = useState(false);
@@ -22,7 +23,7 @@ export function EmptyTrashButton({ disabled }: { disabled?: boolean }) {
       }
       toast({
         variant: 'success',
-        title: `Papelera vaciada: se eliminaron ${result.data.deleted} notas.`,
+        title: `Papelera vaciada: ${pluralize(result.data.deleted, 'nota eliminada', 'notas eliminadas')}.`,
       });
       setOpen(false);
       router.refresh();

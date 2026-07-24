@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { ChevronLeft, Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -14,6 +15,12 @@ import { formatDate, formatDateTime } from '@/components/format';
 type NotePageProps = {
   params: Promise<{ noteId: string }>;
 };
+
+export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
+  const { noteId } = await params;
+  const note = await getNoteById(noteId);
+  return { title: note ? note.title : 'Nota' };
+}
 
 export default async function NotePage({ params }: NotePageProps) {
   const { noteId } = await params;

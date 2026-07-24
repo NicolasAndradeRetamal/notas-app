@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth/session';
@@ -65,7 +66,8 @@ export async function getNotes(params: NoteListParams): Promise<PaginatedDTO<Not
   };
 }
 
-export async function getNoteById(id: string): Promise<NoteDetailDTO | null> {
+// Cached so a page and its generateMetadata share a single lookup per request.
+export const getNoteById = cache(async (id: string): Promise<NoteDetailDTO | null> => {
   if (!z.uuid().safeParse(id).success) return null;
 
   const user = await requireUser();
@@ -75,7 +77,7 @@ export async function getNoteById(id: string): Promise<NoteDetailDTO | null> {
   });
 
   return note ? toNoteDetailDTO(note) : null;
-}
+});
 
 export async function getTrashedNotes(page = 1): Promise<PaginatedDTO<NoteSummaryDTO>> {
   const user = await requireUser();

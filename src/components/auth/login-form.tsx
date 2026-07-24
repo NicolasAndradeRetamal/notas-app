@@ -2,7 +2,7 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -21,21 +21,36 @@ function SubmitButton() {
 export function LoginForm() {
   const [state, formAction] = useActionState(loginAction, null);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const emailRef = useRef<HTMLInputElement>(null);
 
   const failed = state && !state.ok ? state : null;
   const fieldErrors = failed?.fieldErrors;
   const formError = failed && !fieldErrors ? failed.message : null;
 
+  // Controlled fields keep the email and password after a rejected attempt, so
+  // only the wrong field has to be fixed; the focus returns to the email.
+  useEffect(() => {
+    if (!failed) return;
+    emailRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} noValidate className="flex flex-col gap-4">
       {formError ? <Alert variant="error">{formError}</Alert> : null}
 
       <Input
+        ref={emailRef}
         label="Correo electrónico"
         name="email"
         type="email"
         autoComplete="email"
         required
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
         error={fieldErrors?.email?.[0]}
       />
 
@@ -45,6 +60,8 @@ export function LoginForm() {
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"
         required
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
         error={fieldErrors?.password?.[0]}
         trailingSlot={
           <button

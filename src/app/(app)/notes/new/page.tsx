@@ -1,6 +1,9 @@
+import type { Metadata } from 'next';
 import { getNotebooks } from '@/server/queries/notebook.queries';
 import { getTags } from '@/server/queries/tag.queries';
 import { NoteEditor } from '@/components/notes/note-editor';
+
+export const metadata: Metadata = { title: 'Nueva nota' };
 
 type NewNotePageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
