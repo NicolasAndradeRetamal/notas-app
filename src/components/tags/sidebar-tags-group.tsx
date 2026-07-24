@@ -53,6 +53,9 @@ export function SidebarTagsGroup({ tags }: { tags: TagDTO[] }) {
       ) : (
         <div className="px-3 py-2">
           <p className="text-ink-subtle text-[0.8125rem]">Aún no tienes etiquetas</p>
+          <Button variant="ghost" size="sm" onClick={() => setCreating(true)} className="mt-1 px-0">
+            Crear la primera
+          </Button>
         </div>
       )}
       <TagDialog open={creating} onClose={() => setCreating(false)} />
