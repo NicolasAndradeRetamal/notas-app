@@ -136,7 +136,7 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
             }
             const isPrevSeparator = index > 0 && items[index - 1]?.type === 'separator';
             const baseClasses = cn(
-              'flex h-10 w-full items-center gap-3 px-3 text-sm text-ink outline-none',
+              'flex h-10 w-full items-center gap-3 px-3 text-left text-sm text-ink outline-none',
               'hover:bg-surface-sunken focus-visible:bg-surface-sunken',
               '[&_svg]:h-4 [&_svg]:w-4 [&_svg]:text-ink-subtle',
               isPrevSeparator && 'mt-0',
