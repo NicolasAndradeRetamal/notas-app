@@ -58,8 +58,12 @@ export function SearchInput({ className, autoFocus }: SearchInputProps) {
         Buscar en tus notas
       </label>
       <div className="relative">
-        <span className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-subtle">
-          {pending ? <Spinner size="sm" /> : <Search className="h-[18px] w-[18px]" aria-hidden="true" />}
+        <span className="text-ink-subtle pointer-events-none absolute top-1/2 left-3 -translate-y-1/2">
+          {pending ? (
+            <Spinner size="sm" />
+          ) : (
+            <Search className="h-[18px] w-[18px]" aria-hidden="true" />
+          )}
         </span>
         <input
           id="note-search"
@@ -68,7 +72,7 @@ export function SearchInput({ className, autoFocus }: SearchInputProps) {
           onChange={(e) => handleChange(e.target.value)}
           placeholder="Buscar en tus notas…"
           autoFocus={autoFocus}
-          className="h-11 w-full rounded-md border border-line-strong bg-surface-sunken pr-3 pl-10 text-[0.9375rem] text-ink placeholder:text-ink-subtle hover:border-ink-subtle focus-visible:border-primary focus-visible:bg-surface-raised focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+          className="border-line-strong bg-surface-sunken text-ink placeholder:text-ink-subtle hover:border-ink-subtle focus-visible:border-primary focus-visible:bg-surface-raised focus-visible:outline-primary h-11 w-full rounded-md border pr-3 pl-10 text-[0.9375rem] focus-visible:outline-2 focus-visible:outline-offset-2"
         />
       </div>
     </div>

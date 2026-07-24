@@ -47,7 +47,7 @@ export function UserMenu({ user }: { user: UserDTO }) {
       key: 'account',
       content: (
         <div>
-          <p className="text-sm font-medium text-ink">{user.name}</p>
+          <p className="text-ink text-sm font-medium">{user.name}</p>
           <p className="text-meta text-ink-subtle break-all">{user.email}</p>
         </div>
       ),
@@ -97,9 +97,9 @@ export function UserMenu({ user }: { user: UserDTO }) {
         <button
           type="button"
           aria-label={`Cuenta de ${user.name}`}
-          className="hit-44 flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+          className="hit-44 focus-visible:outline-primary flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-soft text-sm font-medium text-primary">
+          <span className="bg-primary-soft text-primary flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium">
             {initials(user.name)}
           </span>
         </button>

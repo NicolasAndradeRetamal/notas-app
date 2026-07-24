@@ -22,7 +22,10 @@ type NotesListingProps = {
   notebooks: NotebookDTO[];
   tags: TagDTO[];
   heading: ReactNode;
-  emptyState: 'all-notes' | { kind: 'notebook-empty'; notebookId: string; notebookName: string } | { kind: 'tag-empty'; tagName: string };
+  emptyState:
+    | 'all-notes'
+    | { kind: 'notebook-empty'; notebookId: string; notebookName: string }
+    | { kind: 'tag-empty'; tagName: string };
   notebookName?: string;
   tagName?: string;
   hideNotebookChip?: boolean;
@@ -62,7 +65,7 @@ export async function NotesListing({
       <div className="space-y-6 md:space-y-8">
         <div className="space-y-1">
           {heading}
-          <p aria-live="polite" className="text-meta tabular-nums text-ink-subtle">
+          <p aria-live="polite" className="text-meta text-ink-subtle tabular-nums">
             {pluralize(result.total, 'resultado', 'resultados')} para «{params.q}»
           </p>
         </div>
@@ -79,21 +82,29 @@ export async function NotesListing({
         ) : (
           <SearchHitList hits={result.items} notebooks={notebooks} tags={tags} />
         )}
-        <Pagination page={result.page} pageSize={result.pageSize} total={result.total} hasMore={result.hasMore} buildHref={buildHref} />
+        <Pagination
+          page={result.page}
+          pageSize={result.pageSize}
+          total={result.total}
+          hasMore={result.hasMore}
+          buildHref={buildHref}
+        />
       </div>
     );
   }
 
   const result = await getNotes(params);
   const hasExtraFilters = Boolean(
-    (params.notebookId && !hideNotebookChip) || (params.tagSlug && !hideTagChip) || params.sort !== 'updated',
+    (params.notebookId && !hideNotebookChip) ||
+    (params.tagSlug && !hideTagChip) ||
+    params.sort !== 'updated',
   );
 
   return (
     <div className="space-y-6 md:space-y-8">
       <div className="space-y-1">
         {heading}
-        <p aria-live="polite" className="text-meta tabular-nums text-ink-subtle">
+        <p aria-live="polite" className="text-meta text-ink-subtle tabular-nums">
           {pluralize(result.total, 'nota', 'notas')} · orden: {sortLabel(params.sort)}
         </p>
       </div>
@@ -116,7 +127,11 @@ export async function NotesListing({
         ) : emptyState === 'all-notes' ? (
           <NotesEmptyState kind="all-notes" />
         ) : emptyState.kind === 'notebook-empty' ? (
-          <NotesEmptyState kind="notebook-empty" notebookId={emptyState.notebookId} notebookName={emptyState.notebookName} />
+          <NotesEmptyState
+            kind="notebook-empty"
+            notebookId={emptyState.notebookId}
+            notebookName={emptyState.notebookName}
+          />
         ) : (
           <NotesEmptyState kind="tag-empty" tagName={emptyState.tagName} />
         )
@@ -124,7 +139,13 @@ export async function NotesListing({
         <NoteList notes={result.items} notebooks={notebooks} tags={tags} />
       )}
 
-      <Pagination page={result.page} pageSize={result.pageSize} total={result.total} hasMore={result.hasMore} buildHref={buildHref} />
+      <Pagination
+        page={result.page}
+        pageSize={result.pageSize}
+        total={result.total}
+        hasMore={result.hasMore}
+        buildHref={buildHref}
+      />
     </div>
   );
 }

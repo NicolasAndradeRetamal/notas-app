@@ -42,7 +42,13 @@ beforeEach(() => {
 
 describe('getNotes', () => {
   it('delegates to searchNotes when a query term is present', async () => {
-    vi.mocked(searchNotes).mockResolvedValueOnce({ items: [], total: 0, page: 1, pageSize: 20, hasMore: false });
+    vi.mocked(searchNotes).mockResolvedValueOnce({
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize: 20,
+      hasMore: false,
+    });
 
     await getNotes({ q: 'reunión', page: 1, pageSize: 20, sort: 'updated' });
 
@@ -57,7 +63,9 @@ describe('getNotes', () => {
     const result = await getNotes({ page: 1, pageSize: 20, sort: 'updated' });
 
     expect(findManyMock).toHaveBeenCalledWith(
-      expect.objectContaining({ where: expect.objectContaining({ userId: USER.id, active: true }) }),
+      expect.objectContaining({
+        where: expect.objectContaining({ userId: USER.id, active: true }),
+      }),
     );
     expect(result.items).toHaveLength(1);
     expect(result.total).toBe(1);
@@ -67,7 +75,13 @@ describe('getNotes', () => {
     findManyMock.mockResolvedValueOnce([]);
     countMock.mockResolvedValueOnce(0);
 
-    await getNotes({ page: 1, pageSize: 20, sort: 'updated', notebookId: 'nb-1', tagSlug: 'ideas' });
+    await getNotes({
+      page: 1,
+      pageSize: 20,
+      sort: 'updated',
+      notebookId: 'nb-1',
+      tagSlug: 'ideas',
+    });
 
     const call = findManyMock.mock.calls[0]![0];
     expect(call.where.notebookId).toBe('nb-1');

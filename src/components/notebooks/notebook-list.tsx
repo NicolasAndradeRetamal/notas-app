@@ -4,7 +4,7 @@ import { SidebarNavLink } from '@/components/layout/sidebar-nav-link';
 function NotebookDot({ color }: { color: string | null }) {
   return (
     <span
-      className="h-2 w-2 shrink-0 rounded-full border border-line"
+      className="border-line h-2 w-2 shrink-0 rounded-full border"
       style={{ backgroundColor: color ?? 'var(--color-ink-subtle)' }}
       aria-hidden="true"
     />

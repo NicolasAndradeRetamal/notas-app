@@ -24,14 +24,15 @@ const AUTOSAVE_DELAY_MS = 1200;
 const MIN_SAVING_DISPLAY_MS = 600;
 const SAVED_TO_IDLE_DELAY_MS = 5000;
 
-const FORMAT_SYNTAX: Record<FormatAction, { before: string; after: string; placeholder: string }> = {
-  bold: { before: '**', after: '**', placeholder: 'texto en negrita' },
-  italic: { before: '_', after: '_', placeholder: 'texto en cursiva' },
-  heading: { before: '## ', after: '', placeholder: 'Encabezado' },
-  list: { before: '- ', after: '', placeholder: 'elemento de la lista' },
-  code: { before: '`', after: '`', placeholder: 'código' },
-  link: { before: '[', after: '](https://)', placeholder: 'texto del enlace' },
-};
+const FORMAT_SYNTAX: Record<FormatAction, { before: string; after: string; placeholder: string }> =
+  {
+    bold: { before: '**', after: '**', placeholder: 'texto en negrita' },
+    italic: { before: '_', after: '_', placeholder: 'texto en cursiva' },
+    heading: { before: '## ', after: '', placeholder: 'Encabezado' },
+    list: { before: '- ', after: '', placeholder: 'elemento de la lista' },
+    code: { before: '`', after: '`', placeholder: 'código' },
+    link: { before: '[', after: '](https://)', placeholder: 'texto del enlace' },
+  };
 
 type NoteEditorProps = {
   mode: 'create' | 'edit';
@@ -41,7 +42,13 @@ type NoteEditorProps = {
   initialNotebookId?: string;
 };
 
-export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebookId }: NoteEditorProps) {
+export function NoteEditor({
+  mode: _mode,
+  note,
+  notebooks,
+  tags,
+  initialNotebookId,
+}: NoteEditorProps) {
   const router = useRouter();
   const { toast } = useToast();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -52,7 +59,9 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
   const noteId = note?.id ?? null;
   const [title, setTitle] = useState(note?.title ?? '');
   const [content, setContent] = useState(note?.content ?? '');
-  const [notebookId, setNotebookId] = useState<string>(note?.notebook?.id ?? initialNotebookId ?? '');
+  const [notebookId, setNotebookId] = useState<string>(
+    note?.notebook?.id ?? initialNotebookId ?? '',
+  );
   const [selectedTags, setSelectedTags] = useState<TagOption[]>(
     note?.tags.map((t) => ({ id: t.id, name: t.name })) ?? [],
   );
@@ -65,6 +74,8 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
   const [pending, startTransition] = useTransition();
 
   const keepEditingRef = useRef<HTMLButtonElement>(null);
+  const saveSeqRef = useRef(0);
+  const savingRef = useRef(false);
 
   useEffect(() => {
     if (showDiscardConfirm) keepEditingRef.current?.focus();
@@ -77,7 +88,14 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
         setSaveState('no-title');
         return;
       }
+      // Without this the autosave timer can fire a second create while the
+      // first one is still travelling, leaving two copies of the same note.
+      if (savingRef.current) return;
+      savingRef.current = true;
+
       const startedAt = Date.now();
+      // A slow response must never overwrite the state of a save started later.
+      const seq = ++saveSeqRef.current;
       setSaveState('saving');
       const input = {
         title: trimmedTitle,
@@ -87,27 +105,50 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
       };
 
       startTransition(async () => {
+        const superseded = () => seq !== saveSeqRef.current;
+        const release = () => {
+          savingRef.current = false;
+        };
         const settle = (apply: () => void) => {
           const elapsed = Date.now() - startedAt;
           const wait = Math.max(MIN_SAVING_DISPLAY_MS - elapsed, 0);
-          setTimeout(apply, wait);
+          setTimeout(() => {
+            if (superseded()) return;
+            apply();
+          }, wait);
         };
 
         if (!noteId) {
           const result = await createNoteAction(input);
-          if (!result.ok) {
-            settle(() => setSaveState('error'));
-            toast({ variant: 'error', title: 'No se pudo guardar la nota.', description: result.message });
+          if (superseded()) {
+            release();
             return;
           }
-          // createNoteAction redirects to /notes/{id} on success; nothing else to do here.
+          if (!result.ok) {
+            release();
+            settle(() => setSaveState('error'));
+            toast({
+              variant: 'error',
+              title: 'No se pudo guardar la nota.',
+              description: result.message,
+            });
+            return;
+          }
+          // The action redirects to /notes/{id}. The guard stays latched on
+          // purpose so nothing can create a duplicate while navigating away.
           return;
         }
 
         const result = await updateNoteAction({ ...input, id: noteId });
+        release();
+        if (superseded()) return;
         if (!result.ok) {
           settle(() => setSaveState('error'));
-          toast({ variant: 'error', title: 'No se pudo guardar la nota.', description: result.message });
+          toast({
+            variant: 'error',
+            title: 'No se pudo guardar la nota.',
+            description: result.message,
+          });
           return;
         }
         settle(() => {
@@ -189,22 +230,27 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
   return (
     <div onKeyDown={handleKeyDown} className="flex min-h-0 flex-1 flex-col">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <Button variant="ghost" size="sm" icon={<ChevronLeft aria-hidden="true" />} onClick={handleCancel}>
+        <Button
+          variant="ghost"
+          size="sm"
+          icon={<ChevronLeft aria-hidden="true" />}
+          onClick={handleCancel}
+        >
           Cancelar
         </Button>
         <div className="flex items-center gap-3">
-          <SaveStatus
-            state={saveState}
-            savedAt={savedAt}
-            onRetry={() => performSave()}
-          />
-          <Button size="md" onClick={() => performSave()} loading={pending && saveState === 'saving'}>
+          <SaveStatus state={saveState} savedAt={savedAt} onRetry={() => performSave()} />
+          <Button
+            size="md"
+            onClick={() => performSave()}
+            loading={pending && saveState === 'saving'}
+          >
             Guardar nota
           </Button>
         </div>
       </div>
 
-      <div className="space-y-3 border-b border-line pb-4">
+      <div className="border-line space-y-3 border-b pb-4">
         <label htmlFor="note-title" className="sr-only">
           Título de la nota
         </label>
@@ -217,7 +263,7 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
           }}
           placeholder="Título de la nota"
           maxLength={200}
-          className="w-full border-0 bg-transparent text-[1.375rem] font-semibold text-ink outline-none placeholder:text-ink-subtle"
+          className="text-ink placeholder:text-ink-subtle w-full border-0 bg-transparent text-[1.375rem] font-semibold outline-none"
         />
         <div className="flex flex-col gap-3 sm:flex-row">
           <div className="sm:w-56">
@@ -251,8 +297,12 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
         </div>
       </div>
 
-      <div className="mt-4 flex min-h-0 flex-1 flex-col @container">
-        <div role="tablist" aria-label="Modo del editor" className="flex h-11 border-b border-line @[60rem]:hidden">
+      <div className="@container mt-4 flex min-h-0 flex-1 flex-col">
+        <div
+          role="tablist"
+          aria-label="Modo del editor"
+          className="border-line flex h-11 border-b @[60rem]:hidden"
+        >
           <button
             type="button"
             role="tab"
@@ -260,7 +310,9 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
             onClick={() => setActiveTab('write')}
             className={cn(
               'flex-1 border-b-2 text-sm font-medium transition-colors',
-              activeTab === 'write' ? 'border-primary text-ink' : 'border-transparent text-ink-muted',
+              activeTab === 'write'
+                ? 'border-primary text-ink'
+                : 'text-ink-muted border-transparent',
             )}
           >
             Escribir
@@ -272,7 +324,9 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
             onClick={() => setActiveTab('preview')}
             className={cn(
               'flex-1 border-b-2 text-sm font-medium transition-colors',
-              activeTab === 'preview' ? 'border-primary text-ink' : 'border-transparent text-ink-muted',
+              activeTab === 'preview'
+                ? 'border-primary text-ink'
+                : 'text-ink-muted border-transparent',
             )}
           >
             Vista previa
@@ -282,11 +336,15 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
         <div className="flex min-h-0 flex-1 flex-col @[60rem]:flex-row">
           <div
             className={cn(
-              'min-h-0 flex-1 flex-col bg-surface @[60rem]:flex @[60rem]:w-1/2 @[60rem]:border-r @[60rem]:border-line',
+              'bg-surface @[60rem]:border-line min-h-0 flex-1 flex-col @[60rem]:flex @[60rem]:w-1/2 @[60rem]:border-r',
               activeTab === 'write' ? 'flex' : 'hidden',
             )}
           >
-            <EditorToolbar onFormat={applyFormat} focusMode={focusMode} onToggleFocusMode={() => setFocusMode((f) => !f)} />
+            <EditorToolbar
+              onFormat={applyFormat}
+              focusMode={focusMode}
+              onToggleFocusMode={() => setFocusMode((f) => !f)}
+            />
             <label htmlFor="note-content" className="sr-only">
               Contenido en markdown
             </label>
@@ -301,13 +359,13 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
               maxLength={NOTE_CONTENT_MAX}
               spellCheck
               placeholder="Escribe tu nota en markdown…"
-              className="min-h-64 flex-1 resize-none bg-transparent p-4 font-mono text-[0.9375rem] leading-[1.7] text-ink outline-none placeholder:text-ink-subtle"
+              className="text-ink placeholder:text-ink-subtle min-h-64 flex-1 resize-none bg-transparent p-4 font-mono text-[0.9375rem] leading-[1.7] outline-none"
               style={{ tabSize: 2 }}
             />
           </div>
           <div
             className={cn(
-              'min-h-0 flex-1 flex-col overflow-y-auto bg-surface-raised p-4 @[60rem]:flex @[60rem]:w-1/2',
+              'bg-surface-raised min-h-0 flex-1 flex-col overflow-y-auto p-4 @[60rem]:flex @[60rem]:w-1/2',
               activeTab === 'preview' ? 'flex' : 'hidden',
             )}
           >
@@ -332,7 +390,11 @@ export function NoteEditor({ mode: _mode, note, notebooks, tags, initialNotebook
             >
               Descartar
             </Button>
-            <Button ref={keepEditingRef} variant="primary" onClick={() => setShowDiscardConfirm(false)}>
+            <Button
+              ref={keepEditingRef}
+              variant="primary"
+              onClick={() => setShowDiscardConfirm(false)}
+            >
               Seguir editando
             </Button>
           </>

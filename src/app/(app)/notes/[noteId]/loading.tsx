@@ -6,7 +6,7 @@ export default function NoteLoading() {
   return (
     <div className="mx-auto max-w-[44rem]">
       <Skeleton className="mb-4 h-4 w-32" />
-      <div className="space-y-3 border-b border-line pb-6">
+      <div className="border-line space-y-3 border-b pb-6">
         <Skeleton className="h-7 w-[70%]" />
         <Skeleton className="h-4 w-48" />
       </div>

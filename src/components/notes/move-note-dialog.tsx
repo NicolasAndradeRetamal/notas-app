@@ -31,7 +31,9 @@ export function MoveNoteDialog({ open, onClose, note, notebooks }: MoveNoteDialo
       }
       toast({
         variant: 'success',
-        title: result.data.notebook ? `Nota movida a «${result.data.notebook.name}».` : 'Nota quitada del cuaderno.',
+        title: result.data.notebook
+          ? `Nota movida a «${result.data.notebook.name}».`
+          : 'Nota quitada del cuaderno.',
       });
       router.refresh();
       onClose();
@@ -56,7 +58,12 @@ export function MoveNoteDialog({ open, onClose, note, notebooks }: MoveNoteDialo
         </>
       }
     >
-      <Select label="Cuaderno" hideLabel value={notebookId} onChange={(e) => setNotebookId(e.target.value)}>
+      <Select
+        label="Cuaderno"
+        hideLabel
+        value={notebookId}
+        onChange={(e) => setNotebookId(e.target.value)}
+      >
         <option value="">Sin cuaderno</option>
         {notebooks.map((notebook) => (
           <option key={notebook.id} value={notebook.id}>

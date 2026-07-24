@@ -1,3 +1,4 @@
+import 'server-only';
 import type { NoteDetailDTO, NoteSummaryDTO } from '@/types/dto';
 
 export type NoteWithRelations = {

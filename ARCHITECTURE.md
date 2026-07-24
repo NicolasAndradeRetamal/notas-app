@@ -16,26 +16,26 @@ contenido de las notas, no solo indexar sus palabras.
 
 ### Fase 1 — MVP
 
-| Capacidad | Detalle |
-|---|---|
-| Cuentas | Registro y login con email y contraseña, sesión persistente |
-| Notas | CRUD completo, editor markdown con vista previa en vivo |
-| Cuadernos | Agrupación de notas en cuadernos de **un solo nivel** |
-| Etiquetas | Clasificación transversal, varias etiquetas por nota |
-| Búsqueda | Full-text sobre título y contenido, filtros por cuaderno y etiqueta |
-| Papelera | Borrado lógico con restauración y purga manual |
+| Capacidad | Detalle                                                             |
+| --------- | ------------------------------------------------------------------- |
+| Cuentas   | Registro y login con email y contraseña, sesión persistente         |
+| Notas     | CRUD completo, editor markdown con vista previa en vivo             |
+| Cuadernos | Agrupación de notas en cuadernos de **un solo nivel**               |
+| Etiquetas | Clasificación transversal, varias etiquetas por nota                |
+| Búsqueda  | Full-text sobre título y contenido, filtros por cuaderno y etiqueta |
+| Papelera  | Borrado lógico con restauración y purga manual                      |
 
 ### Fase 2 — IA
 
 Se construye **sobre el MVP funcionando**, sin reescribir nada. Toda la
 integración con modelos ocurre del lado del servidor.
 
-| Capacidad | Detalle |
-|---|---|
-| Búsqueda semántica | Recuperación por significado con pgvector y embeddings |
-| Resumen automático | Resumen de una nota larga bajo demanda, con streaming |
+| Capacidad              | Detalle                                                                   |
+| ---------------------- | ------------------------------------------------------------------------- |
+| Búsqueda semántica     | Recuperación por significado con pgvector y embeddings                    |
+| Resumen automático     | Resumen de una nota larga bajo demanda, con streaming                     |
 | Pregúntale a tus notas | Chat RAG: recupera las notas relevantes del usuario y responde citándolas |
-| Control de costos | Límite de uso por usuario y registro de consumo |
+| Control de costos      | Límite de uso por usuario y registro de consumo                           |
 
 ### Fuera de alcance
 
@@ -53,10 +53,10 @@ Versiones fijas (sin rangos) verificadas contra el registro. El proyecto usa
 
 ### Entorno
 
-| Componente | Versión |
-|---|---|
-| Node.js | 24.13.0 (LTS) |
-| pnpm | 11.1.2 |
+| Componente | Versión                              |
+| ---------- | ------------------------------------ |
+| Node.js    | 24.13.0 (LTS)                        |
+| pnpm       | 11.1.2                               |
 | PostgreSQL | 18 (imagen `pgvector/pgvector:pg18`) |
 
 Se usa la imagen con **pgvector desde el día uno** aunque la extensión no se
@@ -64,61 +64,61 @@ active hasta la fase 2: evita cambiar la imagen a mitad del proyecto.
 
 ### Dependencias de producción
 
-| Paquete | Versión | Rol |
-|---|---|---|
-| `next` | 16.2.11 | Framework fullstack, App Router |
-| `react` | 19.2.8 | Librería de UI |
-| `react-dom` | 19.2.8 | Renderizador DOM |
-| `next-auth` | 5.0.0-beta.32 | Auth.js v5, autenticación |
-| `@prisma/client` | 7.9.0 | Cliente de base de datos |
-| `@prisma/adapter-pg` | 7.9.0 | Driver adapter de Prisma sobre `pg` |
-| `pg` | 8.22.0 | Driver PostgreSQL |
-| `zod` | 4.4.3 | Validación de entrada y de variables de entorno |
-| `@node-rs/argon2` | 2.0.2 | Hash de contraseñas (argon2id) |
-| `react-markdown` | 10.1.0 | Render de markdown a React |
-| `remark-gfm` | 4.0.1 | GitHub Flavored Markdown (tablas, listas de tareas) |
-| `rehype-sanitize` | 6.0.0 | Saneamiento del HTML generado |
-| `clsx` | 2.1.1 | Composición de clases |
-| `tailwind-merge` | 3.6.0 | Resolución de conflictos entre utilidades Tailwind |
-| `lucide-react` | 1.25.0 | Iconografía |
+| Paquete              | Versión       | Rol                                                 |
+| -------------------- | ------------- | --------------------------------------------------- |
+| `next`               | 16.2.11       | Framework fullstack, App Router                     |
+| `react`              | 19.2.8        | Librería de UI                                      |
+| `react-dom`          | 19.2.8        | Renderizador DOM                                    |
+| `next-auth`          | 5.0.0-beta.32 | Auth.js v5, autenticación                           |
+| `@prisma/client`     | 7.9.0         | Cliente de base de datos                            |
+| `@prisma/adapter-pg` | 7.9.0         | Driver adapter de Prisma sobre `pg`                 |
+| `pg`                 | 8.22.0        | Driver PostgreSQL                                   |
+| `zod`                | 4.4.3         | Validación de entrada y de variables de entorno     |
+| `@node-rs/argon2`    | 2.0.2         | Hash de contraseñas (argon2id)                      |
+| `react-markdown`     | 10.1.0        | Render de markdown a React                          |
+| `remark-gfm`         | 4.0.1         | GitHub Flavored Markdown (tablas, listas de tareas) |
+| `rehype-sanitize`    | 6.0.0         | Saneamiento del HTML generado                       |
+| `clsx`               | 2.1.1         | Composición de clases                               |
+| `tailwind-merge`     | 3.6.0         | Resolución de conflictos entre utilidades Tailwind  |
+| `lucide-react`       | 1.25.0        | Iconografía                                         |
 
 ### Dependencias de desarrollo
 
-| Paquete | Versión | Rol |
-|---|---|---|
-| `typescript` | 6.0.3 | Compilador (modo estricto) |
-| `prisma` | 7.9.0 | CLI y migraciones |
-| `tailwindcss` | 4.3.3 | Estilos |
-| `@tailwindcss/postcss` | 4.3.3 | Plugin PostCSS de Tailwind 4 |
-| `eslint` | 10.7.0 | Linter |
-| `eslint-config-next` | 16.2.11 | Reglas de Next.js |
-| `typescript-eslint` | 8.65.0 | Reglas de TypeScript |
-| `prettier` | 3.9.6 | Formateo |
-| `prettier-plugin-tailwindcss` | 0.8.1 | Orden de clases de Tailwind |
-| `vitest` | 4.1.10 | Test runner unitario |
-| `@vitest/coverage-v8` | 4.1.10 | Cobertura |
-| `vite` | 8.1.5 | Requerido por Vitest |
-| `@vitejs/plugin-react` | 6.0.3 | JSX en los tests |
-| `vite-tsconfig-paths` | 6.1.1 | Resolución de alias `@/*` en tests |
-| `jsdom` | 29.1.1 | Entorno DOM para Vitest |
-| `@testing-library/react` | 16.3.2 | Tests de componentes |
-| `@testing-library/dom` | 10.4.1 | Peer de Testing Library |
-| `@testing-library/jest-dom` | 7.0.0 | Matchers de DOM |
-| `@testing-library/user-event` | 14.6.1 | Simulación de interacción |
-| `@playwright/test` | 1.61.1 | Tests E2E |
-| `@types/node` | 26.1.1 | Tipos de Node |
-| `@types/react` | 19.2.17 | Tipos de React |
-| `@types/react-dom` | 19.2.3 | Tipos de React DOM |
-| `@types/pg` | 8.20.0 | Tipos del driver PostgreSQL |
+| Paquete                       | Versión | Rol                                |
+| ----------------------------- | ------- | ---------------------------------- |
+| `typescript`                  | 6.0.3   | Compilador (modo estricto)         |
+| `prisma`                      | 7.9.0   | CLI y migraciones                  |
+| `tailwindcss`                 | 4.3.3   | Estilos                            |
+| `@tailwindcss/postcss`        | 4.3.3   | Plugin PostCSS de Tailwind 4       |
+| `eslint`                      | 10.7.0  | Linter                             |
+| `eslint-config-next`          | 16.2.11 | Reglas de Next.js                  |
+| `typescript-eslint`           | 8.65.0  | Reglas de TypeScript               |
+| `prettier`                    | 3.9.6   | Formateo                           |
+| `prettier-plugin-tailwindcss` | 0.8.1   | Orden de clases de Tailwind        |
+| `vitest`                      | 4.1.10  | Test runner unitario               |
+| `@vitest/coverage-v8`         | 4.1.10  | Cobertura                          |
+| `vite`                        | 8.1.5   | Requerido por Vitest               |
+| `@vitejs/plugin-react`        | 6.0.3   | JSX en los tests                   |
+| `vite-tsconfig-paths`         | 6.1.1   | Resolución de alias `@/*` en tests |
+| `jsdom`                       | 29.1.1  | Entorno DOM para Vitest            |
+| `@testing-library/react`      | 16.3.2  | Tests de componentes               |
+| `@testing-library/dom`        | 10.4.1  | Peer de Testing Library            |
+| `@testing-library/jest-dom`   | 7.0.0   | Matchers de DOM                    |
+| `@testing-library/user-event` | 14.6.1  | Simulación de interacción          |
+| `@playwright/test`            | 1.61.1  | Tests E2E                          |
+| `@types/node`                 | 26.1.1  | Tipos de Node                      |
+| `@types/react`                | 19.2.17 | Tipos de React                     |
+| `@types/react-dom`            | 19.2.3  | Tipos de React DOM                 |
+| `@types/pg`                   | 8.20.0  | Tipos del driver PostgreSQL        |
 
 ### Dependencias de la fase 2
 
 Se instalan cuando empieza la fase 2, no antes.
 
-| Paquete | Versión | Rol |
-|---|---|---|
+| Paquete             | Versión | Rol                                         |
+| ------------------- | ------- | ------------------------------------------- |
 | `@anthropic-ai/sdk` | 0.112.5 | SDK oficial de Anthropic (resúmenes y chat) |
-| `pgvector` | 0.3.0 | Serialización de vectores hacia PostgreSQL |
+| `pgvector`          | 0.3.0   | Serialización de vectores hacia PostgreSQL  |
 
 ### Notas sobre versiones
 
@@ -144,12 +144,12 @@ Se instalan cuando empieza la fase 2, no antes.
 
 **Aplicación híbrida con SSR dinámico dominante. No es una SPA. No es una PWA.**
 
-| Zona | Estrategia | Motivo |
-|---|---|---|
-| `/` (landing) | Estática (prerenderizada en build) | Contenido fijo, sin datos de usuario |
-| `(auth)` — login, registro | Estática, con formularios que invocan server actions | El HTML no depende de datos; el POST sí |
-| `(app)` — todo el área privada | SSR dinámico por request | Cada respuesta depende de la sesión; `auth()` lee cookies y fuerza render dinámico |
-| `/api/ai/*` (fase 2) | Route handlers con respuesta en streaming | Se necesita `ReadableStream`, no cabe en una server action |
+| Zona                           | Estrategia                                           | Motivo                                                                             |
+| ------------------------------ | ---------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `/` (landing)                  | Estática (prerenderizada en build)                   | Contenido fijo, sin datos de usuario                                               |
+| `(auth)` — login, registro     | Estática, con formularios que invocan server actions | El HTML no depende de datos; el POST sí                                            |
+| `(app)` — todo el área privada | SSR dinámico por request                             | Cada respuesta depende de la sesión; `auth()` lee cookies y fuerza render dinámico |
+| `/api/ai/*` (fase 2)           | Route handlers con respuesta en streaming            | Se necesita `ReadableStream`, no cabe en una server action                         |
 
 Justificación:
 
@@ -566,17 +566,17 @@ model NoteTag {
 
 ### Restricciones y reglas de negocio
 
-| Regla | Dónde se aplica |
-|---|---|
-| `email` único y normalizado a minúsculas antes de persistir | Zod (`toLowerCase`) + índice único |
-| `notebook.slug` único por usuario | `@@unique([userId, slug])` |
-| `tag.slug` único por usuario | `@@unique([userId, slug])` |
-| Etiquetas y cuadernos pertenecen a un usuario, no son globales | FK `user_id` obligatoria |
-| Una nota pertenece a 0 o 1 cuaderno | `notebook_id` nullable |
-| Desactivar un cuaderno no borra sus notas: pasan a `notebook_id = NULL` | Transacción en `deleteNotebookAction` |
-| Quitar una etiqueta de una nota es `note_tag.active = false`, no un `DELETE` | `setNoteTagsAction` con `upsert` |
-| `excerpt` se recalcula en cada guardado a partir del markdown | Servidor, nunca lo envía el cliente |
-| El vaciado de papelera sí borra físicamente | `emptyTrashAction` |
+| Regla                                                                        | Dónde se aplica                       |
+| ---------------------------------------------------------------------------- | ------------------------------------- |
+| `email` único y normalizado a minúsculas antes de persistir                  | Zod (`toLowerCase`) + índice único    |
+| `notebook.slug` único por usuario                                            | `@@unique([userId, slug])`            |
+| `tag.slug` único por usuario                                                 | `@@unique([userId, slug])`            |
+| Etiquetas y cuadernos pertenecen a un usuario, no son globales               | FK `user_id` obligatoria              |
+| Una nota pertenece a 0 o 1 cuaderno                                          | `notebook_id` nullable                |
+| Desactivar un cuaderno no borra sus notas: pasan a `notebook_id = NULL`      | Transacción en `deleteNotebookAction` |
+| Quitar una etiqueta de una nota es `note_tag.active = false`, no un `DELETE` | `setNoteTagsAction` con `upsert`      |
+| `excerpt` se recalcula en cada guardado a partir del markdown                | Servidor, nunca lo envía el cliente   |
+| El vaciado de papelera sí borra físicamente                                  | `emptyTrashAction`                    |
 
 **Nota sobre el email y el borrado lógico:** un usuario desactivado conserva su
 email ocupado. Es intencional: reactivar la cuenta al volver a registrarse es
@@ -635,14 +635,14 @@ LIMIT $3 OFFSET $4;
 
 Índices restantes y su motivo:
 
-| Índice | Consulta que sirve |
-|---|---|
-| `note (user_id, active, updated_at DESC)` | Listado principal de notas del usuario |
-| `note (notebook_id, active, updated_at DESC)` | Notas de un cuaderno |
-| `note_tag (tag_id, active)` | Notas de una etiqueta (el PK cubre el sentido inverso) |
-| `notebook (user_id, active, position)` | Sidebar de cuadernos |
-| `tag (user_id, active, name)` | Sidebar de etiquetas, ordenado |
-| `note_search_vector_idx` (GIN) | Búsqueda full-text |
+| Índice                                        | Consulta que sirve                                     |
+| --------------------------------------------- | ------------------------------------------------------ |
+| `note (user_id, active, updated_at DESC)`     | Listado principal de notas del usuario                 |
+| `note (notebook_id, active, updated_at DESC)` | Notas de un cuaderno                                   |
+| `note_tag (tag_id, active)`                   | Notas de una etiqueta (el PK cubre el sentido inverso) |
+| `notebook (user_id, active, position)`        | Sidebar de cuadernos                                   |
+| `tag (user_id, active, name)`                 | Sidebar de etiquetas, ordenado                         |
+| `note_search_vector_idx` (GIN)                | Búsqueda full-text                                     |
 
 Descartado: `pg_trgm` sobre `title` para tolerancia a erratas. Añade una
 extensión y un índice más para un beneficio marginal cuando la fase 2 aporta
@@ -808,13 +808,13 @@ en la fase 1.
 Anthropic no ofrece API de embeddings, así que hace falta un segundo
 proveedor. Se elige `text-embedding-3-small` con el parámetro `dimensions: 1024`.
 
-| Criterio | Valor |
-|---|---|
-| Precio | ~0,02 USD por millón de tokens: indexar 1.000 notas de 500 palabras cuesta céntimos |
-| Dimensiones | 1024 (reducidas desde 1536 con truncamiento Matryoshka, soportado nativamente) |
-| Calidad | Pérdida despreciable frente a 1536 en recuperación, con 33% menos de almacenamiento e índice más rápido |
-| Límite | 8.191 tokens por entrada, holgado para una nota; por encima entra `chunk_index` |
-| Integración | Endpoint HTTP simple, sin SDK adicional obligatorio |
+| Criterio    | Valor                                                                                                   |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| Precio      | ~0,02 USD por millón de tokens: indexar 1.000 notas de 500 palabras cuesta céntimos                     |
+| Dimensiones | 1024 (reducidas desde 1536 con truncamiento Matryoshka, soportado nativamente)                          |
+| Calidad     | Pérdida despreciable frente a 1536 en recuperación, con 33% menos de almacenamiento e índice más rápido |
+| Límite      | 8.191 tokens por entrada, holgado para una nota; por encima entra `chunk_index`                         |
+| Integración | Endpoint HTTP simple, sin SDK adicional obligatorio                                                     |
 
 Alternativas descartadas:
 
@@ -829,9 +829,9 @@ Alternativas descartadas:
 
 ### Generación: Claude, dos modelos según la tarea
 
-| Función | Modelo | Motivo |
-|---|---|---|
-| Resumen de nota | `claude-haiku-4-5` | Tarea mecánica sobre un texto acotado; el modelo rápido y barato basta y el streaming se siente instantáneo |
+| Función                    | Modelo              | Motivo                                                                                                                     |
+| -------------------------- | ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Resumen de nota            | `claude-haiku-4-5`  | Tarea mecánica sobre un texto acotado; el modelo rápido y barato basta y el streaming se siente instantáneo                |
 | Chat sobre tus notas (RAG) | `claude-sonnet-4-5` | Debe sintetizar varias notas recuperadas, distinguir cuál responde qué y citar la fuente correcta: exige razonamiento real |
 
 Ambos se leen de variables de entorno (`AI_SUMMARY_MODEL`, `AI_CHAT_MODEL`)
@@ -878,21 +878,19 @@ mienta, no hay parámetro que manipular.
 // src/lib/action-result.ts
 
 export const ACTION_ERROR_CODES = [
-  'VALIDATION_ERROR',  // el input no pasó el esquema Zod
-  'UNAUTHENTICATED',   // no hay sesión
-  'FORBIDDEN',         // hay sesión, pero el recurso es de otro usuario
-  'NOT_FOUND',         // el recurso no existe o está inactivo
-  'CONFLICT',          // choca con una restricción única (email, slug)
-  'RATE_LIMITED',      // cuota superada (fase 2)
-  'AI_UNAVAILABLE',    // el proveedor de IA falló (fase 2)
-  'INTERNAL_ERROR',    // cualquier otra cosa
+  'VALIDATION_ERROR', // el input no pasó el esquema Zod
+  'UNAUTHENTICATED', // no hay sesión
+  'FORBIDDEN', // hay sesión, pero el recurso es de otro usuario
+  'NOT_FOUND', // el recurso no existe o está inactivo
+  'CONFLICT', // choca con una restricción única (email, slug)
+  'RATE_LIMITED', // cuota superada (fase 2)
+  'AI_UNAVAILABLE', // el proveedor de IA falló (fase 2)
+  'INTERNAL_ERROR', // cualquier otra cosa
 ] as const;
 
 export type ActionErrorCode = (typeof ACTION_ERROR_CODES)[number];
 
-export type FieldErrors<TInput> = Partial<
-  Record<keyof TInput | '_form', string[]>
->;
+export type FieldErrors<TInput> = Partial<Record<keyof TInput | '_form', string[]>>;
 
 export type ActionSuccess<TData> = {
   ok: true;
@@ -902,13 +900,11 @@ export type ActionSuccess<TData> = {
 export type ActionFailure<TInput = unknown> = {
   ok: false;
   code: ActionErrorCode;
-  message: string;                    // texto en español, listo para mostrar
-  fieldErrors?: FieldErrors<TInput>;  // solo con VALIDATION_ERROR
+  message: string; // texto en español, listo para mostrar
+  fieldErrors?: FieldErrors<TInput>; // solo con VALIDATION_ERROR
 };
 
-export type ActionResult<TData, TInput = unknown> =
-  | ActionSuccess<TData>
-  | ActionFailure<TInput>;
+export type ActionResult<TData, TInput = unknown> = ActionSuccess<TData> | ActionFailure<TInput>;
 ```
 
 Reglas:
@@ -926,16 +922,16 @@ Reglas:
 
 Correspondencia con HTTP, para los route handlers de la fase 2:
 
-| Código | HTTP |
-|---|---|
-| `VALIDATION_ERROR` | 400 |
-| `UNAUTHENTICATED` | 401 |
-| `FORBIDDEN` | 403 |
-| `NOT_FOUND` | 404 |
-| `CONFLICT` | 409 |
-| `RATE_LIMITED` | 429 |
-| `AI_UNAVAILABLE` | 503 |
-| `INTERNAL_ERROR` | 500 |
+| Código             | HTTP |
+| ------------------ | ---- |
+| `VALIDATION_ERROR` | 400  |
+| `UNAUTHENTICATED`  | 401  |
+| `FORBIDDEN`        | 403  |
+| `NOT_FOUND`        | 404  |
+| `CONFLICT`         | 409  |
+| `RATE_LIMITED`     | 429  |
+| `AI_UNAVAILABLE`   | 503  |
+| `INTERNAL_ERROR`   | 500  |
 
 ### 8.3 DTOs
 
@@ -948,7 +944,7 @@ export type TagDTO = {
   id: string;
   name: string;
   slug: string;
-  noteCount?: number;   // presente solo en listados de sidebar
+  noteCount?: number; // presente solo en listados de sidebar
 };
 
 export type NotebookDTO = {
@@ -971,18 +967,18 @@ export type NoteSummaryDTO = {
 };
 
 export type NoteDetailDTO = NoteSummaryDTO & {
-  content: string;      // markdown fuente, sin renderizar
+  content: string; // markdown fuente, sin renderizar
 };
 
 export type SearchHitDTO = NoteSummaryDTO & {
   rank: number;
-  highlight: string | null;   // fragmento con <b> del ts_headline, ya saneado
+  highlight: string | null; // fragmento con <b> del ts_headline, ya saneado
 };
 
 export type PaginatedDTO<T> = {
   items: T[];
   total: number;
-  page: number;        // base 1
+  page: number; // base 1
   pageSize: number;
   hasMore: boolean;
 };
@@ -1128,11 +1124,11 @@ export function getNoteById(id: string): Promise<NoteDetailDTO | null>;
 export function getTrashedNotes(page?: number): Promise<PaginatedDTO<NoteSummaryDTO>>;
 
 // src/server/queries/notebook.queries.ts
-export function getNotebooks(): Promise<NotebookDTO[]>;        // con noteCount, ordenados por position
+export function getNotebooks(): Promise<NotebookDTO[]>; // con noteCount, ordenados por position
 export function getNotebookById(id: string): Promise<NotebookDTO | null>;
 
 // src/server/queries/tag.queries.ts
-export function getTags(): Promise<TagDTO[]>;                  // con noteCount, ordenados por name
+export function getTags(): Promise<TagDTO[]>; // con noteCount, ordenados por name
 export function getTagBySlug(slug: string): Promise<TagDTO | null>;
 
 // src/server/queries/search.queries.ts
@@ -1198,18 +1194,12 @@ export function updateNoteAction(
 ): Promise<ActionResult<NoteDetailDTO, UpdateNoteInput>>;
 // Recalcula excerpt y sincroniza note_tag. Fase 2: encola el embedding con after().
 
-export function deleteNoteAction(
-  input: { id: string },
-): Promise<ActionResult<{ id: string }>>;
+export function deleteNoteAction(input: { id: string }): Promise<ActionResult<{ id: string }>>;
 // Borrado lógico: active = false. La nota pasa a /trash.
 
-export function restoreNoteAction(
-  input: { id: string },
-): Promise<ActionResult<NoteSummaryDTO>>;
+export function restoreNoteAction(input: { id: string }): Promise<ActionResult<NoteSummaryDTO>>;
 
-export function purgeNoteAction(
-  input: { id: string },
-): Promise<ActionResult<{ id: string }>>;
+export function purgeNoteAction(input: { id: string }): Promise<ActionResult<{ id: string }>>;
 // Borrado físico. Solo aplicable a notas ya inactivas.
 
 export function emptyTrashAction(): Promise<ActionResult<{ deleted: number }>>;
@@ -1238,14 +1228,14 @@ export function updateNotebookAction(
   input: UpdateNotebookInput,
 ): Promise<ActionResult<NotebookDTO, UpdateNotebookInput>>;
 
-export function deleteNotebookAction(
-  input: { id: string },
-): Promise<ActionResult<{ id: string; detachedNotes: number }>>;
+export function deleteNotebookAction(input: {
+  id: string;
+}): Promise<ActionResult<{ id: string; detachedNotes: number }>>;
 // Transacción: notas del cuaderno pasan a notebookId = null; el cuaderno se desactiva.
 
-export function reorderNotebooksAction(
-  input: { orderedIds: string[] },
-): Promise<ActionResult<NotebookDTO[]>>;
+export function reorderNotebooksAction(input: {
+  orderedIds: string[];
+}): Promise<ActionResult<NotebookDTO[]>>;
 ```
 
 **Etiquetas** (`src/server/actions/tag.actions.ts`)
@@ -1262,9 +1252,7 @@ export function updateTagAction(
   input: UpdateTagInput,
 ): Promise<ActionResult<TagDTO, UpdateTagInput>>;
 
-export function deleteTagAction(
-  input: { id: string },
-): Promise<ActionResult<{ id: string }>>;
+export function deleteTagAction(input: { id: string }): Promise<ActionResult<{ id: string }>>;
 // Desactiva la etiqueta; las filas de note_tag quedan, filtradas por tag.active.
 ```
 
@@ -1272,9 +1260,9 @@ export function deleteTagAction(
 
 ```ts
 // Acción sin streaming, para el badge de "resumen guardado"
-export function requestNoteSummaryAction(
-  input: { noteId: string },
-): Promise<ActionResult<{ summary: string }>>;
+export function requestNoteSummaryAction(input: {
+  noteId: string;
+}): Promise<ActionResult<{ summary: string }>>;
 
 // Streaming: route handlers, no server actions
 // POST /api/ai/summary  body: { noteId: string }        → text/event-stream
@@ -1283,13 +1271,13 @@ export function requestNoteSummaryAction(
 
 ### 8.7 Invalidación de caché
 
-| Acción | Invalidación |
-|---|---|
-| `createNoteAction` | `revalidatePath('/notes')` y `revalidatePath('/(app)', 'layout')` para refrescar contadores del sidebar |
-| `updateNoteAction` | `revalidatePath('/notes/[noteId]', 'page')` y `revalidatePath('/notes')` |
-| `deleteNoteAction`, `restoreNoteAction` | `revalidatePath('/notes')` y `revalidatePath('/trash')` |
-| `moveNoteAction`, `setNoteTagsAction` | `revalidatePath('/notes')` y layout de `(app)` |
-| Acciones de cuaderno o etiqueta | `revalidatePath('/(app)', 'layout')` |
+| Acción                                  | Invalidación                                                                                            |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `createNoteAction`                      | `revalidatePath('/notes')` y `revalidatePath('/(app)', 'layout')` para refrescar contadores del sidebar |
+| `updateNoteAction`                      | `revalidatePath('/notes/[noteId]', 'page')` y `revalidatePath('/notes')`                                |
+| `deleteNoteAction`, `restoreNoteAction` | `revalidatePath('/notes')` y `revalidatePath('/trash')`                                                 |
+| `moveNoteAction`, `setNoteTagsAction`   | `revalidatePath('/notes')` y layout de `(app)`                                                          |
+| Acciones de cuaderno o etiqueta         | `revalidatePath('/(app)', 'layout')`                                                                    |
 
 Notas:
 
@@ -1310,13 +1298,13 @@ estado, efectos, refs o manejadores de eventos.
 
 ### Server Components
 
-| Componente | Qué hace |
-|---|---|
-| `(app)/layout.tsx` | Verifica sesión, carga cuadernos y etiquetas para el sidebar |
-| `notes/page.tsx` | Lee `searchParams`, llama a `getNotes`, renderiza la lista |
-| `notes/[noteId]/page.tsx` | Carga la nota y renderiza el markdown **en el servidor** |
-| `NoteCard`, `TagBadge`, `NotebookList` | Presentación pura a partir de DTOs |
-| `trash/page.tsx`, `tags/[tagSlug]/page.tsx` | Listados filtrados |
+| Componente                                  | Qué hace                                                     |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| `(app)/layout.tsx`                          | Verifica sesión, carga cuadernos y etiquetas para el sidebar |
+| `notes/page.tsx`                            | Lee `searchParams`, llama a `getNotes`, renderiza la lista   |
+| `notes/[noteId]/page.tsx`                   | Carga la nota y renderiza el markdown **en el servidor**     |
+| `NoteCard`, `TagBadge`, `NotebookList`      | Presentación pura a partir de DTOs                           |
+| `trash/page.tsx`, `tags/[tagSlug]/page.tsx` | Listados filtrados                                           |
 
 Renderizar el markdown de lectura en el servidor es una decisión deliberada:
 `react-markdown` con sus plugins pesa bastante en el bundle, y la vista de
@@ -1324,16 +1312,16 @@ lectura no necesita interactividad. Solo el editor paga ese coste.
 
 ### Client Components
 
-| Componente | Por qué necesita cliente |
-|---|---|
-| `NoteEditor` | Estado del textarea, autoguardado con debounce, atajos de teclado |
-| `MarkdownPreview` | Se re-renderiza en cada pulsación mientras se escribe |
-| `SearchInput` | Debounce y actualización de la URL con `useRouter` + `useSearchParams` |
-| `TagPicker` | Combobox con filtrado y creación en línea |
-| `NotebookDialog`, `ConfirmDialog` | Estado de apertura y foco |
-| `LoginForm`, `RegisterForm` | `useActionState` para errores por campo y `useFormStatus` |
-| `Toaster` | Estado global de notificaciones |
-| `AiChatPanel`, `SummaryPanel` (fase 2) | Consumo de respuestas en streaming |
+| Componente                             | Por qué necesita cliente                                               |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| `NoteEditor`                           | Estado del textarea, autoguardado con debounce, atajos de teclado      |
+| `MarkdownPreview`                      | Se re-renderiza en cada pulsación mientras se escribe                  |
+| `SearchInput`                          | Debounce y actualización de la URL con `useRouter` + `useSearchParams` |
+| `TagPicker`                            | Combobox con filtrado y creación en línea                              |
+| `NotebookDialog`, `ConfirmDialog`      | Estado de apertura y foco                                              |
+| `LoginForm`, `RegisterForm`            | `useActionState` para errores por campo y `useFormStatus`              |
+| `Toaster`                              | Estado global de notificaciones                                        |
+| `AiChatPanel`, `SummaryPanel` (fase 2) | Consumo de respuestas en streaming                                     |
 
 Patrón: los client components reciben datos ya resueltos por props desde el
 servidor y reciben o importan las server actions. Ninguno hace `fetch` a la
@@ -1416,7 +1404,7 @@ Por qué argon2id y no bcrypt:
 
 - Es la primera recomendación de OWASP para contraseñas nuevas; bcrypt aparece
   como alternativa para sistemas que no pueden usarlo.
-- Es *memory-hard*: encarece los ataques con GPU de forma que bcrypt no
+- Es _memory-hard_: encarece los ataques con GPU de forma que bcrypt no
   consigue.
 - No tiene el límite de 72 bytes de bcrypt, que trunca contraseñas largas en
   silencio.
@@ -1463,17 +1451,17 @@ inyecta con `dangerouslySetInnerHTML` sin filtrar.
 Se validan al arrancar con Zod en `src/lib/env.ts`; si falta alguna, el
 proceso falla de inmediato en lugar de romper en la primera petición.
 
-| Variable | Fase | Descripción |
-|---|---|---|
-| `DATABASE_URL` | 1 | Cadena de conexión a PostgreSQL |
-| `AUTH_SECRET` | 1 | Clave de firma del JWT (32+ bytes aleatorios) |
-| `AUTH_URL` | 1 | URL base de la aplicación |
-| `AUTH_TRUST_HOST` | 1 | `true` tras un proxy inverso o en contenedor |
-| `ANTHROPIC_API_KEY` | 2 | Clave de la API de Claude |
-| `OPENAI_API_KEY` | 2 | Clave para embeddings |
-| `AI_SUMMARY_MODEL` | 2 | Modelo de resumen |
-| `AI_CHAT_MODEL` | 2 | Modelo de chat |
-| `AI_DAILY_TOKEN_BUDGET` | 2 | Cuota diaria por usuario |
+| Variable                | Fase | Descripción                                   |
+| ----------------------- | ---- | --------------------------------------------- |
+| `DATABASE_URL`          | 1    | Cadena de conexión a PostgreSQL               |
+| `AUTH_SECRET`           | 1    | Clave de firma del JWT (32+ bytes aleatorios) |
+| `AUTH_URL`              | 1    | URL base de la aplicación                     |
+| `AUTH_TRUST_HOST`       | 1    | `true` tras un proxy inverso o en contenedor  |
+| `ANTHROPIC_API_KEY`     | 2    | Clave de la API de Claude                     |
+| `OPENAI_API_KEY`        | 2    | Clave para embeddings                         |
+| `AI_SUMMARY_MODEL`      | 2    | Modelo de resumen                             |
+| `AI_CHAT_MODEL`         | 2    | Modelo de chat                                |
+| `AI_DAILY_TOKEN_BUDGET` | 2    | Cuota diaria por usuario                      |
 
 `src/lib/env.ts` importa `server-only` y exporta un objeto congelado. Ninguna
 variable de servidor lleva prefijo `NEXT_PUBLIC_`.
@@ -1496,14 +1484,14 @@ variable de servidor lleva prefijo `NEXT_PUBLIC_`.
 
 Entorno `jsdom`, setup en `tests/setup.ts`. Tests colocados junto al código.
 
-| Qué | Ejemplos |
-|---|---|
-| Esquemas Zod | Límites de longitud, normalización de email, coincidencia de contraseñas, coerción de `searchParams` |
-| Utilidades puras | `slug.ts` (acentos, colisiones), `excerpt.ts` (markdown a texto plano), `cn.ts` |
-| Hash de contraseñas | `hash` + `verify` de ida y vuelta, rechazo de contraseña incorrecta |
-| Mappers | Entidad Prisma → DTO, fechas serializadas a ISO |
-| Server actions | Con Prisma mockeado: forma de `ActionResult`, `VALIDATION_ERROR` con `fieldErrors`, `FORBIDDEN` cuando el recurso es de otro usuario, `CONFLICT` en slug duplicado |
-| Componentes (RTL) | `NoteEditor` (vista previa reacciona al escribir), `TagPicker` (filtrado y selección), `LoginForm` (pinta errores por campo) |
+| Qué                 | Ejemplos                                                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Esquemas Zod        | Límites de longitud, normalización de email, coincidencia de contraseñas, coerción de `searchParams`                                                               |
+| Utilidades puras    | `slug.ts` (acentos, colisiones), `excerpt.ts` (markdown a texto plano), `cn.ts`                                                                                    |
+| Hash de contraseñas | `hash` + `verify` de ida y vuelta, rechazo de contraseña incorrecta                                                                                                |
+| Mappers             | Entidad Prisma → DTO, fechas serializadas a ISO                                                                                                                    |
+| Server actions      | Con Prisma mockeado: forma de `ActionResult`, `VALIDATION_ERROR` con `fieldErrors`, `FORBIDDEN` cuando el recurso es de otro usuario, `CONFLICT` en slug duplicado |
+| Componentes (RTL)   | `NoteEditor` (vista previa reacciona al escribir), `TagPicker` (filtrado y selección), `LoginForm` (pinta errores por campo)                                       |
 
 Los Server Components no se testean con RTL: su lógica vive en las funciones de
 consulta, que se cubren aparte, y su render lo cubren los E2E.
@@ -1518,14 +1506,14 @@ Tests en `/e2e`, contra la aplicación construida y una base de datos dedicada
 sembrada por escenario. Chromium en CI; añadir navegadores es cuestión de
 configuración.
 
-| Escenario | Cubre |
-|---|---|
-| `auth.spec.ts` | Registro, logout, login, credenciales incorrectas, acceso a `/notes` sin sesión redirige a `/login` |
-| `notes-crud.spec.ts` | Crear, editar con vista previa, ver renderizado, enviar a papelera, restaurar, purgar |
-| `organize.spec.ts` | Crear cuaderno, mover nota, crear etiqueta, etiquetar, filtrar por etiqueta y por cuaderno |
-| `search.spec.ts` | Buscar por término del título y del cuerpo, resaltado, búsqueda sin resultados |
-| `isolation.spec.ts` | **El más importante**: el usuario B no ve las notas de A ni accede a `/notes/{id}` de A por URL directa |
-| `ai.spec.ts` (fase 2) | Resumen en streaming y chat con citas, con el proveedor simulado |
+| Escenario             | Cubre                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------------- |
+| `auth.spec.ts`        | Registro, logout, login, credenciales incorrectas, acceso a `/notes` sin sesión redirige a `/login`     |
+| `notes-crud.spec.ts`  | Crear, editar con vista previa, ver renderizado, enviar a papelera, restaurar, purgar                   |
+| `organize.spec.ts`    | Crear cuaderno, mover nota, crear etiqueta, etiquetar, filtrar por etiqueta y por cuaderno              |
+| `search.spec.ts`      | Buscar por término del título y del cuerpo, resaltado, búsqueda sin resultados                          |
+| `isolation.spec.ts`   | **El más importante**: el usuario B no ve las notas de A ni accede a `/notes/{id}` de A por URL directa |
+| `ai.spec.ts` (fase 2) | Resumen en streaming y chat con citas, con el proveedor simulado                                        |
 
 `isolation.spec.ts` es innegociable: es la única prueba que valida de extremo a
 extremo la garantía de la sección 10.
@@ -1538,28 +1526,28 @@ gratuita.
 
 ## 13. Decisiones de arquitectura y trade-offs
 
-| # | Decisión | Alternativa descartada | Razón |
-|---|---|---|---|
-| 1 | Server actions para escribir, funciones de consulta para leer | API REST completa bajo `/api` | Duplicar cada operación en un handler y un cliente HTTP no aporta nada cuando el único consumidor es la propia aplicación. Los route handlers quedan para lo que sí los necesita: streaming y health check |
-| 2 | `ActionResult` discriminado en vez de excepciones | `throw` capturado por `error.tsx` | Un error de validación no es excepcional: es flujo normal de un formulario. Lanzar obligaría a montar límites de error para pintar "el título es obligatorio" |
-| 3 | Cuadernos de un solo nivel | Jerarquía con `parent_id` | La recursión trae consultas con CTE, migas de pan, arrastrar y soltar entre niveles y ciclos que validar. Las etiquetas ya dan clasificación transversal, que es lo que la gente realmente usa |
-| 4 | Etiquetas por usuario, no globales | Etiquetas compartidas con tabla de unión a usuario | Una etiqueta global obliga a razonar sobre quién la renombra o borra. Por usuario, la autorización es un `where user_id` más y ya |
-| 5 | `tsvector` en columna generada | Búsqueda con `ILIKE '%q%'` | `ILIKE` no usa índice, no lematiza y no ordena por relevancia. La columna generada da todo eso a coste de una migración manual |
-| 6 | Diccionario `spanish` | `simple`, o detección de idioma por nota | `simple` no lematiza; detectar idioma por nota exige una columna de configuración y una columna generada por idioma. El contenido esperado es español |
-| 7 | Tabla `note_embedding` aparte | Columna `vector` en `note` | La fase 2 no toca ninguna tabla del MVP; los metadatos del vector no ensucian la nota; cambiar de modelo es borrar filas, no alterar tipos |
-| 8 | HNSW | IVFFlat | IVFFlat necesita entrenarse con datos ya cargados; la tabla empieza vacía. HNSW da mejor recall por latencia sin entrenamiento |
-| 9 | `text-embedding-3-small` a 1024 dimensiones | `voyage-3.5-lite`; embeddings locales | Céntimos por millón de tokens, reducción Matryoshka sin pérdida apreciable y sin sumar una tercera cuenta ni un modelo de 90 MB en el runtime |
-| 10 | Haiku para resumir, Sonnet para el chat RAG | Un solo modelo para todo | Resumir es mecánico y se beneficia de velocidad y precio; el chat debe razonar sobre varias fuentes y citar bien. Usar Sonnet para todo multiplica el coste sin mejorar el resumen |
-| 11 | Embeddings recalculados con `after()` | Cola de trabajos con Redis o cron | La latencia del guardado no depende de una API externa, y no hace falta infraestructura adicional. El backfill manual cubre los fallos |
-| 12 | argon2id vía `@node-rs/argon2` | `bcryptjs` | OWASP recomienda argon2id primero; bcryptjs interpretado es lento por las razones equivocadas |
-| 13 | Sesión JWT sin adaptador de base de datos | `@auth/prisma-adapter` + sesiones en tabla | El provider de credenciales no admite sesiones en base de datos, y cuatro tablas que nadie consulta contradicen las convenciones del esquema. Se acepta no poder revocar sesiones antes de que expiren |
-| 14 | Auth.js v5 en beta con versión fija | `next-auth@4` estable | La v4 está pensada para el Pages Router; usarla con App Router obliga a patrones heredados. La v5 declara soporte de Next 16 y es lo que documenta el proyecto oficial |
-| 15 | TypeScript 6.0.3 | TypeScript 7.0.2 (la `latest`) | `typescript-eslint@8.65.0` declara `<6.1.0`; fijar la 7 rompe el linter en CI |
-| 16 | Sin PWA ni modo offline | Service worker con caché de notas | Editar sin conexión exige cola de mutaciones y resolución de conflictos: es otro proyecto y no encaja con el alcance |
-| 17 | Markdown de lectura renderizado en servidor | Todo el markdown en cliente | La vista de lectura no necesita interactividad; renderizarla en servidor evita enviar el pipeline de remark/rehype en el bundle de cada página |
-| 18 | Borrado lógico con `active` en todas las tablas | `DELETE` físico | Es la convención del proyecto y habilita la papelera con restauración sin lógica extra. Coste: cada consulta debe filtrar por `active`, lo que se compensa incluyéndolo en los índices compuestos |
-| 19 | `excerpt` denormalizado en `note` | Truncar `content` al consultar | El listado no necesita traer notas de 100 KB para mostrar dos líneas. Se recalcula en cada guardado, que es el único momento en que puede cambiar |
-| 20 | Búsqueda dirigida por URL (`searchParams`) | Estado de cliente con fetch a una API | La búsqueda queda enlazable, compartible y con historial de navegación, y no hace falta gestión de estado en el cliente |
+| #   | Decisión                                                      | Alternativa descartada                             | Razón                                                                                                                                                                                                      |
+| --- | ------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Server actions para escribir, funciones de consulta para leer | API REST completa bajo `/api`                      | Duplicar cada operación en un handler y un cliente HTTP no aporta nada cuando el único consumidor es la propia aplicación. Los route handlers quedan para lo que sí los necesita: streaming y health check |
+| 2   | `ActionResult` discriminado en vez de excepciones             | `throw` capturado por `error.tsx`                  | Un error de validación no es excepcional: es flujo normal de un formulario. Lanzar obligaría a montar límites de error para pintar "el título es obligatorio"                                              |
+| 3   | Cuadernos de un solo nivel                                    | Jerarquía con `parent_id`                          | La recursión trae consultas con CTE, migas de pan, arrastrar y soltar entre niveles y ciclos que validar. Las etiquetas ya dan clasificación transversal, que es lo que la gente realmente usa             |
+| 4   | Etiquetas por usuario, no globales                            | Etiquetas compartidas con tabla de unión a usuario | Una etiqueta global obliga a razonar sobre quién la renombra o borra. Por usuario, la autorización es un `where user_id` más y ya                                                                          |
+| 5   | `tsvector` en columna generada                                | Búsqueda con `ILIKE '%q%'`                         | `ILIKE` no usa índice, no lematiza y no ordena por relevancia. La columna generada da todo eso a coste de una migración manual                                                                             |
+| 6   | Diccionario `spanish`                                         | `simple`, o detección de idioma por nota           | `simple` no lematiza; detectar idioma por nota exige una columna de configuración y una columna generada por idioma. El contenido esperado es español                                                      |
+| 7   | Tabla `note_embedding` aparte                                 | Columna `vector` en `note`                         | La fase 2 no toca ninguna tabla del MVP; los metadatos del vector no ensucian la nota; cambiar de modelo es borrar filas, no alterar tipos                                                                 |
+| 8   | HNSW                                                          | IVFFlat                                            | IVFFlat necesita entrenarse con datos ya cargados; la tabla empieza vacía. HNSW da mejor recall por latencia sin entrenamiento                                                                             |
+| 9   | `text-embedding-3-small` a 1024 dimensiones                   | `voyage-3.5-lite`; embeddings locales              | Céntimos por millón de tokens, reducción Matryoshka sin pérdida apreciable y sin sumar una tercera cuenta ni un modelo de 90 MB en el runtime                                                              |
+| 10  | Haiku para resumir, Sonnet para el chat RAG                   | Un solo modelo para todo                           | Resumir es mecánico y se beneficia de velocidad y precio; el chat debe razonar sobre varias fuentes y citar bien. Usar Sonnet para todo multiplica el coste sin mejorar el resumen                         |
+| 11  | Embeddings recalculados con `after()`                         | Cola de trabajos con Redis o cron                  | La latencia del guardado no depende de una API externa, y no hace falta infraestructura adicional. El backfill manual cubre los fallos                                                                     |
+| 12  | argon2id vía `@node-rs/argon2`                                | `bcryptjs`                                         | OWASP recomienda argon2id primero; bcryptjs interpretado es lento por las razones equivocadas                                                                                                              |
+| 13  | Sesión JWT sin adaptador de base de datos                     | `@auth/prisma-adapter` + sesiones en tabla         | El provider de credenciales no admite sesiones en base de datos, y cuatro tablas que nadie consulta contradicen las convenciones del esquema. Se acepta no poder revocar sesiones antes de que expiren     |
+| 14  | Auth.js v5 en beta con versión fija                           | `next-auth@4` estable                              | La v4 está pensada para el Pages Router; usarla con App Router obliga a patrones heredados. La v5 declara soporte de Next 16 y es lo que documenta el proyecto oficial                                     |
+| 15  | TypeScript 6.0.3                                              | TypeScript 7.0.2 (la `latest`)                     | `typescript-eslint@8.65.0` declara `<6.1.0`; fijar la 7 rompe el linter en CI                                                                                                                              |
+| 16  | Sin PWA ni modo offline                                       | Service worker con caché de notas                  | Editar sin conexión exige cola de mutaciones y resolución de conflictos: es otro proyecto y no encaja con el alcance                                                                                       |
+| 17  | Markdown de lectura renderizado en servidor                   | Todo el markdown en cliente                        | La vista de lectura no necesita interactividad; renderizarla en servidor evita enviar el pipeline de remark/rehype en el bundle de cada página                                                             |
+| 18  | Borrado lógico con `active` en todas las tablas               | `DELETE` físico                                    | Es la convención del proyecto y habilita la papelera con restauración sin lógica extra. Coste: cada consulta debe filtrar por `active`, lo que se compensa incluyéndolo en los índices compuestos          |
+| 19  | `excerpt` denormalizado en `note`                             | Truncar `content` al consultar                     | El listado no necesita traer notas de 100 KB para mostrar dos líneas. Se recalcula en cada guardado, que es el único momento en que puede cambiar                                                          |
+| 20  | Búsqueda dirigida por URL (`searchParams`)                    | Estado de cliente con fetch a una API              | La búsqueda queda enlazable, compartible y con historial de navegación, y no hace falta gestión de estado en el cliente                                                                                    |
 
 ### Deuda técnica aceptada
 

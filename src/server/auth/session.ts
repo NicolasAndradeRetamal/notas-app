@@ -1,3 +1,4 @@
+import 'server-only';
 import { auth } from '@/auth';
 import type { UserDTO } from '@/types/dto';
 

@@ -11,17 +11,23 @@ type SaveStatusProps = {
 };
 
 export function SaveStatus({ state, savedAt, onRetry }: SaveStatusProps) {
-  const savedLabel = savedAt ? (isToday(savedAt) ? `a las ${formatTime(savedAt)}` : formatDateTime(savedAt)) : '';
+  const savedLabel = savedAt
+    ? isToday(savedAt)
+      ? `a las ${formatTime(savedAt)}`
+      : formatDateTime(savedAt)
+    : '';
 
   return (
     <p aria-live="polite" className="flex items-center gap-1.5 text-[0.8125rem]">
-      {state === 'no-title' ? <span className="text-ink-subtle">Ponle un título para guardar</span> : null}
+      {state === 'no-title' ? (
+        <span className="text-ink-subtle">Ponle un título para guardar</span>
+      ) : null}
       {state === 'idle' && savedAt ? (
         <span className="text-ink-subtle">Guardado el {formatDateTime(savedAt)}</span>
       ) : null}
       {state === 'unsaved' ? (
         <>
-          <span className="h-2 w-2 rounded-full bg-warning" aria-hidden="true" />
+          <span className="bg-warning h-2 w-2 rounded-full" aria-hidden="true" />
           <span className="text-warning">Cambios sin guardar</span>
         </>
       ) : null}
@@ -33,16 +39,20 @@ export function SaveStatus({ state, savedAt, onRetry }: SaveStatusProps) {
       ) : null}
       {state === 'saved' ? (
         <>
-          <Check className="h-4 w-4 text-success" aria-hidden="true" />
+          <Check className="text-success h-4 w-4" aria-hidden="true" />
           <span className="text-success">Guardado {savedLabel}</span>
         </>
       ) : null}
       {state === 'error' ? (
         <>
-          <CircleAlert className="h-4 w-4 text-danger" aria-hidden="true" />
+          <CircleAlert className="text-danger h-4 w-4" aria-hidden="true" />
           <span className="text-danger">No se pudo guardar</span>
           {onRetry ? (
-            <button type="button" onClick={onRetry} className="font-medium text-primary hover:underline">
+            <button
+              type="button"
+              onClick={onRetry}
+              className="text-primary font-medium hover:underline"
+            >
               Reintentar
             </button>
           ) : null}

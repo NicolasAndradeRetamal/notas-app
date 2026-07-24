@@ -18,25 +18,28 @@ export function NoteCard({
 }) {
   const visibleTags = note.tags.slice(0, MAX_VISIBLE_TAGS);
   const extraTagsCount = note.tags.length - visibleTags.length;
-  const extraTagNames = note.tags.slice(MAX_VISIBLE_TAGS).map((t) => t.name).join(', ');
+  const extraTagNames = note.tags
+    .slice(MAX_VISIBLE_TAGS)
+    .map((t) => t.name)
+    .join(', ');
   const dateLabel = note.createdAt === note.updatedAt ? 'Creada el' : 'Editada el';
 
   return (
-    <div className="group relative min-h-40 rounded-lg border border-line bg-surface-raised p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-px hover:border-line-strong hover:shadow-sm">
+    <div className="group border-line bg-surface-raised hover:border-line-strong relative min-h-40 rounded-lg border p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-px hover:shadow-sm">
       <Link
         href={`/notes/${note.id}`}
-        className="absolute inset-0 rounded-lg focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+        className="focus-visible:outline-primary absolute inset-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <span className="sr-only">Abrir «{note.title}»</span>
       </Link>
       <div className="relative flex items-start justify-between gap-2">
-        <h3 className="line-clamp-2 text-base font-semibold text-ink">{note.title}</h3>
+        <h3 className="text-ink line-clamp-2 text-base font-semibold">{note.title}</h3>
         <div className="relative z-10">
           <NoteActionsMenu note={note} notebooks={notebooks} tags={tags} />
         </div>
       </div>
       {note.excerpt ? (
-        <p className="mt-2 line-clamp-2 text-sm text-ink-muted">{note.excerpt}</p>
+        <p className="text-ink-muted mt-2 line-clamp-2 text-sm">{note.excerpt}</p>
       ) : null}
       {note.notebook || visibleTags.length > 0 ? (
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
@@ -59,7 +62,7 @@ export function NoteCard({
           {extraTagsCount > 0 ? <Badge title={extraTagNames}>+{extraTagsCount}</Badge> : null}
         </div>
       ) : null}
-      <p className="mt-3 text-[0.8125rem] text-ink-subtle">
+      <p className="text-ink-subtle mt-3 text-[0.8125rem]">
         {dateLabel} {formatDateTime(note.updatedAt)}
       </p>
     </div>

@@ -34,7 +34,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       <SkipLink />
       <Topbar user={user} />
       <div className="mx-auto flex max-w-[96rem]">
-        <aside className="sticky top-14 z-20 hidden h-[calc(100dvh-3.5rem)] w-[272px] shrink-0 border-r border-line bg-surface-raised lg:top-16 lg:block lg:h-[calc(100dvh-4rem)]">
+        <aside className="border-line bg-surface-raised sticky top-14 z-20 hidden h-[calc(100dvh-3.5rem)] w-[272px] shrink-0 border-r lg:top-16 lg:block lg:h-[calc(100dvh-4rem)]">
           <Sidebar
             notesTotal={notes.total}
             trashTotal={trash.total}

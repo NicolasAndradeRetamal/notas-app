@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-export type BadgeVariant = 'neutral' | 'tag' | 'tag-active' | 'success' | 'danger' | 'warning' | 'info';
+export type BadgeVariant =
+  'neutral' | 'tag' | 'tag-active' | 'success' | 'danger' | 'warning' | 'info';
 
 const VARIANT_CLASSES: Record<BadgeVariant, string> = {
   neutral: 'bg-surface-sunken text-ink-muted',

@@ -1,3 +1,4 @@
+import 'server-only';
 import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth/session';
@@ -29,7 +30,11 @@ export async function getNotes(params: NoteListParams): Promise<PaginatedDTO<Not
     active: true,
     ...(notebookId ? { notebookId } : {}),
     ...(tagSlug
-      ? { noteTags: { some: { active: true, tag: { slug: tagSlug, userId: user.id, active: true } } } }
+      ? {
+          noteTags: {
+            some: { active: true, tag: { slug: tagSlug, userId: user.id, active: true } },
+          },
+        }
       : {}),
   };
 

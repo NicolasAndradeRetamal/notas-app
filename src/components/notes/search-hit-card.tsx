@@ -15,15 +15,15 @@ export function SearchHitCard({
   tags: TagDTO[];
 }) {
   return (
-    <div className="group relative rounded-lg border border-line bg-surface-raised p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-px hover:border-line-strong hover:shadow-sm">
+    <div className="group border-line bg-surface-raised hover:border-line-strong relative rounded-lg border p-4 transition-[border-color,box-shadow,transform] duration-150 hover:-translate-y-px hover:shadow-sm">
       <Link
         href={`/notes/${hit.id}`}
-        className="absolute inset-0 rounded-lg focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+        className="focus-visible:outline-primary absolute inset-0 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2"
       >
         <span className="sr-only">Abrir «{hit.title}»</span>
       </Link>
       <div className="relative flex items-start justify-between gap-2">
-        <h3 className="line-clamp-2 text-base font-semibold text-ink">{hit.title}</h3>
+        <h3 className="text-ink line-clamp-2 text-base font-semibold">{hit.title}</h3>
         <div className="relative z-10">
           <NoteActionsMenu note={hit} notebooks={notebooks} tags={tags} />
         </div>
@@ -31,11 +31,11 @@ export function SearchHitCard({
       {hit.highlight ? (
         // The DTO contract guarantees `highlight` arrives already sanitized by the server.
         <p
-          className="mt-2 line-clamp-2 text-sm text-ink-muted [&_b]:rounded-xs [&_b]:bg-highlight [&_b]:px-0.5 [&_b]:font-semibold [&_b]:text-ink [&_b]:not-italic"
+          className="text-ink-muted [&_b]:bg-highlight [&_b]:text-ink mt-2 line-clamp-2 text-sm [&_b]:rounded-xs [&_b]:px-0.5 [&_b]:font-semibold [&_b]:not-italic"
           dangerouslySetInnerHTML={{ __html: hit.highlight }}
         />
       ) : hit.excerpt ? (
-        <p className="mt-2 line-clamp-2 text-sm text-ink-muted">{hit.excerpt}</p>
+        <p className="text-ink-muted mt-2 line-clamp-2 text-sm">{hit.excerpt}</p>
       ) : null}
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {hit.notebook ? (
@@ -55,7 +55,9 @@ export function SearchHitCard({
           <TagBadge key={tag.id} name={tag.name} />
         ))}
       </div>
-      <p className="mt-3 text-[0.8125rem] text-ink-subtle">Editada el {formatDateTime(hit.updatedAt)}</p>
+      <p className="text-ink-subtle mt-3 text-[0.8125rem]">
+        Editada el {formatDateTime(hit.updatedAt)}
+      </p>
     </div>
   );
 }

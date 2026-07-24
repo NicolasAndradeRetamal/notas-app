@@ -1,3 +1,4 @@
+import 'server-only';
 import type { TagDTO } from '@/types/dto';
 
 export type TagEntity = { id: string; name: string; slug: string };

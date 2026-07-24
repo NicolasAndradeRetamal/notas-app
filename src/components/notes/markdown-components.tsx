@@ -9,9 +9,7 @@ export const markdownComponents: Components = {
   h4: (props) => <h5 {...props} />,
   h5: (props) => <h6 {...props} />,
   h6: (props) => <h6 {...props} />,
-  a: ({ href, ...props }) => (
-    <a href={href} target="_blank" rel="noopener noreferrer" {...props} />
-  ),
+  a: ({ href, ...props }) => <a href={href} target="_blank" rel="noopener noreferrer" {...props} />,
   table: (props) => (
     <div className="table-scroll">
       <table {...props} />

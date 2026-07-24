@@ -9,12 +9,12 @@ import { UserMenu } from './user-menu';
 
 export function Topbar({ user }: { user: UserDTO }) {
   return (
-    <header className="sticky top-0 z-30 h-14 border-b border-line bg-surface-raised lg:h-16">
+    <header className="border-line bg-surface-raised sticky top-0 z-30 h-14 border-b lg:h-16">
       <div className="flex h-full items-center gap-3 px-4 lg:px-8">
         <MobileMenuButton />
-        <Link href="/notes" className="flex shrink-0 items-center gap-1.5 font-semibold text-ink">
+        <Link href="/notes" className="text-ink flex shrink-0 items-center gap-1.5 font-semibold">
           notas
-          <span className="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true" />
+          <span className="bg-primary h-1.5 w-1.5 rounded-full" aria-hidden="true" />
         </Link>
         <div className="hidden max-w-md flex-1 md:block">
           <SearchInput />

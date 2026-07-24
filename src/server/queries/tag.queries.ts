@@ -1,3 +1,4 @@
+import 'server-only';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth/session';
 import { toTagDTO } from '@/server/mappers/tag.mapper';

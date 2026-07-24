@@ -70,9 +70,23 @@ export function NoteActionsMenu({
 
   const items: DropdownMenuItem[] = [
     ...(showOpen
-      ? ([{ type: 'link', key: 'open', href: `/notes/${note.id}`, label: 'Abrir', icon: <Eye aria-hidden="true" /> }] as const)
+      ? ([
+          {
+            type: 'link',
+            key: 'open',
+            href: `/notes/${note.id}`,
+            label: 'Abrir',
+            icon: <Eye aria-hidden="true" />,
+          },
+        ] as const)
       : []),
-    { type: 'link', key: 'edit', href: `/notes/${note.id}/edit`, label: 'Editar', icon: <Pencil aria-hidden="true" /> },
+    {
+      type: 'link',
+      key: 'edit',
+      href: `/notes/${note.id}/edit`,
+      label: 'Editar',
+      icon: <Pencil aria-hidden="true" />,
+    },
     {
       type: 'button',
       key: 'move',
@@ -122,7 +136,12 @@ export function NoteActionsMenu({
           </Button>
         }
       />
-      <MoveNoteDialog open={moveOpen} onClose={() => setMoveOpen(false)} note={note} notebooks={notebooks} />
+      <MoveNoteDialog
+        open={moveOpen}
+        onClose={() => setMoveOpen(false)}
+        note={note}
+        notebooks={notebooks}
+      />
       <NoteTagsDialog open={tagsOpen} onClose={() => setTagsOpen(false)} note={note} tags={tags} />
     </>
   );

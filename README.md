@@ -14,15 +14,15 @@ usando tus propias notas.
 
 ## Stack
 
-| Capa | Tecnología |
-|---|---|
-| Framework | [Next.js 16](https://nextjs.org) (App Router) + [React 19](https://react.dev) + TypeScript 6 |
-| Backend | Server Actions y Route Handlers del propio Next.js (sin API REST separada) |
-| Base de datos | PostgreSQL 18 con la extensión [pgvector](https://github.com/pgvector/pgvector), vía [Prisma 7](https://www.prisma.io) |
-| Auth | [Auth.js v5](https://authjs.dev) (`Credentials` + sesión JWT) |
-| Estilos | [Tailwind CSS 4](https://tailwindcss.com) (configuración CSS-first) |
-| Tests | [Vitest](https://vitest.dev) + React Testing Library (unidad) · [Playwright](https://playwright.dev) (extremo a extremo) |
-| Gestor de paquetes | [pnpm](https://pnpm.io) |
+| Capa               | Tecnología                                                                                                               |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| Framework          | [Next.js 16](https://nextjs.org) (App Router) + [React 19](https://react.dev) + TypeScript 6                             |
+| Backend            | Server Actions y Route Handlers del propio Next.js (sin API REST separada)                                               |
+| Base de datos      | PostgreSQL 18 con la extensión [pgvector](https://github.com/pgvector/pgvector), vía [Prisma 7](https://www.prisma.io)   |
+| Auth               | [Auth.js v5](https://authjs.dev) (`Credentials` + sesión JWT)                                                            |
+| Estilos            | [Tailwind CSS 4](https://tailwindcss.com) (configuración CSS-first)                                                      |
+| Tests              | [Vitest](https://vitest.dev) + React Testing Library (unidad) · [Playwright](https://playwright.dev) (extremo a extremo) |
+| Gestor de paquetes | [pnpm](https://pnpm.io)                                                                                                  |
 
 Versiones exactas de cada dependencia en [`package.json`](./package.json) y
 justificación de cada elección en [`ARCHITECTURE.md`](./ARCHITECTURE.md).
@@ -93,48 +93,55 @@ La aplicación queda disponible en <http://localhost:3000>.
 El seed (`pnpm db:seed`) crea un usuario con notas, cuadernos y etiquetas de
 ejemplo:
 
-| Campo | Valor |
-|---|---|
-| Email | `demo@notas.app` |
+| Campo      | Valor                 |
+| ---------- | --------------------- |
+| Email      | `demo@notas.app`      |
 | Contraseña | `contrasena-demo-123` |
 
 ## Scripts disponibles
 
-| Script | Qué hace |
-|---|---|
-| `pnpm dev` | Arranca la aplicación en modo desarrollo |
-| `pnpm build` | Genera el build de producción |
-| `pnpm start` | Sirve el build de producción ya generado |
-| `pnpm lint` | Analiza el código con ESLint |
-| `pnpm format` / `pnpm format:check` | Formatea con Prettier / verifica el formato sin escribir |
-| `pnpm typecheck` | Verifica los tipos con `tsc --noEmit`, sin emitir archivos |
-| `pnpm test` | Corre los tests unitarios con Vitest |
-| `pnpm test:watch` | Vitest en modo watch |
-| `pnpm test:coverage` | Tests unitarios con reporte de cobertura |
-| `pnpm e2e` | Corre los tests extremo a extremo con Playwright |
-| `pnpm db:generate` | Regenera el cliente de Prisma |
-| `pnpm db:migrate` | Crea y aplica migraciones en desarrollo |
-| `pnpm db:deploy` | Aplica migraciones ya existentes (uso en CI/producción) |
-| `pnpm db:seed` | Siembra datos de ejemplo, incluida la cuenta de demostración |
-| `pnpm db:studio` | Abre Prisma Studio para explorar la base de datos |
+| Script                              | Qué hace                                                     |
+| ----------------------------------- | ------------------------------------------------------------ |
+| `pnpm dev`                          | Arranca la aplicación en modo desarrollo                     |
+| `pnpm build`                        | Genera el build de producción                                |
+| `pnpm start`                        | Sirve el build de producción ya generado                     |
+| `pnpm lint`                         | Analiza el código con ESLint                                 |
+| `pnpm format` / `pnpm format:check` | Formatea con Prettier / verifica el formato sin escribir     |
+| `pnpm typecheck`                    | Verifica los tipos con `tsc --noEmit`, sin emitir archivos   |
+| `pnpm test`                         | Corre los tests unitarios con Vitest                         |
+| `pnpm test:watch`                   | Vitest en modo watch                                         |
+| `pnpm test:coverage`                | Tests unitarios con reporte de cobertura                     |
+| `pnpm e2e`                          | Corre los tests extremo a extremo con Playwright             |
+| `pnpm db:generate`                  | Regenera el cliente de Prisma                                |
+| `pnpm db:migrate`                   | Crea y aplica migraciones en desarrollo                      |
+| `pnpm db:deploy`                    | Aplica migraciones ya existentes (uso en CI/producción)      |
+| `pnpm db:seed`                      | Siembra datos de ejemplo, incluida la cuenta de demostración |
+| `pnpm db:studio`                    | Abre Prisma Studio para explorar la base de datos            |
 
 ## Tests
 
 ```bash
-# Tests unitarios (Vitest)
+# Tests unitarios y de componentes (Vitest + React Testing Library)
 pnpm test
 
 # Con reporte de cobertura
 pnpm test:coverage
+
+# Tests extremo a extremo (Playwright): construyen la app, la arrancan
+# y navegan sobre ella con Chromium. Requieren PostgreSQL disponible
+# (docker compose up -d) y las variables de entorno configuradas.
+pnpm e2e
 ```
 
-Los tests unitarios cubren la capa de servidor —validación, autorización,
-mapeo a DTO y utilidades— trabajando con Prisma mockeado, por lo que no
-requieren una base de datos real.
+Los tests unitarios y de componentes cubren la capa de servidor —validación,
+autorización, mapeo a DTO y utilidades— y los componentes con lógica real
+—formularios, editor markdown, saneamiento del contenido y diálogos—.
+Trabajan con Prisma mockeado, así que no requieren una base de datos.
 
-Playwright ya está configurado (`playwright.config.ts`, script `pnpm e2e`),
-pero los escenarios extremo a extremo y los tests de componentes están
-_pendientes_: hasta que se escriban, `pnpm e2e` no tiene nada que ejecutar.
+Los tests extremo a extremo sí la necesitan y recorren los flujos completos:
+registro, sesión, CRUD de notas, organización, búsqueda y papelera. El más
+importante es `e2e/isolation.spec.ts`, que crea dos usuarios y verifica que
+ninguno puede ver ni alcanzar por URL directa los recursos del otro.
 
 La integración continua (`.github/workflows/ci.yml`) ejecuta, en cada push y
 cada pull request: `typecheck`, `lint`, aplicación de migraciones contra un
@@ -178,10 +185,10 @@ entorno con backend, no solo hosting de archivos.
 
 ### Camino recomendado: Vercel + Neon
 
-| Pieza | Proveedor | Por qué |
-|---|---|---|
-| Aplicación | [Vercel](https://vercel.com) (plan Hobby, gratuito) | Soporte nativo de Next.js App Router, Server Actions y streaming (route handlers de IA en la fase 2); despliega directo desde el repositorio sin necesidad de una imagen Docker |
-| Base de datos | [Neon](https://neon.tech) (plan gratuito) | PostgreSQL serverless con la extensión `pgvector` disponible, que la fase 2 necesita; no exige tarjeta de crédito para el nivel gratuito |
+| Pieza         | Proveedor                                           | Por qué                                                                                                                                                                         |
+| ------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Aplicación    | [Vercel](https://vercel.com) (plan Hobby, gratuito) | Soporte nativo de Next.js App Router, Server Actions y streaming (route handlers de IA en la fase 2); despliega directo desde el repositorio sin necesidad de una imagen Docker |
+| Base de datos | [Neon](https://neon.tech) (plan gratuito)           | PostgreSQL serverless con la extensión `pgvector` disponible, que la fase 2 necesita; no exige tarjeta de crédito para el nivel gratuito                                        |
 
 Pasos:
 
@@ -194,6 +201,7 @@ Pasos:
 
 2. **Aplicar las migraciones contra Neon**
    Desde tu máquina, con `DATABASE_URL` apuntando temporalmente a Neon:
+
    ```bash
    DATABASE_URL="<cadena-de-conexion-de-neon>" pnpm db:deploy
    # Opcional: sembrar la cuenta de demostración en producción
@@ -209,12 +217,12 @@ Pasos:
 4. **Configurar las variables de entorno en Vercel** (Project Settings →
    Environment Variables):
 
-   | Variable | Valor |
-   |---|---|
-   | `DATABASE_URL` | La cadena de conexión de Neon |
-   | `AUTH_SECRET` | Generada con `openssl rand -base64 32` (una distinta de la de desarrollo) |
-   | `AUTH_TRUST_HOST` | `true` |
-   | `AUTH_URL` | La URL pública que asigna Vercel (opcional: Auth.js puede inferirla de la petición, pero fijarla es más predecible) |
+   | Variable          | Valor                                                                                                               |
+   | ----------------- | ------------------------------------------------------------------------------------------------------------------- |
+   | `DATABASE_URL`    | La cadena de conexión de Neon                                                                                       |
+   | `AUTH_SECRET`     | Generada con `openssl rand -base64 32` (una distinta de la de desarrollo)                                           |
+   | `AUTH_TRUST_HOST` | `true`                                                                                                              |
+   | `AUTH_URL`        | La URL pública que asigna Vercel (opcional: Auth.js puede inferirla de la petición, pero fijarla es más predecible) |
 
 5. **Desplegar.** Cada push a `main` genera un despliegue de producción; cada
    pull request recibe un despliegue de vista previa con su propia URL.

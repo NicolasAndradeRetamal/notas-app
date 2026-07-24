@@ -51,4 +51,5 @@ src/generated/
 # Internal working documents
 CLAUDE.md
 QA_REPORT.md
+REVIEW.md
 .claude/

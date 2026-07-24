@@ -119,13 +119,13 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
           role="menu"
           aria-label={label}
           className={cn(
-            'animate-rise-in absolute top-full z-50 mt-2 min-w-48 max-w-72 rounded-lg border border-line bg-surface-raised py-1 shadow-md',
+            'animate-rise-in border-line bg-surface-raised absolute top-full z-50 mt-2 max-w-72 min-w-48 rounded-lg border py-1 shadow-md',
             align === 'end' ? 'right-0' : 'left-0',
           )}
         >
           {items.map((item, index) => {
             if (item.type === 'separator') {
-              return <div key={item.key} role="separator" className="my-1 border-t border-line" />;
+              return <div key={item.key} role="separator" className="border-line my-1 border-t" />;
             }
             if (item.type === 'heading') {
               return (
@@ -182,7 +182,9 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
                     {item.icon}
                     {item.label}
                   </span>
-                  {item.checked ? <Check className="h-4 w-4 text-primary" aria-hidden="true" /> : null}
+                  {item.checked ? (
+                    <Check className="text-primary h-4 w-4" aria-hidden="true" />
+                  ) : null}
                 </button>
               );
             }

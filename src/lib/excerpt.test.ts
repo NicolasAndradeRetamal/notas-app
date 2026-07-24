@@ -3,7 +3,8 @@ import { deriveExcerpt } from '@/lib/excerpt';
 
 describe('deriveExcerpt', () => {
   it('strips markdown syntax down to plain text', () => {
-    const markdown = '# Título\n\nTexto con **negrita**, *cursiva* y [un enlace](https://example.com).';
+    const markdown =
+      '# Título\n\nTexto con **negrita**, *cursiva* y [un enlace](https://example.com).';
     expect(deriveExcerpt(markdown)).toBe('Título Texto con negrita, cursiva y un enlace.');
   });
 

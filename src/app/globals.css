@@ -23,11 +23,13 @@
 
 @theme {
   /* --- Typography --------------------------------------------------- */
-  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, sans-serif;
+  --font-sans:
+    var(--font-plex-sans), ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
   --font-serif: var(--font-plex-serif), ui-serif, Georgia, 'Times New Roman', serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas,
-    'Liberation Mono', monospace;
+  --font-mono:
+    var(--font-plex-mono), ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, 'Liberation Mono',
+    monospace;
 
   --text-2xs: 0.6875rem;
   --text-2xs--line-height: 0.875rem;
@@ -317,13 +319,30 @@
     margin: 1.5rem 0 0.5rem;
   }
 
+  /* Tailwind's preflight clears list markers; the note body needs them back. */
   .prose-note ul,
   .prose-note ol {
     padding-left: 1.5rem;
     margin-block: 1rem;
   }
+  .prose-note ul {
+    list-style-type: disc;
+  }
+  .prose-note ol {
+    list-style-type: decimal;
+  }
+  .prose-note ul ul {
+    list-style-type: circle;
+  }
+  .prose-note ul ul ul {
+    list-style-type: square;
+  }
   .prose-note li {
     margin-block: 0.375rem;
+  }
+  /* Task lists carry their own checkbox, so a bullet would be redundant. */
+  .prose-note li:has(> input[type='checkbox']) {
+    list-style-type: none;
   }
   .prose-note li::marker {
     color: var(--color-ink-subtle);

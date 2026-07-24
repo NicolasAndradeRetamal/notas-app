@@ -1,3 +1,4 @@
+import 'server-only';
 import { hash, verify } from '@node-rs/argon2';
 
 // OWASP-recommended argon2id parameters; the encoded hash carries them, so

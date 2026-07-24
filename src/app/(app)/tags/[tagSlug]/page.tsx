@@ -13,7 +13,11 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
   const { tagSlug } = await params;
   const rawParams = await searchParams;
 
-  const [tag, notebooks, tags] = await Promise.all([getTagBySlug(tagSlug), getNotebooks(), getTags()]);
+  const [tag, notebooks, tags] = await Promise.all([
+    getTagBySlug(tagSlug),
+    getNotebooks(),
+    getTags(),
+  ]);
 
   if (!tag) notFound();
 
@@ -26,7 +30,9 @@ export default async function TagPage({ params, searchParams }: TagPageProps) {
       notebooks={notebooks}
       tags={tags}
       heading={
-        <h1 className="text-2xl font-bold tracking-tight text-ink md:text-3xl">Etiqueta: #{tag.name}</h1>
+        <h1 className="text-ink text-2xl font-bold tracking-tight md:text-3xl">
+          Etiqueta: #{tag.name}
+        </h1>
       }
       emptyState={{ kind: 'tag-empty', tagName: tag.name }}
       hideTagChip

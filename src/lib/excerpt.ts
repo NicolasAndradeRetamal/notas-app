@@ -19,7 +19,8 @@ export function deriveExcerpt(markdown: string, maxLength = EXCERPT_MAX_LENGTH):
   if (!plainText) return null;
   if (plainText.length <= maxLength) return plainText;
 
-  const truncated = plainText.slice(0, maxLength);
+  // Reserve room for the ellipsis so the result never exceeds the column width.
+  const truncated = plainText.slice(0, maxLength - ELLIPSIS.length);
   const lastSpace = truncated.lastIndexOf(' ');
   const clipped = lastSpace > 0 ? truncated.slice(0, lastSpace) : truncated;
 

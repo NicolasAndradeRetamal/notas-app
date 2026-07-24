@@ -19,8 +19,15 @@ export function SidebarTagsGroup({ tags }: { tags: TagDTO[] }) {
   return (
     <div>
       <div className="flex items-center justify-between px-3">
-        <h2 className="text-xs font-semibold tracking-wider text-ink-subtle uppercase">Etiquetas</h2>
-        <Button variant="ghost" size="icon" onClick={() => setCreating(true)} aria-label="Crear etiqueta">
+        <h2 className="text-ink-subtle text-xs font-semibold tracking-wider uppercase">
+          Etiquetas
+        </h2>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setCreating(true)}
+          aria-label="Crear etiqueta"
+        >
           <Plus aria-hidden="true" />
         </Button>
       </div>
@@ -37,7 +44,7 @@ export function SidebarTagsGroup({ tags }: { tags: TagDTO[] }) {
             <button
               type="button"
               onClick={() => setExpanded(true)}
-              className="mt-1 flex h-10 w-full items-center rounded-md px-3 text-sm text-ink-muted hover:bg-surface-sunken hover:text-ink"
+              className="text-ink-muted hover:bg-surface-sunken hover:text-ink mt-1 flex h-10 w-full items-center rounded-md px-3 text-sm"
             >
               Ver todas ({tags.length})
             </button>
@@ -45,7 +52,7 @@ export function SidebarTagsGroup({ tags }: { tags: TagDTO[] }) {
         </div>
       ) : (
         <div className="px-3 py-2">
-          <p className="text-[0.8125rem] text-ink-subtle">Aún no tienes etiquetas</p>
+          <p className="text-ink-subtle text-[0.8125rem]">Aún no tienes etiquetas</p>
         </div>
       )}
       <TagDialog open={creating} onClose={() => setCreating(false)} />

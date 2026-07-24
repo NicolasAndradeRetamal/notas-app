@@ -34,17 +34,20 @@ export function SidebarNavLink({ href, children, count, icon, matchQuery }: Side
       className={cn(
         'relative flex h-10 items-center gap-3 rounded-md px-3 text-sm transition-colors duration-150',
         isActive
-          ? 'bg-primary-soft font-medium text-ink'
+          ? 'bg-primary-soft text-ink font-medium'
           : 'text-ink-muted hover:bg-surface-sunken hover:text-ink',
       )}
     >
       {isActive ? (
-        <span className="absolute inset-y-1 left-0 w-[3px] rounded-full bg-primary" aria-hidden="true" />
+        <span
+          className="bg-primary absolute inset-y-1 left-0 w-[3px] rounded-full"
+          aria-hidden="true"
+        />
       ) : null}
       {icon}
       <span className="min-w-0 flex-1 truncate">{children}</span>
       {count !== undefined ? (
-        <span className="text-meta tabular-nums text-ink-subtle">{count}</span>
+        <span className="text-meta text-ink-subtle tabular-nums">{count}</span>
       ) : null}
     </Link>
   );

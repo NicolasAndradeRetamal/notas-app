@@ -1,3 +1,4 @@
+import 'server-only';
 import type { NotebookDTO } from '@/types/dto';
 
 export type NotebookWithCount = {

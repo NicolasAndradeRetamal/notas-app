@@ -28,7 +28,12 @@ export function NotesFilterBar({
   hideNotebookChip,
   hideTagChip,
 }: NotesFilterBarProps) {
-  const chips: { key: string; label: string; removeLabel: string; query: Record<string, string> }[] = [];
+  const chips: {
+    key: string;
+    label: string;
+    removeLabel: string;
+    query: Record<string, string>;
+  }[] = [];
 
   if (params.q) {
     chips.push({
@@ -79,7 +84,7 @@ export function NotesFilterBar({
       {chips.length > 1 ? (
         <Link
           href={basePath}
-          className="text-ui inline-flex h-9 items-center rounded-md px-3 text-sm text-ink-muted hover:bg-surface-sunken hover:text-ink"
+          className="text-ui text-ink-muted hover:bg-surface-sunken hover:text-ink inline-flex h-9 items-center rounded-md px-3 text-sm"
         >
           Limpiar filtros
         </Link>

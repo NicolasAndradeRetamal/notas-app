@@ -32,13 +32,13 @@ export function Alert({ variant = 'info', title, children, onDismiss, className 
     <div
       role={variant === 'error' ? 'alert' : 'status'}
       className={cn(
-        'flex gap-3 rounded-md border border-line/40 border-l-[3px] p-4',
+        'border-line/40 flex gap-3 rounded-md border border-l-[3px] p-4',
         VARIANT_CLASSES[variant],
         className,
       )}
     >
       <Icon className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
-      <div className="flex-1 text-sm text-ink">
+      <div className="text-ink flex-1 text-sm">
         {title ? <p className="font-medium">{title}</p> : null}
         <div>{children}</div>
       </div>

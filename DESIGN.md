@@ -46,14 +46,14 @@ siempre, y ningún estado —vacío, cargando, error— queda sin comunicar.
 
 ### 1.2 Principios de diseño
 
-| Principio | Consecuencia concreta |
-|---|---|
-| **El contenido manda** | La superficie de la nota ocupa el mayor ancho posible; la interfaz que la rodea es de bajo contraste cromático y alto contraste tipográfico |
-| **Un solo acento** | El verde de marca solo aparece en acciones, foco, enlaces y el ítem de navegación activo. Si algo es verde, se puede pulsar o está seleccionado |
-| **El estado siempre se ve** | Cada mutación muestra progreso y resultado. El editor nunca deja dudas sobre si lo escrito está guardado |
-| **Nada ambiguo fuera de contexto** | Fechas siempre con año, horas con minutos, contadores con su unidad («12 notas»), filtros activos escritos en palabras |
-| **El color nunca va solo** | Todo estado semántico lleva icono y texto además de color |
-| **Modo oscuro de primera clase** | Se escriben notas de noche. El tema oscuro no es una inversión automática: tiene sus propios valores, verificados uno a uno |
+| Principio                          | Consecuencia concreta                                                                                                                           |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **El contenido manda**             | La superficie de la nota ocupa el mayor ancho posible; la interfaz que la rodea es de bajo contraste cromático y alto contraste tipográfico     |
+| **Un solo acento**                 | El verde de marca solo aparece en acciones, foco, enlaces y el ítem de navegación activo. Si algo es verde, se puede pulsar o está seleccionado |
+| **El estado siempre se ve**        | Cada mutación muestra progreso y resultado. El editor nunca deja dudas sobre si lo escrito está guardado                                        |
+| **Nada ambiguo fuera de contexto** | Fechas siempre con año, horas con minutos, contadores con su unidad («12 notas»), filtros activos escritos en palabras                          |
+| **El color nunca va solo**         | Todo estado semántico lleva icono y texto además de color                                                                                       |
+| **Modo oscuro de primera clase**   | Se escriben notas de noche. El tema oscuro no es una inversión automática: tiene sus propios valores, verificados uno a uno                     |
 
 ### 1.3 Qué evita deliberadamente
 
@@ -79,39 +79,39 @@ sin pareja**: la interfaz se pinta exclusivamente con estos tokens.
 
 #### Superficies y texto
 
-| Token | Uso | Claro | Oscuro |
-|---|---|---|---|
-| `surface` | Fondo de página y del área de contenido | `#faf7f2` | `#141312` |
-| `surface-raised` | Tarjetas, barra superior, sidebar, modal, menú, toast | `#ffffff` | `#1c1a19` |
-| `surface-sunken` | Fondo de input, bloque de código, esqueletos, fila alterna | `#f2ede5` | `#262322` |
-| `ink` | Texto principal, títulos | `#1c1917` | `#f5f1eb` |
-| `ink-muted` | Texto secundario, descripciones, iconos de apoyo | `#57534e` | `#b5aea7` |
-| `ink-subtle` | Metadatos: fechas, contadores, marcadores de lista, placeholder | `#6b645f` | `#9a938d` |
-| `line` | Divisores y bordes decorativos (tarjetas, separadores) | `#e5ded4` | `#332f2d` |
-| `line-strong` | Bordes funcionales: input, checkbox, botón secundario | `#8a8078` | `#7a736d` |
+| Token            | Uso                                                             | Claro     | Oscuro    |
+| ---------------- | --------------------------------------------------------------- | --------- | --------- |
+| `surface`        | Fondo de página y del área de contenido                         | `#faf7f2` | `#141312` |
+| `surface-raised` | Tarjetas, barra superior, sidebar, modal, menú, toast           | `#ffffff` | `#1c1a19` |
+| `surface-sunken` | Fondo de input, bloque de código, esqueletos, fila alterna      | `#f2ede5` | `#262322` |
+| `ink`            | Texto principal, títulos                                        | `#1c1917` | `#f5f1eb` |
+| `ink-muted`      | Texto secundario, descripciones, iconos de apoyo                | `#57534e` | `#b5aea7` |
+| `ink-subtle`     | Metadatos: fechas, contadores, marcadores de lista, placeholder | `#6b645f` | `#9a938d` |
+| `line`           | Divisores y bordes decorativos (tarjetas, separadores)          | `#e5ded4` | `#332f2d` |
+| `line-strong`    | Bordes funcionales: input, checkbox, botón secundario           | `#8a8078` | `#7a736d` |
 
 #### Marca y semánticos
 
-| Token | Uso | Claro | Oscuro |
-|---|---|---|---|
-| `primary` | Botón principal, enlaces, anillo de foco, ítem activo | `#0f766e` | `#2dd4bf` |
-| `primary-strong` | Hover y activo sobre elementos de marca | `#115e59` | `#5eead4` |
-| `primary-soft` | Fondo del ítem activo del sidebar, chips de marca | `#d5f0eb` | `#10302e` |
-| `on-primary` | Texto e iconos sobre `primary` | `#ffffff` | `#0b1f1d` |
-| `success` | Confirmaciones, guardado correcto | `#116b32` | `#4ade80` |
-| `success-soft` | Fondo de toast y alerta de éxito | `#e3f7e9` | `#0d2a18` |
-| `on-success` | Texto sobre `success` | `#ffffff` | `#0b1f1d` |
-| `danger` | Errores, borrar, campo inválido | `#b91c1c` | `#f87171` |
-| `danger-strong` | Hover de acción destructiva | `#991b1b` | `#fca5a5` |
-| `danger-soft` | Fondo de toast y alerta de error, halo de input inválido | `#fbe4e4` | `#341414` |
-| `on-danger` | Texto sobre `danger` | `#ffffff` | `#1f0b0b` |
-| `warning` | Avisos no bloqueantes (vaciar papelera, cuaderno con notas) | `#9a4a08` | `#fbbf24` |
-| `warning-soft` | Fondo de alerta de aviso | `#fbeed2` | `#33230a` |
-| `on-warning` | Texto sobre `warning` | `#ffffff` | `#1f1503` |
-| `info` | Mensajes informativos; en fase 2, funciones asistidas por IA | `#6d28d9` | `#c4b5fd` |
-| `info-soft` | Fondo de toast informativo y del panel del asistente | `#ede4fd` | `#241a3d` |
-| `on-info` | Texto sobre `info` | `#ffffff` | `#1a1033` |
-| `highlight` | Fondo del fragmento coincidente en resultados de búsqueda | `#fde68a` | `#4d3c0f` |
+| Token            | Uso                                                          | Claro     | Oscuro    |
+| ---------------- | ------------------------------------------------------------ | --------- | --------- |
+| `primary`        | Botón principal, enlaces, anillo de foco, ítem activo        | `#0f766e` | `#2dd4bf` |
+| `primary-strong` | Hover y activo sobre elementos de marca                      | `#115e59` | `#5eead4` |
+| `primary-soft`   | Fondo del ítem activo del sidebar, chips de marca            | `#d5f0eb` | `#10302e` |
+| `on-primary`     | Texto e iconos sobre `primary`                               | `#ffffff` | `#0b1f1d` |
+| `success`        | Confirmaciones, guardado correcto                            | `#116b32` | `#4ade80` |
+| `success-soft`   | Fondo de toast y alerta de éxito                             | `#e3f7e9` | `#0d2a18` |
+| `on-success`     | Texto sobre `success`                                        | `#ffffff` | `#0b1f1d` |
+| `danger`         | Errores, borrar, campo inválido                              | `#b91c1c` | `#f87171` |
+| `danger-strong`  | Hover de acción destructiva                                  | `#991b1b` | `#fca5a5` |
+| `danger-soft`    | Fondo de toast y alerta de error, halo de input inválido     | `#fbe4e4` | `#341414` |
+| `on-danger`      | Texto sobre `danger`                                         | `#ffffff` | `#1f0b0b` |
+| `warning`        | Avisos no bloqueantes (vaciar papelera, cuaderno con notas)  | `#9a4a08` | `#fbbf24` |
+| `warning-soft`   | Fondo de alerta de aviso                                     | `#fbeed2` | `#33230a` |
+| `on-warning`     | Texto sobre `warning`                                        | `#ffffff` | `#1f1503` |
+| `info`           | Mensajes informativos; en fase 2, funciones asistidas por IA | `#6d28d9` | `#c4b5fd` |
+| `info-soft`      | Fondo de toast informativo y del panel del asistente         | `#ede4fd` | `#241a3d` |
+| `on-info`        | Texto sobre `info`                                           | `#ffffff` | `#1a1033` |
+| `highlight`      | Fondo del fragmento coincidente en resultados de búsqueda    | `#fde68a` | `#4d3c0f` |
 
 ### 2.2 Reglas de uso del color
 
@@ -167,52 +167,52 @@ WCAG. No son estimaciones.
 
 ### 3.1 Texto sobre superficies (mínimo 4.5:1)
 
-| Combinación | Claro | Oscuro |
-|---|---|---|
-| `ink` sobre `surface` | **16.37:1** | **16.49:1** |
-| `ink` sobre `surface-raised` | **17.49:1** | **15.41:1** |
-| `ink` sobre `surface-sunken` | **15.01:1** | **13.87:1** |
-| `ink-muted` sobre `surface` | **7.14:1** | **7.36:1** ¹ |
-| `ink-muted` sobre `surface-raised` | **7.63:1** | **6.88:1** ¹ |
-| `ink-muted` sobre `surface-sunken` | **6.55:1** | **6.19:1** ¹ |
-| `ink-subtle` sobre `surface` | **5.44:1** | **6.13:1** |
-| `ink-subtle` sobre `surface-raised` | **5.81:1** | **5.72:1** |
-| `ink-subtle` sobre `surface-sunken` | **4.99:1** | **5.15:1** |
-| `primary` sobre `surface` | **5.12:1** | **9.97:1** |
-| `primary` sobre `surface-raised` | **5.47:1** | **9.31:1** |
-| `primary` sobre `surface-sunken` | **4.70:1** | **8.38:1** |
-| `primary-strong` sobre `surface-raised` | **7.58:1** | **11.72:1** |
-| `danger` sobre `surface` | **6.05:1** | **6.71:1** |
-| `danger` sobre `surface-raised` | **6.47:1** | **6.27:1** |
-| `success` sobre `surface` | **6.19:1** | **10.65:1** |
-| `warning` sobre `surface` | **5.85:1** | **11.12:1** |
-| `info` sobre `surface` | **6.65:1** | **10.05:1** |
+| Combinación                             | Claro       | Oscuro       |
+| --------------------------------------- | ----------- | ------------ |
+| `ink` sobre `surface`                   | **16.37:1** | **16.49:1**  |
+| `ink` sobre `surface-raised`            | **17.49:1** | **15.41:1**  |
+| `ink` sobre `surface-sunken`            | **15.01:1** | **13.87:1**  |
+| `ink-muted` sobre `surface`             | **7.14:1**  | **7.36:1** ¹ |
+| `ink-muted` sobre `surface-raised`      | **7.63:1**  | **6.88:1** ¹ |
+| `ink-muted` sobre `surface-sunken`      | **6.55:1**  | **6.19:1** ¹ |
+| `ink-subtle` sobre `surface`            | **5.44:1**  | **6.13:1**   |
+| `ink-subtle` sobre `surface-raised`     | **5.81:1**  | **5.72:1**   |
+| `ink-subtle` sobre `surface-sunken`     | **4.99:1**  | **5.15:1**   |
+| `primary` sobre `surface`               | **5.12:1**  | **9.97:1**   |
+| `primary` sobre `surface-raised`        | **5.47:1**  | **9.31:1**   |
+| `primary` sobre `surface-sunken`        | **4.70:1**  | **8.38:1**   |
+| `primary-strong` sobre `surface-raised` | **7.58:1**  | **11.72:1**  |
+| `danger` sobre `surface`                | **6.05:1**  | **6.71:1**   |
+| `danger` sobre `surface-raised`         | **6.47:1**  | **6.27:1**   |
+| `success` sobre `surface`               | **6.19:1**  | **10.65:1**  |
+| `warning` sobre `surface`               | **5.85:1**  | **11.12:1**  |
+| `info` sobre `surface`                  | **6.65:1**  | **10.05:1**  |
 
 ¹ Medido con `#a8a29e`; el valor final `#b5aea7` es más claro y por tanto de
 contraste superior sobre los mismos fondos.
 
 ### 3.2 Texto sobre fondos rellenos y suaves
 
-| Combinación | Claro | Oscuro |
-|---|---|---|
-| `on-primary` sobre `primary` | **5.47:1** | **9.19:1** |
-| `on-primary` sobre `primary-strong` (hover) | **7.58:1** | **11.72:1** ² |
-| `on-danger` sobre `danger` | **6.47:1** | **6.83:1** |
-| `on-success` sobre `success` | **6.62:1** | **9.81:1** |
-| `on-warning` sobre `warning` | **6.26:1** | **10.78:1** |
-| `on-info` sobre `info` | **7.10:1** | **9.76:1** |
-| `ink` sobre `primary-soft` | **14.57:1** | **12.57:1** |
-| `ink-subtle` sobre `primary-soft` | **4.84:1** | **4.67:1** |
-| `primary` sobre `primary-soft` | **4.56:1** | **7.60:1** |
-| `ink` sobre `success-soft` | **15.17:1** | **13.71:1** |
-| `success` sobre `success-soft` | **5.91:1** | **8.85:1** |
-| `ink` sobre `danger-soft` | **14.42:1** | **14.86:1** |
-| `danger` sobre `danger-soft` | **5.34:1** | **6.04:1** |
-| `ink` sobre `warning-soft` | **15.21:1** | **13.47:1** |
-| `warning` sobre `warning-soft` | **5.44:1** | **9.08:1** |
-| `ink` sobre `info-soft` | **14.25:1** | **14.47:1** |
-| `info` sobre `info-soft` | **5.79:1** | **8.82:1** |
-| `ink` sobre `highlight` | **14.04:1** | **9.48:1** ³ |
+| Combinación                                 | Claro       | Oscuro        |
+| ------------------------------------------- | ----------- | ------------- |
+| `on-primary` sobre `primary`                | **5.47:1**  | **9.19:1**    |
+| `on-primary` sobre `primary-strong` (hover) | **7.58:1**  | **11.72:1** ² |
+| `on-danger` sobre `danger`                  | **6.47:1**  | **6.83:1**    |
+| `on-success` sobre `success`                | **6.62:1**  | **9.81:1**    |
+| `on-warning` sobre `warning`                | **6.26:1**  | **10.78:1**   |
+| `on-info` sobre `info`                      | **7.10:1**  | **9.76:1**    |
+| `ink` sobre `primary-soft`                  | **14.57:1** | **12.57:1**   |
+| `ink-subtle` sobre `primary-soft`           | **4.84:1**  | **4.67:1**    |
+| `primary` sobre `primary-soft`              | **4.56:1**  | **7.60:1**    |
+| `ink` sobre `success-soft`                  | **15.17:1** | **13.71:1**   |
+| `success` sobre `success-soft`              | **5.91:1**  | **8.85:1**    |
+| `ink` sobre `danger-soft`                   | **14.42:1** | **14.86:1**   |
+| `danger` sobre `danger-soft`                | **5.34:1**  | **6.04:1**    |
+| `ink` sobre `warning-soft`                  | **15.21:1** | **13.47:1**   |
+| `warning` sobre `warning-soft`              | **5.44:1**  | **9.08:1**    |
+| `ink` sobre `info-soft`                     | **14.25:1** | **14.47:1**   |
+| `info` sobre `info-soft`                    | **5.79:1**  | **8.82:1**    |
+| `ink` sobre `highlight`                     | **14.04:1** | **9.48:1** ³  |
 
 ² Medido `on-primary` claro `#ffffff` sobre `primary-strong`; en oscuro el
 `on-primary` es `#0b1f1d` sobre `primary-strong` `#5eead4`.
@@ -232,11 +232,11 @@ revierta por gusto estético:
 
 ### 3.3 Elementos de interfaz y bordes (mínimo 3:1)
 
-| Combinación | Claro | Oscuro |
-|---|---|---|
-| `line-strong` sobre `surface` | **3.61:1** | **3.98:1** |
-| `line-strong` sobre `surface-raised` | **3.86:1** | **3.72:1** |
-| `line-strong` sobre `surface-sunken` | **3.31:1** | **3.34:1** |
+| Combinación                                | Claro      | Oscuro     |
+| ------------------------------------------ | ---------- | ---------- |
+| `line-strong` sobre `surface`              | **3.61:1** | **3.98:1** |
+| `line-strong` sobre `surface-raised`       | **3.86:1** | **3.72:1** |
+| `line-strong` sobre `surface-sunken`       | **3.31:1** | **3.34:1** |
 | Anillo de foco (`primary`) sobre `surface` | **5.12:1** | **9.97:1** |
 | Texto deshabilitado sobre `surface-sunken` | **3.31:1** | **3.34:1** |
 
@@ -262,16 +262,16 @@ separación y jerarquía. El borde de todo control con el que se interactúa
 
 ### 3.5 Teclado
 
-| Contexto | Comportamiento |
-|---|---|
-| Global | «Saltar al contenido» como primer elemento enfocable del documento, visible solo con foco, ancla a `#main` |
-| Orden de tabulación | Estrictamente el orden del DOM; no se usa `tabindex` positivo |
-| Modal / diálogo | Foco atrapado dentro; al abrir enfoca el primer control (o el botón de cancelar en confirmaciones destructivas); `Esc` cierra; al cerrar devuelve el foco al disparador |
-| Cajón lateral (móvil) | Mismo contrato que el modal |
-| Menú desplegable | `↑` `↓` mueven, `Inicio`/`Fin` saltan a los extremos, `Esc` cierra y devuelve el foco, `Enter`/`Espacio` activan; patrón `menu`/`menuitem` de ARIA |
-| Selector de etiquetas | Patrón `combobox` de ARIA: `↓` abre y recorre, `Enter` selecciona o crea, `Retroceso` con campo vacío elimina la última etiqueta, `Esc` cierra la lista |
-| Editor | `Ctrl/Cmd + S` fuerza guardado inmediato, `Ctrl/Cmd + Enter` guarda y va a la vista de lectura, `Tab` dentro del textarea inserta dos espacios y `Esc` devuelve el `Tab` a su función de navegación (para no atrapar al usuario de teclado) |
-| Lista de notas | Las tarjetas son enlaces reales; las acciones secundarias viven en un menú con su propio botón, nunca en un `onClick` sobre el contenedor |
+| Contexto              | Comportamiento                                                                                                                                                                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Global                | «Saltar al contenido» como primer elemento enfocable del documento, visible solo con foco, ancla a `#main`                                                                                                                                  |
+| Orden de tabulación   | Estrictamente el orden del DOM; no se usa `tabindex` positivo                                                                                                                                                                               |
+| Modal / diálogo       | Foco atrapado dentro; al abrir enfoca el primer control (o el botón de cancelar en confirmaciones destructivas); `Esc` cierra; al cerrar devuelve el foco al disparador                                                                     |
+| Cajón lateral (móvil) | Mismo contrato que el modal                                                                                                                                                                                                                 |
+| Menú desplegable      | `↑` `↓` mueven, `Inicio`/`Fin` saltan a los extremos, `Esc` cierra y devuelve el foco, `Enter`/`Espacio` activan; patrón `menu`/`menuitem` de ARIA                                                                                          |
+| Selector de etiquetas | Patrón `combobox` de ARIA: `↓` abre y recorre, `Enter` selecciona o crea, `Retroceso` con campo vacío elimina la última etiqueta, `Esc` cierra la lista                                                                                     |
+| Editor                | `Ctrl/Cmd + S` fuerza guardado inmediato, `Ctrl/Cmd + Enter` guarda y va a la vista de lectura, `Tab` dentro del textarea inserta dos espacios y `Esc` devuelve el `Tab` a su función de navegación (para no atrapar al usuario de teclado) |
+| Lista de notas        | Las tarjetas son enlaces reales; las acciones secundarias viven en un menú con su propio botón, nunca en un `onClick` sobre el contenedor                                                                                                   |
 
 ### 3.6 Jerarquía de encabezados y semántica
 
@@ -283,7 +283,7 @@ separación y jerarquía. El borde de todo control con el que se interactúa
   de la página, que es el título de la nota. Así el documento nunca tiene dos
   `h1` ni salta niveles por culpa del contenido.
 - Regiones: `<header>` (barra superior), `<nav aria-label="Cuadernos y
-  etiquetas">` (sidebar), `<main id="main">`, `<aside>` (panel del asistente,
+etiquetas">` (sidebar), `<main id="main">`, `<aside>` (panel del asistente,
   fase 2).
 - Listas de notas en `<ul>`/`<li>`; los contadores se anuncian con texto real,
   no con `::before`.
@@ -311,11 +311,11 @@ pulsable a 44 px con un pseudoelemento transparente; están anotadas una a una e
 Se usa la superfamilia **IBM Plex** (Google Fonts, licencia OFL), que aporta las
 tres voces que la aplicación necesita con métricas y diseño coherentes entre sí:
 
-| Familia | Rol | Pesos cargados |
-|---|---|---|
-| **IBM Plex Sans** | Toda la interfaz: navegación, botones, formularios, metadatos, y los **encabezados** del markdown renderizado | 400, 500, 600, 700 |
-| **IBM Plex Serif** | **Cuerpo del markdown renderizado**: párrafos, listas, citas | 400, 600, y 400 itálica |
-| **IBM Plex Mono** | Código en línea y en bloque, y el **textarea del editor** (fuente markdown) | 400, 500 |
+| Familia            | Rol                                                                                                           | Pesos cargados          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| **IBM Plex Sans**  | Toda la interfaz: navegación, botones, formularios, metadatos, y los **encabezados** del markdown renderizado | 400, 500, 600, 700      |
+| **IBM Plex Serif** | **Cuerpo del markdown renderizado**: párrafos, listas, citas                                                  | 400, 600, y 400 itálica |
+| **IBM Plex Mono**  | Código en línea y en bloque, y el **textarea del editor** (fuente markdown)                                   | 400, 500                |
 
 Por qué esta separación:
 
@@ -343,19 +343,19 @@ declarados en los tokens (§5) para que el salto de fuente sea mínimo:
 
 ### 4.2 Escala de la interfaz
 
-| Rol | Tamaño / interlineado | Peso | Clases Tailwind |
-|---|---|---|---|
-| Título de vista (`h1`) | 24 px / 32 px | 700 | `text-2xl font-bold tracking-tight` |
-| Título de vista, ≥ `md` | 30 px / 36 px | 700 | `md:text-3xl` |
-| Encabezado de sección (`h2`) | 18 px / 28 px | 600 | `text-lg font-semibold` |
-| Título de tarjeta de nota (`h3`) | 16 px / 24 px | 600 | `text-base font-semibold` |
-| Etiqueta de grupo del sidebar | 12 px / 16 px, `+0.06em` | 600 | `text-xs font-semibold uppercase tracking-wider text-ink-subtle` |
-| Cuerpo de interfaz | 15 px / 24 px | 400 | `text-[0.9375rem] leading-6` |
-| Cuerpo compacto (listas, celdas) | 14 px / 20 px | 400 | `text-sm` |
-| Etiqueta de campo | 14 px / 20 px | 500 | `text-sm font-medium` |
-| Texto de ayuda y metadatos | 13 px / 18 px | 400 | `text-[0.8125rem] text-ink-subtle` |
-| Texto de botón | 15 px / 20 px (14 px en tamaño `sm`) | 500 | `text-[0.9375rem] font-medium` |
-| Badge / etiqueta | 12 px / 16 px | 500 | `text-xs font-medium` |
+| Rol                              | Tamaño / interlineado                | Peso | Clases Tailwind                                                  |
+| -------------------------------- | ------------------------------------ | ---- | ---------------------------------------------------------------- |
+| Título de vista (`h1`)           | 24 px / 32 px                        | 700  | `text-2xl font-bold tracking-tight`                              |
+| Título de vista, ≥ `md`          | 30 px / 36 px                        | 700  | `md:text-3xl`                                                    |
+| Encabezado de sección (`h2`)     | 18 px / 28 px                        | 600  | `text-lg font-semibold`                                          |
+| Título de tarjeta de nota (`h3`) | 16 px / 24 px                        | 600  | `text-base font-semibold`                                        |
+| Etiqueta de grupo del sidebar    | 12 px / 16 px, `+0.06em`             | 600  | `text-xs font-semibold uppercase tracking-wider text-ink-subtle` |
+| Cuerpo de interfaz               | 15 px / 24 px                        | 400  | `text-[0.9375rem] leading-6`                                     |
+| Cuerpo compacto (listas, celdas) | 14 px / 20 px                        | 400  | `text-sm`                                                        |
+| Etiqueta de campo                | 14 px / 20 px                        | 500  | `text-sm font-medium`                                            |
+| Texto de ayuda y metadatos       | 13 px / 18 px                        | 400  | `text-[0.8125rem] text-ink-subtle`                               |
+| Texto de botón                   | 15 px / 20 px (14 px en tamaño `sm`) | 500  | `text-[0.9375rem] font-medium`                                   |
+| Badge / etiqueta                 | 12 px / 16 px                        | 500  | `text-xs font-medium`                                            |
 
 Reglas transversales: `tracking-tight` (−0.01em) solo en tamaños ≥ 24 px;
 `tabular-nums` en contadores y horas para que no bailen al actualizarse;
@@ -367,24 +367,24 @@ Reglas transversales: `tracking-tight` (−0.01em) solo en tamaños ≥ 24 px;
 Contexto tipográfico propio, con su propio ritmo vertical. Medida de lectura
 máxima: **68 caracteres** (`max-width: 68ch`).
 
-| Elemento | Familia | Tamaño / interlineado | Peso | Espaciado |
-|---|---|---|---|---|
-| `p` | Serif | 17 px / 1.75 | 400 | `margin-block: 1rem` |
-| `h1` (del contenido) | Sans | 28 px / 1.25 | 600 | `2.5rem` arriba, `0.75rem` abajo |
-| `h2` | Sans | 22 px / 1.3 | 600 | `2rem` / `0.625rem` |
-| `h3` | Sans | 18 px / 1.4 | 600 | `1.75rem` / `0.5rem` |
-| `h4`–`h6` | Sans | 16 px / 1.5 | 600 | `1.5rem` / `0.5rem` |
-| `ul` / `ol` | Serif | hereda | 400 | `padding-left: 1.5rem`, ítems separados `0.375rem`, marcadores en `ink-subtle` |
-| `li > p` anidado | Serif | hereda | 400 | márgenes reducidos a `0.375rem` |
-| `blockquote` | Serif itálica | hereda | 400 | borde izquierdo 3 px `line-strong`, `padding-left: 1rem`, texto `ink-muted` |
-| `code` en línea | Mono | 0.875em / 1.4 | 400 | fondo `surface-sunken`, `padding: 0.125rem 0.375rem`, radio `xs` |
-| `pre > code` | Mono | 14 px / 1.6 | 400 | fondo `surface-sunken`, borde `line`, radio `md`, `padding: 1rem`, `overflow-x: auto` |
-| `table` | Sans | 14 px / 1.5 | 400 (cabecera 600) | ancho completo, cabecera con fondo `surface-sunken`, celdas `0.5rem 0.75rem`, borde `line` |
-| `a` | hereda | hereda | 500 | color `primary`, subrayado con `underline-offset: 2px`; hover `primary-strong` |
-| `hr` | — | — | — | borde `line`, `margin-block: 2rem` |
-| `img` | — | — | — | ancho máximo 100 %, radio `md`, borde `line` |
-| `input[type=checkbox]` (GFM) | — | 16 px | — | deshabilitado, `margin-right: 0.5rem`, alineado con la primera línea |
-| `mark` | hereda | hereda | 600 | fondo `highlight`, texto `ink`, `padding: 0 0.125rem`, radio `xs` |
+| Elemento                     | Familia       | Tamaño / interlineado | Peso               | Espaciado                                                                                  |
+| ---------------------------- | ------------- | --------------------- | ------------------ | ------------------------------------------------------------------------------------------ |
+| `p`                          | Serif         | 17 px / 1.75          | 400                | `margin-block: 1rem`                                                                       |
+| `h1` (del contenido)         | Sans          | 28 px / 1.25          | 600                | `2.5rem` arriba, `0.75rem` abajo                                                           |
+| `h2`                         | Sans          | 22 px / 1.3           | 600                | `2rem` / `0.625rem`                                                                        |
+| `h3`                         | Sans          | 18 px / 1.4           | 600                | `1.75rem` / `0.5rem`                                                                       |
+| `h4`–`h6`                    | Sans          | 16 px / 1.5           | 600                | `1.5rem` / `0.5rem`                                                                        |
+| `ul` / `ol`                  | Serif         | hereda                | 400                | `padding-left: 1.5rem`, ítems separados `0.375rem`, marcadores en `ink-subtle`             |
+| `li > p` anidado             | Serif         | hereda                | 400                | márgenes reducidos a `0.375rem`                                                            |
+| `blockquote`                 | Serif itálica | hereda                | 400                | borde izquierdo 3 px `line-strong`, `padding-left: 1rem`, texto `ink-muted`                |
+| `code` en línea              | Mono          | 0.875em / 1.4         | 400                | fondo `surface-sunken`, `padding: 0.125rem 0.375rem`, radio `xs`                           |
+| `pre > code`                 | Mono          | 14 px / 1.6           | 400                | fondo `surface-sunken`, borde `line`, radio `md`, `padding: 1rem`, `overflow-x: auto`      |
+| `table`                      | Sans          | 14 px / 1.5           | 400 (cabecera 600) | ancho completo, cabecera con fondo `surface-sunken`, celdas `0.5rem 0.75rem`, borde `line` |
+| `a`                          | hereda        | hereda                | 500                | color `primary`, subrayado con `underline-offset: 2px`; hover `primary-strong`             |
+| `hr`                         | —             | —                     | —                  | borde `line`, `margin-block: 2rem`                                                         |
+| `img`                        | —             | —                     | —                  | ancho máximo 100 %, radio `md`, borde `line`                                               |
+| `input[type=checkbox]` (GFM) | —             | 16 px                 | —                  | deshabilitado, `margin-right: 0.5rem`, alineado con la primera línea                       |
+| `mark`                       | hereda        | hereda                | 600                | fondo `highlight`, texto `ink`, `padding: 0 0.125rem`, radio `xs`                          |
 
 El primer elemento del bloque no lleva margen superior y el último no lleva
 margen inferior, para que el contenedor controle el espaciado exterior.
@@ -398,7 +398,7 @@ Todo lo siguiente va en `src/app/globals.css`. Este bloque es la fuente de
 verdad del sistema visual.
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
    Esquema de color
@@ -410,11 +410,11 @@ verdad del sistema visual.
   color-scheme: light dark;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   color-scheme: light;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   color-scheme: dark;
 }
 
@@ -424,20 +424,21 @@ verdad del sistema visual.
 
 @theme {
   /* --- Tipografía ------------------------------------------------------ */
-  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, "Segoe UI",
-    Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-plex-serif), ui-serif, Georgia, "Times New Roman",
-    serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, "SF Mono", "Cascadia Mono",
-    Consolas, "Liberation Mono", monospace;
+  --font-sans:
+    var(--font-plex-sans), ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-serif: var(--font-plex-serif), ui-serif, Georgia, 'Times New Roman', serif;
+  --font-mono:
+    var(--font-plex-mono), ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, 'Liberation Mono',
+    monospace;
 
-  --text-2xs: 0.6875rem;      /* 11px: solo contadores dentro de badges */
+  --text-2xs: 0.6875rem; /* 11px: solo contadores dentro de badges */
   --text-2xs--line-height: 0.875rem;
-  --text-meta: 0.8125rem;     /* 13px: metadatos y ayuda */
+  --text-meta: 0.8125rem; /* 13px: metadatos y ayuda */
   --text-meta--line-height: 1.125rem;
-  --text-ui: 0.9375rem;       /* 15px: cuerpo de la interfaz */
+  --text-ui: 0.9375rem; /* 15px: cuerpo de la interfaz */
   --text-ui--line-height: 1.5rem;
-  --text-prose: 1.0625rem;    /* 17px: cuerpo del markdown */
+  --text-prose: 1.0625rem; /* 17px: cuerpo del markdown */
   --text-prose--line-height: 1.75;
 
   /* --- Color: superficies y texto -------------------------------------- */
@@ -482,23 +483,26 @@ verdad del sistema visual.
   --color-scrim: light-dark(rgb(28 25 23 / 0.45), rgb(0 0 0 / 0.65));
 
   /* --- Espaciado -------------------------------------------------------- */
-  --spacing: 0.25rem;         /* base de 4px: p-2 = 8px, gap-6 = 24px */
+  --spacing: 0.25rem; /* base de 4px: p-2 = 8px, gap-6 = 24px */
 
   /* --- Radios ----------------------------------------------------------- */
-  --radius-xs: 0.25rem;       /* 4px  · code en línea, puntos, chips diminutos */
-  --radius-sm: 0.375rem;      /* 6px  · badge, checkbox */
-  --radius-md: 0.5rem;        /* 8px  · botón, input, select */
-  --radius-lg: 0.75rem;       /* 12px · tarjeta, menú, toast */
-  --radius-xl: 1rem;          /* 16px · modal, panel */
-  --radius-2xl: 1.5rem;       /* 24px · ilustración de estado vacío */
+  --radius-xs: 0.25rem; /* 4px  · code en línea, puntos, chips diminutos */
+  --radius-sm: 0.375rem; /* 6px  · badge, checkbox */
+  --radius-md: 0.5rem; /* 8px  · botón, input, select */
+  --radius-lg: 0.75rem; /* 12px · tarjeta, menú, toast */
+  --radius-xl: 1rem; /* 16px · modal, panel */
+  --radius-2xl: 1.5rem; /* 24px · ilustración de estado vacío */
 
   /* --- Sombras (tintadas en cálido; en oscuro casi solo profundidad) ---- */
   --shadow-xs: 0 1px 2px light-dark(rgb(28 25 23 / 0.06), rgb(0 0 0 / 0.5));
-  --shadow-sm: 0 1px 3px light-dark(rgb(28 25 23 / 0.08), rgb(0 0 0 / 0.55)),
+  --shadow-sm:
+    0 1px 3px light-dark(rgb(28 25 23 / 0.08), rgb(0 0 0 / 0.55)),
     0 1px 2px -1px light-dark(rgb(28 25 23 / 0.06), rgb(0 0 0 / 0.4));
-  --shadow-md: 0 4px 12px -2px light-dark(rgb(28 25 23 / 0.10), rgb(0 0 0 / 0.6)),
+  --shadow-md:
+    0 4px 12px -2px light-dark(rgb(28 25 23 / 0.1), rgb(0 0 0 / 0.6)),
     0 2px 4px -2px light-dark(rgb(28 25 23 / 0.06), rgb(0 0 0 / 0.4));
-  --shadow-lg: 0 12px 28px -6px light-dark(rgb(28 25 23 / 0.16), rgb(0 0 0 / 0.7)),
+  --shadow-lg:
+    0 12px 28px -6px light-dark(rgb(28 25 23 / 0.16), rgb(0 0 0 / 0.7)),
     0 4px 8px -4px light-dark(rgb(28 25 23 / 0.08), rgb(0 0 0 / 0.5));
 
   /* --- Movimiento ------------------------------------------------------- */
@@ -506,25 +510,25 @@ verdad del sistema visual.
   --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
   --ease-in-soft: cubic-bezier(0.32, 0, 0.67, 0);
 
-  --duration-instant: 100ms;  /* cambio de color en hover de texto */
-  --duration-fast: 150ms;     /* hover y activo de controles */
-  --duration-normal: 200ms;   /* aparición de menús, toasts, tooltips */
-  --duration-slow: 250ms;     /* modales y paneles */
-  --duration-drawer: 300ms;   /* cajón lateral en móvil */
+  --duration-instant: 100ms; /* cambio de color en hover de texto */
+  --duration-fast: 150ms; /* hover y activo de controles */
+  --duration-normal: 200ms; /* aparición de menús, toasts, tooltips */
+  --duration-slow: 250ms; /* modales y paneles */
+  --duration-drawer: 300ms; /* cajón lateral en móvil */
 
   /* --- Breakpoints (los de Tailwind, explicitados) ---------------------- */
-  --breakpoint-sm: 40rem;     /* 640px */
-  --breakpoint-md: 48rem;     /* 768px */
-  --breakpoint-lg: 64rem;     /* 1024px */
-  --breakpoint-xl: 80rem;     /* 1280px */
-  --breakpoint-2xl: 96rem;    /* 1536px */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 96rem; /* 1536px */
 
   /* --- Contenedores de referencia --------------------------------------- */
-  --container-sidebar: 17rem;      /* 272px */
-  --container-reading: 44rem;      /* 704px: nota renderizada */
-  --container-list: 80rem;         /* 1280px: listado de notas */
-  --container-form: 25rem;         /* 400px: formularios de autenticación */
-  --container-panel: 24rem;        /* 384px: panel del asistente (fase 2) */
+  --container-sidebar: 17rem; /* 272px */
+  --container-reading: 44rem; /* 704px: nota renderizada */
+  --container-list: 80rem; /* 1280px: listado de notas */
+  --container-form: 25rem; /* 400px: formularios de autenticación */
+  --container-panel: 24rem; /* 384px: panel del asistente (fase 2) */
 
   /* --- Animaciones ------------------------------------------------------ */
   --animate-fade-in: fade-in var(--duration-normal) var(--ease-out-soft);
@@ -535,23 +539,43 @@ verdad del sistema visual.
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(0.5rem) scale(0.98); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(0.75rem) scale(0.97); }
-  to   { opacity: 1; transform: none; }
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @keyframes shimmer {
-  from { background-position: -160% 0; }
-  to   { background-position: 160% 0; }
+  from {
+    background-position: -160% 0;
+  }
+  to {
+    background-position: 160% 0;
+  }
 }
 ```
 
@@ -590,7 +614,9 @@ verdad del sistema visual.
   }
 
   /* El sistema se dibuja con líneas, no con el gris por defecto de Tailwind */
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     border-color: var(--color-line);
   }
 }
@@ -601,7 +627,7 @@ verdad del sistema visual.
     position: relative;
   }
   .hit-44::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 50% auto auto 50%;
     width: max(100%, 44px);
@@ -619,7 +645,9 @@ verdad del sistema visual.
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     animation-duration: 1ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
@@ -644,31 +672,31 @@ valores numéricos de Tailwind coinciden con los tokens) y, en CSS propio, como
 
 Base de 4 px (`--spacing: 0.25rem`). Valores en uso, para no dispersar el ritmo:
 
-| Token | px | Uso típico |
-|---|---|---|
-| `1` | 4 | Separación icono-texto en badges |
-| `2` | 8 | Separación icono-texto en botones, padding de chips |
-| `3` | 12 | Padding vertical de ítems de lista y de menú |
-| `4` | 16 | Padding interno de tarjeta y de toast, gap entre campos |
-| `5` | 20 | Padding de modal en móvil |
-| `6` | 24 | Padding de sección, gap de rejilla de notas, padding de modal |
-| `8` | 32 | Separación entre bloques de una vista |
-| `10`/`12` | 40 / 48 | Márgenes verticales de vistas amplias, estados vacíos |
-| `16` | 64 | Aire superior de las pantallas de autenticación en escritorio |
+| Token     | px      | Uso típico                                                    |
+| --------- | ------- | ------------------------------------------------------------- |
+| `1`       | 4       | Separación icono-texto en badges                              |
+| `2`       | 8       | Separación icono-texto en botones, padding de chips           |
+| `3`       | 12      | Padding vertical de ítems de lista y de menú                  |
+| `4`       | 16      | Padding interno de tarjeta y de toast, gap entre campos       |
+| `5`       | 20      | Padding de modal en móvil                                     |
+| `6`       | 24      | Padding de sección, gap de rejilla de notas, padding de modal |
+| `8`       | 32      | Separación entre bloques de una vista                         |
+| `10`/`12` | 40 / 48 | Márgenes verticales de vistas amplias, estados vacíos         |
+| `16`      | 64      | Aire superior de las pantallas de autenticación en escritorio |
 
 Regla de ritmo vertical: entre bloques hermanos dentro de una vista, `space-y-6`
 en móvil y `space-y-8` desde `md`.
 
 ### 6.2 Anchos máximos
 
-| Contexto | Ancho | Motivo |
-|---|---|---|
-| Nota renderizada (`.prose-note`) | `68ch` (≈ 44 rem) | Medida de lectura cómoda |
-| Contenido de listado | `80rem` centrado | Tres columnas de tarjeta sin dispersar la vista |
-| Formulario de autenticación | `25rem` | Un campo por línea, longitud de línea corta |
-| Diálogo de confirmación | `28rem` | Cabe una pregunta y dos botones sin scroll |
-| Panel del asistente (fase 2) | `24rem` | Columna lateral que convive con la nota |
-| Sidebar | `17rem` (272 px) | Nombres de cuaderno de hasta ~24 caracteres sin truncar |
+| Contexto                         | Ancho             | Motivo                                                  |
+| -------------------------------- | ----------------- | ------------------------------------------------------- |
+| Nota renderizada (`.prose-note`) | `68ch` (≈ 44 rem) | Medida de lectura cómoda                                |
+| Contenido de listado             | `80rem` centrado  | Tres columnas de tarjeta sin dispersar la vista         |
+| Formulario de autenticación      | `25rem`           | Un campo por línea, longitud de línea corta             |
+| Diálogo de confirmación          | `28rem`           | Cabe una pregunta y dos botones sin scroll              |
+| Panel del asistente (fase 2)     | `24rem`           | Columna lateral que convive con la nota                 |
+| Sidebar                          | `17rem` (272 px)  | Nombres de cuaderno de hasta ~24 caracteres sin truncar |
 
 ### 6.3 Rejilla del área privada
 
@@ -690,24 +718,24 @@ direcciones de los navegadores móviles.
 
 ### 6.4 Rejilla de tarjetas de nota
 
-| Ancho | Columnas | Gap |
-|---|---|---|
-| `< sm` (< 640) | 1 | 16 px |
-| `sm` (≥ 640) | 2 | 16 px |
-| `lg` (≥ 1024) | 2 | 24 px |
-| `xl` (≥ 1280) | 3 | 24 px |
+| Ancho          | Columnas | Gap   |
+| -------------- | -------- | ----- |
+| `< sm` (< 640) | 1        | 16 px |
+| `sm` (≥ 640)   | 2        | 16 px |
+| `lg` (≥ 1024)  | 2        | 24 px |
+| `xl` (≥ 1280)  | 3        | 24 px |
 
 ### 6.5 Capas (`z-index`)
 
-| Capa | Valor | Elementos |
-|---|---|---|
-| Contenido | 0 | Todo lo normal |
-| Adherido | 10 | Barra de herramientas del editor, cabecera de la lista |
-| Sidebar en escritorio | 20 | — |
-| Topbar | 30 | — |
-| Velo y cajón | 40 | Cajón del sidebar en móvil, velo de modal |
-| Modal y menú | 50 | Diálogos, menús desplegables, popovers |
-| Toasts | 60 | Siempre por encima de todo |
+| Capa                  | Valor | Elementos                                              |
+| --------------------- | ----- | ------------------------------------------------------ |
+| Contenido             | 0     | Todo lo normal                                         |
+| Adherido              | 10    | Barra de herramientas del editor, cabecera de la lista |
+| Sidebar en escritorio | 20    | —                                                      |
+| Topbar                | 30    | —                                                      |
+| Velo y cajón          | 40    | Cajón del sidebar en móvil, velo de modal              |
+| Modal y menú          | 50    | Diálogos, menús desplegables, popovers                 |
+| Toasts                | 60    | Siempre por encima de todo                             |
 
 ---
 
@@ -725,23 +753,23 @@ con `gap-2`, radio `md`, `font-medium`, sin transformación de texto.
 
 **Tamaños**
 
-| Tamaño | Alto | Padding horizontal | Texto | Icono | Cuándo |
-|---|---|---|---|---|---|
-| `sm` | 36 px | 12 px | 14 px | 16 px | Solo en la barra de herramientas del editor y en chips de acción, en punteros finos; crece a 44 px con `(pointer: coarse)` mediante `.control-sm` |
-| `md` | 44 px | 16 px | 15 px | 20 px | Por defecto en toda la aplicación |
-| `lg` | 48 px | 20 px | 16 px | 20 px | Acción principal de autenticación y de estados vacíos |
-| `icon` | 44 × 44 px | — | — | 20 px (22 px en topbar) | Botones de solo icono. **Nunca por debajo de 44 px ni con iconos menores de 20 px** |
+| Tamaño | Alto       | Padding horizontal | Texto | Icono                   | Cuándo                                                                                                                                            |
+| ------ | ---------- | ------------------ | ----- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sm`   | 36 px      | 12 px              | 14 px | 16 px                   | Solo en la barra de herramientas del editor y en chips de acción, en punteros finos; crece a 44 px con `(pointer: coarse)` mediante `.control-sm` |
+| `md`   | 44 px      | 16 px              | 15 px | 20 px                   | Por defecto en toda la aplicación                                                                                                                 |
+| `lg`   | 48 px      | 20 px              | 16 px | 20 px                   | Acción principal de autenticación y de estados vacíos                                                                                             |
+| `icon` | 44 × 44 px | —                  | —     | 20 px (22 px en topbar) | Botones de solo icono. **Nunca por debajo de 44 px ni con iconos menores de 20 px**                                                               |
 
 **Variantes y estados**
 
-| Variante | Reposo | Hover | Foco (`focus-visible`) | Activo | Deshabilitado |
-|---|---|---|---|---|---|
-| `primary` | `bg-primary text-on-primary shadow-xs` | `bg-primary-strong` | Anillo `primary` 2 px, offset 2 px | `bg-primary-strong` + `translate-y-px`, sombra a `none` | `bg-surface-sunken text-ink-subtle`, sin sombra, `cursor-not-allowed`, `aria-disabled` |
-| `secondary` | `bg-surface-raised text-ink border border-line-strong` | `bg-surface-sunken` | Igual | `bg-surface-sunken` + `translate-y-px` | Borde `line`, texto al 55 % |
-| `ghost` | Transparente, `text-ink-muted` | `bg-surface-sunken text-ink` | Igual | `bg-surface-sunken` | Texto al 55 %, sin fondo en hover |
-| `danger` | `bg-danger text-on-danger` | `bg-danger-strong` | Anillo `danger` | `bg-danger-strong` + `translate-y-px` | Igual que `primary` |
-| `danger-ghost` | Transparente, `text-danger` | `bg-danger-soft` | Anillo `danger` | `bg-danger-soft` | Texto al 55 % |
-| `link` | `text-primary`, subrayado al hover | `text-primary-strong underline` | Anillo, radio `xs` | `text-primary-strong` | Texto al 55 %, sin subrayado |
+| Variante       | Reposo                                                 | Hover                           | Foco (`focus-visible`)             | Activo                                                  | Deshabilitado                                                                          |
+| -------------- | ------------------------------------------------------ | ------------------------------- | ---------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `primary`      | `bg-primary text-on-primary shadow-xs`                 | `bg-primary-strong`             | Anillo `primary` 2 px, offset 2 px | `bg-primary-strong` + `translate-y-px`, sombra a `none` | `bg-surface-sunken text-ink-subtle`, sin sombra, `cursor-not-allowed`, `aria-disabled` |
+| `secondary`    | `bg-surface-raised text-ink border border-line-strong` | `bg-surface-sunken`             | Igual                              | `bg-surface-sunken` + `translate-y-px`                  | Borde `line`, texto al 55 %                                                            |
+| `ghost`        | Transparente, `text-ink-muted`                         | `bg-surface-sunken text-ink`    | Igual                              | `bg-surface-sunken`                                     | Texto al 55 %, sin fondo en hover                                                      |
+| `danger`       | `bg-danger text-on-danger`                             | `bg-danger-strong`              | Anillo `danger`                    | `bg-danger-strong` + `translate-y-px`                   | Igual que `primary`                                                                    |
+| `danger-ghost` | Transparente, `text-danger`                            | `bg-danger-soft`                | Anillo `danger`                    | `bg-danger-soft`                                        | Texto al 55 %                                                                          |
+| `link`         | `text-primary`, subrayado al hover                     | `text-primary-strong underline` | Anillo, radio `xs`                 | `text-primary-strong`                                   | Texto al 55 %, sin subrayado                                                           |
 
 **Cargando:** el botón conserva su ancho (`min-width` congelado en el momento
 del envío para que no salte), sustituye el icono principal —o antepone uno— por
@@ -777,16 +805,16 @@ Texto de ayuda o mensaje de error        (13px, ink-subtle / danger)
   lleva `required`; el texto «(opcional)» se escribe en los que no lo son
   cuando conviven con obligatorios.
 
-| Estado | Especificación |
-|---|---|
-| Reposo | Borde `line-strong`, fondo `surface-sunken` |
-| Hover | Borde `ink-subtle` |
-| Foco | Borde `primary` + anillo `primary` 2 px con offset 2 px; fondo pasa a `surface-raised` para señalar el campo activo |
-| Relleno automático | Se fuerza el fondo del sistema con `-webkit-autofill` y sombra interna del color `surface-sunken` |
-| Deshabilitado | Fondo `surface-sunken` al 60 %, texto `ink-subtle`, borde `line`, `cursor-not-allowed` |
-| Solo lectura | Sin borde, fondo transparente, texto `ink` |
-| Error | Borde `danger`, fondo `danger-soft`, `aria-invalid="true"`, `aria-describedby` al mensaje; icono de alerta 16 px a la izquierda del mensaje |
-| Cargando | Los campos no tienen estado de carga propio: durante el envío se deshabilitan en bloque mediante el `fieldset` del formulario |
+| Estado             | Especificación                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Reposo             | Borde `line-strong`, fondo `surface-sunken`                                                                                                 |
+| Hover              | Borde `ink-subtle`                                                                                                                          |
+| Foco               | Borde `primary` + anillo `primary` 2 px con offset 2 px; fondo pasa a `surface-raised` para señalar el campo activo                         |
+| Relleno automático | Se fuerza el fondo del sistema con `-webkit-autofill` y sombra interna del color `surface-sunken`                                           |
+| Deshabilitado      | Fondo `surface-sunken` al 60 %, texto `ink-subtle`, borde `line`, `cursor-not-allowed`                                                      |
+| Solo lectura       | Sin borde, fondo transparente, texto `ink`                                                                                                  |
+| Error              | Borde `danger`, fondo `danger-soft`, `aria-invalid="true"`, `aria-describedby` al mensaje; icono de alerta 16 px a la izquierda del mensaje |
+| Cargando           | Los campos no tienen estado de carga propio: durante el envío se deshabilitan en bloque mediante el `fieldset` del formulario               |
 
 El mensaje de error sustituye al texto de ayuda en el mismo espacio reservado
 (`min-height: 1.125rem`), de modo que el formulario no da saltos al validar.
@@ -838,13 +866,13 @@ un `select` porque necesita búsqueda y creación en línea (§7.11).
 **Anatomía:** `[punto 6px o icono 14px]? · texto · [botón × ]?`, alto 24 px
 (28 px si es interactivo), padding `2px 8px`, radio `sm`, texto 12 px `medium`.
 
-| Variante | Fondo | Texto | Uso |
-|---|---|---|---|
-| `neutral` | `surface-sunken` | `ink-muted` | Contadores, «Sin cuaderno» |
-| `tag` | `surface-sunken`, borde `line` | `ink` con `#` en `ink-subtle` | Etiqueta de nota |
-| `tag` activa | `primary-soft`, borde `primary` | `primary` | Etiqueta por la que se está filtrando |
-| `notebook` | `surface-sunken` con punto del color del cuaderno | `ink-muted` | Cuaderno de la nota en la tarjeta |
-| `success` / `danger` / `warning` / `info` | `*-soft` | color pleno | Estados |
+| Variante                                  | Fondo                                             | Texto                         | Uso                                   |
+| ----------------------------------------- | ------------------------------------------------- | ----------------------------- | ------------------------------------- |
+| `neutral`                                 | `surface-sunken`                                  | `ink-muted`                   | Contadores, «Sin cuaderno»            |
+| `tag`                                     | `surface-sunken`, borde `line`                    | `ink` con `#` en `ink-subtle` | Etiqueta de nota                      |
+| `tag` activa                              | `primary-soft`, borde `primary`                   | `primary`                     | Etiqueta por la que se está filtrando |
+| `notebook`                                | `surface-sunken` con punto del color del cuaderno | `ink-muted`                   | Cuaderno de la nota en la tarjeta     |
+| `success` / `danger` / `warning` / `info` | `*-soft`                                          | color pleno                   | Estados                               |
 
 Estados interactivos (etiqueta como enlace de filtro): hover `bg-primary-soft`,
 foco anillo estándar, activo `translate-y-px`. La `×` de eliminación mide 14 px
@@ -950,12 +978,12 @@ reciente arriba, **máximo 3 visibles**; el resto espera en cola.
   `ink-muted`. **El color no es el único indicador**: cada variante tiene su
   icono y su texto.
 
-| Variante | Icono (20 px, color de la variante) | Borde/acento | `aria-live` | Cierre automático |
-|---|---|---|---|---|
-| `success` | Círculo con palomita | `success` | `polite` | 5 s |
-| `info` | Círculo con «i» | `info` | `polite` | 5 s |
-| `warning` | Triángulo con «!» | `warning` | `polite` | 8 s |
-| `error` | Círculo con «!» | `danger` | `assertive` | 8 s |
+| Variante  | Icono (20 px, color de la variante) | Borde/acento | `aria-live` | Cierre automático |
+| --------- | ----------------------------------- | ------------ | ----------- | ----------------- |
+| `success` | Círculo con palomita                | `success`    | `polite`    | 5 s               |
+| `info`    | Círculo con «i»                     | `info`       | `polite`    | 5 s               |
+| `warning` | Triángulo con «!»                   | `warning`    | `polite`    | 8 s               |
+| `error`   | Círculo con «!»                     | `danger`     | `assertive` | 8 s               |
 
 - **Botón de cerrar:** icono `×` de 18 px en un recuadro de 32 × 32 px con área
   pulsable ampliada a 44 px mediante `.hit-44`. Color `ink-subtle`, hover
@@ -1144,17 +1172,17 @@ Semántica `role="menuitemradio"` con `aria-checked`.
 
 ### 7.15 Estados de carga
 
-| Elemento | Especificación |
-|---|---|
-| `Spinner` | Círculo de 2 px de trazo, 75 % de arco, `currentColor`, tamaños 14/18/24 px, `--animate-spin-slow` (900 ms lineal). Con `role="status"` y texto solo para lectores («Cargando…») |
-| `Skeleton` | Bloque `surface-sunken`, radio `sm`, con degradado de brillo que recorre horizontalmente (`--animate-shimmer`, 1.4 s). Con `prefers-reduced-motion` se queda estático |
-| `NoteCard` esqueleto | Misma caja de la tarjeta: barra de título 60 % de ancho × 16 px, dos líneas de extracto (100 % y 80 %) × 12 px, fila de dos badges de 56 × 20 px, línea de fecha de 120 × 12 px |
-| Rejilla de la lista (`loading.tsx`) | 6 esqueletos de tarjeta con la misma rejilla de §6.4 |
-| Sidebar | 3 barras por grupo, 60–90 % de ancho, 14 px de alto |
-| Nota (`/notes/[id]/loading.tsx`) | Título 70 % × 28 px, fila de metadatos, 8 líneas de párrafo alternando 100 % / 92 % / 78 % |
-| Barra de progreso superior | Línea de 2 px en `primary` anclada bajo la topbar durante las navegaciones que tardan más de 300 ms |
-| Guardado del editor | Ver `SaveStatus`, §7.17 |
-| Streaming (fase 2) | El texto aparece progresivamente con un cursor de bloque de 2 × 18 px en `info` que parpadea a 1 s; antes del primer token se muestran 3 líneas de esqueleto |
+| Elemento                            | Especificación                                                                                                                                                                   |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Spinner`                           | Círculo de 2 px de trazo, 75 % de arco, `currentColor`, tamaños 14/18/24 px, `--animate-spin-slow` (900 ms lineal). Con `role="status"` y texto solo para lectores («Cargando…») |
+| `Skeleton`                          | Bloque `surface-sunken`, radio `sm`, con degradado de brillo que recorre horizontalmente (`--animate-shimmer`, 1.4 s). Con `prefers-reduced-motion` se queda estático            |
+| `NoteCard` esqueleto                | Misma caja de la tarjeta: barra de título 60 % de ancho × 16 px, dos líneas de extracto (100 % y 80 %) × 12 px, fila de dos badges de 56 × 20 px, línea de fecha de 120 × 12 px  |
+| Rejilla de la lista (`loading.tsx`) | 6 esqueletos de tarjeta con la misma rejilla de §6.4                                                                                                                             |
+| Sidebar                             | 3 barras por grupo, 60–90 % de ancho, 14 px de alto                                                                                                                              |
+| Nota (`/notes/[id]/loading.tsx`)    | Título 70 % × 28 px, fila de metadatos, 8 líneas de párrafo alternando 100 % / 92 % / 78 %                                                                                       |
+| Barra de progreso superior          | Línea de 2 px en `primary` anclada bajo la topbar durante las navegaciones que tardan más de 300 ms                                                                              |
+| Guardado del editor                 | Ver `SaveStatus`, §7.17                                                                                                                                                          |
+| Streaming (fase 2)                  | El texto aparece progresivamente con un cursor de bloque de 2 × 18 px en `info` que parpadea a 1 s; antes del primer token se muestran 3 líneas de esqueleto                     |
 
 Regla: si una operación puede tardar más de 300 ms, tiene indicador. Si tarda
 menos, no se muestra nada (un parpadeo de spinner es peor que su ausencia).
@@ -1180,13 +1208,13 @@ Variante de `NoteCard` para `/notes?q=`:
 Píldora de texto en la barra de herramientas del editor, 13 px, con icono de
 16 px, `aria-live="polite"`:
 
-| Estado | Icono | Texto | Color |
-|---|---|---|---|
-| Sin cambios | — | «Guardado el 21 jul 2026, 14:32» | `ink-subtle` |
-| Con cambios sin guardar | Punto de 8 px | «Cambios sin guardar» | `warning` |
-| Guardando | Spinner 16 px | «Guardando…» | `ink-muted` |
-| Guardado | Palomita 16 px | «Guardado a las 14:32» (con fecha completa si no es hoy) | `success` |
-| Error | Alerta 16 px | «No se pudo guardar» + botón `link` «Reintentar» | `danger` |
+| Estado                  | Icono          | Texto                                                    | Color        |
+| ----------------------- | -------------- | -------------------------------------------------------- | ------------ |
+| Sin cambios             | —              | «Guardado el 21 jul 2026, 14:32»                         | `ink-subtle` |
+| Con cambios sin guardar | Punto de 8 px  | «Cambios sin guardar»                                    | `warning`    |
+| Guardando               | Spinner 16 px  | «Guardando…»                                             | `ink-muted`  |
+| Guardado                | Palomita 16 px | «Guardado a las 14:32» (con fecha completa si no es hoy) | `success`    |
+| Error                   | Alerta 16 px   | «No se pudo guardar» + botón `link` «Reintentar»         | `danger`     |
 
 El paso de «Guardando…» a «Guardado» tiene una permanencia mínima de 600 ms
 para que el usuario alcance a leerlo aunque la acción responda en 80 ms. Tras
@@ -1402,15 +1430,15 @@ reutilizan la misma composición cambiando el `h1` y los chips de filtro.
 
 **Composición:**
 
-| Pieza | Tipo | Motivo |
-|---|---|---|
-| `(app)/layout.tsx` | RSC | Exige sesión, carga cuadernos y etiquetas del sidebar |
-| `Topbar`, `Sidebar` | RSC | Presentación a partir de datos ya cargados |
-| `SidebarDrawer`, `UserMenu`, `ThemeToggle` | CC | Apertura, foco, `localStorage` |
-| `notes/page.tsx` | RSC | Lee `searchParams`, llama a `getNotes` |
-| `NoteCard`, `TagBadge`, `Pagination` | RSC | Presentación pura; la paginación son enlaces |
-| `SearchInput`, `SortSelect`, `FilterChip` | CC | Debounce y escritura de la URL |
-| Menú `⋮` de la tarjeta y sus diálogos | CC | Estado de apertura y acciones |
+| Pieza                                      | Tipo | Motivo                                                |
+| ------------------------------------------ | ---- | ----------------------------------------------------- |
+| `(app)/layout.tsx`                         | RSC  | Exige sesión, carga cuadernos y etiquetas del sidebar |
+| `Topbar`, `Sidebar`                        | RSC  | Presentación a partir de datos ya cargados            |
+| `SidebarDrawer`, `UserMenu`, `ThemeToggle` | CC   | Apertura, foco, `localStorage`                        |
+| `notes/page.tsx`                           | RSC  | Lee `searchParams`, llama a `getNotes`                |
+| `NoteCard`, `TagBadge`, `Pagination`       | RSC  | Presentación pura; la paginación son enlaces          |
+| `SearchInput`, `SortSelect`, `FilterChip`  | CC   | Debounce y escritura de la URL                        |
+| Menú `⋮` de la tarjeta y sus diálogos      | CC   | Estado de apertura y acciones                         |
 
 ### 8.5 Resultados de búsqueda — `/notes?q=…` (RSC)
 
@@ -1555,13 +1583,13 @@ diálogos.
 
 **Composición:**
 
-| Pieza | Tipo |
-|---|---|
-| `notes/new/page.tsx`, `notes/[noteId]/edit/page.tsx` | RSC: cargan cuadernos, etiquetas y la nota, y montan el editor |
-| `NoteEditor` (título, textarea, autoguardado, atajos, pestañas) | CC |
-| `MarkdownPreview` | CC (se re-renderiza en cada pulsación) |
-| `TagPicker`, `SaveStatus`, `EditorToolbar` | CC |
-| `Select` de cuaderno | CC (controlado por el editor) |
+| Pieza                                                           | Tipo                                                           |
+| --------------------------------------------------------------- | -------------------------------------------------------------- |
+| `notes/new/page.tsx`, `notes/[noteId]/edit/page.tsx`            | RSC: cargan cuadernos, etiquetas y la nota, y montan el editor |
+| `NoteEditor` (título, textarea, autoguardado, atajos, pestañas) | CC                                                             |
+| `MarkdownPreview`                                               | CC (se re-renderiza en cada pulsación)                         |
+| `TagPicker`, `SaveStatus`, `EditorToolbar`                      | CC                                                             |
+| `Select` de cuaderno                                            | CC (controlado por el editor)                                  |
 
 ### 8.8 Papelera — `/trash` (RSC)
 
@@ -1627,13 +1655,13 @@ y los diálogos, CC.
 
 ### 9.1 Puntos de corte y qué cambia en cada uno
 
-| Corte | Ancho | Cambios |
-|---|---|---|
-| Base | < 640 | Una columna de tarjetas; sidebar en cajón; buscador tras un botón de icono; botón flotante «+»; barra de acciones del editor fija abajo; diálogos como hoja inferior |
-| `sm` | ≥ 640 | Dos columnas de tarjetas; «Nueva nota» muestra su texto; diálogos centrados |
-| `md` | ≥ 768 | Buscador visible en la topbar; títulos de vista a 30 px; padding de vista a 24 px |
-| `lg` | ≥ 1024 | Sidebar fijo (272 px); topbar de 64 px; padding de vista a 32 px; acciones de nota alineadas a la derecha del título |
-| `xl` | ≥ 1280 | Tres columnas de tarjetas; resultados de búsqueda a dos columnas; panel lateral del asistente sin superponerse (fase 2) |
+| Corte | Ancho  | Cambios                                                                                                                                                              |
+| ----- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Base  | < 640  | Una columna de tarjetas; sidebar en cajón; buscador tras un botón de icono; botón flotante «+»; barra de acciones del editor fija abajo; diálogos como hoja inferior |
+| `sm`  | ≥ 640  | Dos columnas de tarjetas; «Nueva nota» muestra su texto; diálogos centrados                                                                                          |
+| `md`  | ≥ 768  | Buscador visible en la topbar; títulos de vista a 30 px; padding de vista a 24 px                                                                                    |
+| `lg`  | ≥ 1024 | Sidebar fijo (272 px); topbar de 64 px; padding de vista a 32 px; acciones de nota alineadas a la derecha del título                                                 |
+| `xl`  | ≥ 1280 | Tres columnas de tarjetas; resultados de búsqueda a dos columnas; panel lateral del asistente sin superponerse (fase 2)                                              |
 
 ### 9.2 Sidebar
 
@@ -1701,15 +1729,15 @@ unidad y las fechas siempre con año.
 
 ### 10.1 Formatos
 
-| Dato | Formato | Ejemplo |
-|---|---|---|
-| Fecha completa | `d MMM yyyy` | 21 jul 2026 |
-| Fecha y hora | `d MMM yyyy, HH:mm` | 21 jul 2026, 14:32 |
-| Hora del día en curso | `HH:mm` precedido de «a las» | Guardado a las 14:32 |
-| Recuento | número + sustantivo | 128 notas · 1 nota · 0 notas |
-| Rango de paginación | «Mostrando X–Y de Z notas» | Mostrando 21–40 de 128 notas |
-| Término de búsqueda | entre comillas latinas | 12 resultados para «reunión» |
-| Etiqueta | con almohadilla | #ideas |
+| Dato                  | Formato                      | Ejemplo                      |
+| --------------------- | ---------------------------- | ---------------------------- |
+| Fecha completa        | `d MMM yyyy`                 | 21 jul 2026                  |
+| Fecha y hora          | `d MMM yyyy, HH:mm`          | 21 jul 2026, 14:32           |
+| Hora del día en curso | `HH:mm` precedido de «a las» | Guardado a las 14:32         |
+| Recuento              | número + sustantivo          | 128 notas · 1 nota · 0 notas |
+| Rango de paginación   | «Mostrando X–Y de Z notas»   | Mostrando 21–40 de 128 notas |
+| Término de búsqueda   | entre comillas latinas       | 12 resultados para «reunión» |
+| Etiqueta              | con almohadilla              | #ideas                       |
 
 Las fechas se formatean con `Intl.DateTimeFormat('es', …)` sobre el ISO en UTC
 que envían los DTOs, en la zona horaria del navegador. Nunca se muestra tiempo
@@ -1718,51 +1746,51 @@ paréntesis en el `title`.
 
 ### 10.2 Acciones
 
-| Contexto | Texto | Estado de carga |
-|---|---|---|
-| Crear nota | Nueva nota | Creando… |
-| Guardar nota | Guardar nota | Guardando… |
-| Iniciar sesión | Entrar | Entrando… |
-| Registro | Crear cuenta | Creando cuenta… |
-| Cerrar sesión | Cerrar sesión | Cerrando sesión… |
-| Enviar a papelera | Enviar a la papelera | Eliminando… |
-| Restaurar | Restaurar | Restaurando… |
-| Purga individual | Eliminar definitivamente | Eliminando… |
-| Vaciar papelera | Vaciar la papelera | Vaciando… |
-| Crear cuaderno | Crear cuaderno | Creando… |
-| Guardar cuaderno | Guardar cambios | Guardando… |
-| Cancelar | Cancelar | — |
-| Reintentar | Reintentar | Reintentando… |
+| Contexto          | Texto                    | Estado de carga  |
+| ----------------- | ------------------------ | ---------------- |
+| Crear nota        | Nueva nota               | Creando…         |
+| Guardar nota      | Guardar nota             | Guardando…       |
+| Iniciar sesión    | Entrar                   | Entrando…        |
+| Registro          | Crear cuenta             | Creando cuenta…  |
+| Cerrar sesión     | Cerrar sesión            | Cerrando sesión… |
+| Enviar a papelera | Enviar a la papelera     | Eliminando…      |
+| Restaurar         | Restaurar                | Restaurando…     |
+| Purga individual  | Eliminar definitivamente | Eliminando…      |
+| Vaciar papelera   | Vaciar la papelera       | Vaciando…        |
+| Crear cuaderno    | Crear cuaderno           | Creando…         |
+| Guardar cuaderno  | Guardar cambios          | Guardando…       |
+| Cancelar          | Cancelar                 | —                |
+| Reintentar        | Reintentar               | Reintentando…    |
 
 ### 10.3 Mensajes de resultado (toasts)
 
-| Situación | Variante | Texto |
-|---|---|---|
-| Nota creada | success | «Nota creada.» + acción «Ver nota» |
-| Nota guardada | success | «Nota guardada.» / descripción «Los cambios se guardaron a las 14:32.» |
-| Nota a papelera | success | «Nota enviada a la papelera.» + acción «Deshacer» |
-| Nota restaurada | success | «Nota restaurada.» + acción «Ver nota» |
-| Nota purgada | success | «Nota eliminada definitivamente.» |
-| Papelera vaciada | success | «Papelera vaciada: se eliminaron 3 notas.» |
-| Cuaderno creado | success | «Cuaderno «Trabajo» creado.» |
-| Cuaderno eliminado | success | «Cuaderno eliminado. 42 notas quedaron sin cuaderno.» |
-| Etiqueta creada | success | «Etiqueta #ideas creada.» |
-| Nota movida | success | «Nota movida a «Trabajo».» / a ninguno: «Nota quitada del cuaderno.» |
-| Tema cambiado | info | «Tema oscuro activado.» / «Tema claro activado.» / «El tema sigue al sistema.» |
-| Sin conexión al guardar | error | «No se pudo guardar la nota.» / «Revisa tu conexión. El texto sigue aquí.» + acción «Reintentar» |
+| Situación               | Variante | Texto                                                                                            |
+| ----------------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| Nota creada             | success  | «Nota creada.» + acción «Ver nota»                                                               |
+| Nota guardada           | success  | «Nota guardada.» / descripción «Los cambios se guardaron a las 14:32.»                           |
+| Nota a papelera         | success  | «Nota enviada a la papelera.» + acción «Deshacer»                                                |
+| Nota restaurada         | success  | «Nota restaurada.» + acción «Ver nota»                                                           |
+| Nota purgada            | success  | «Nota eliminada definitivamente.»                                                                |
+| Papelera vaciada        | success  | «Papelera vaciada: se eliminaron 3 notas.»                                                       |
+| Cuaderno creado         | success  | «Cuaderno «Trabajo» creado.»                                                                     |
+| Cuaderno eliminado      | success  | «Cuaderno eliminado. 42 notas quedaron sin cuaderno.»                                            |
+| Etiqueta creada         | success  | «Etiqueta #ideas creada.»                                                                        |
+| Nota movida             | success  | «Nota movida a «Trabajo».» / a ninguno: «Nota quitada del cuaderno.»                             |
+| Tema cambiado           | info     | «Tema oscuro activado.» / «Tema claro activado.» / «El tema sigue al sistema.»                   |
+| Sin conexión al guardar | error    | «No se pudo guardar la nota.» / «Revisa tu conexión. El texto sigue aquí.» + acción «Reintentar» |
 
 ### 10.4 Estados vacíos
 
-| Pantalla | Título | Descripción | Acción |
-|---|---|---|---|
-| Sin notas (cuenta nueva) | Aún no tienes notas | Crea la primera y aparecerá aquí. Puedes escribir en markdown y organizarla en cuadernos y etiquetas. | Nueva nota |
-| Cuaderno vacío | Este cuaderno está vacío | Las notas que muevas a «Trabajo» aparecerán aquí. | Nueva nota en este cuaderno |
-| Etiqueta sin notas | Ninguna nota con esta etiqueta | Añade #ideas a una nota y la verás aquí. | Ir a todas las notas |
-| Búsqueda sin resultados | Sin resultados para «reunión» | Prueba con otras palabras o revisa los filtros activos. | Quitar filtros |
-| Filtros sin resultados | Ninguna nota coincide con los filtros | Tienes 128 notas en total. Quita algún filtro para verlas. | Limpiar filtros |
-| Papelera vacía | La papelera está vacía | Las notas que elimines aparecerán aquí hasta que las elimines definitivamente. | — |
-| Sin cuadernos (sidebar) | Aún no tienes cuadernos | — | Crear el primero |
-| Sin etiquetas (sidebar) | Aún no tienes etiquetas | — | — |
+| Pantalla                 | Título                                | Descripción                                                                                           | Acción                      |
+| ------------------------ | ------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------- |
+| Sin notas (cuenta nueva) | Aún no tienes notas                   | Crea la primera y aparecerá aquí. Puedes escribir en markdown y organizarla en cuadernos y etiquetas. | Nueva nota                  |
+| Cuaderno vacío           | Este cuaderno está vacío              | Las notas que muevas a «Trabajo» aparecerán aquí.                                                     | Nueva nota en este cuaderno |
+| Etiqueta sin notas       | Ninguna nota con esta etiqueta        | Añade #ideas a una nota y la verás aquí.                                                              | Ir a todas las notas        |
+| Búsqueda sin resultados  | Sin resultados para «reunión»         | Prueba con otras palabras o revisa los filtros activos.                                               | Quitar filtros              |
+| Filtros sin resultados   | Ninguna nota coincide con los filtros | Tienes 128 notas en total. Quita algún filtro para verlas.                                            | Limpiar filtros             |
+| Papelera vacía           | La papelera está vacía                | Las notas que elimines aparecerán aquí hasta que las elimines definitivamente.                        | —                           |
+| Sin cuadernos (sidebar)  | Aún no tienes cuadernos               | —                                                                                                     | Crear el primero            |
+| Sin etiquetas (sidebar)  | Aún no tienes etiquetas               | —                                                                                                     | —                           |
 
 ### 10.5 Mensajes de error por código del contrato
 
@@ -1770,20 +1798,20 @@ Cada código de `ActionErrorCode` tiene una presentación asignada. El `message`
 que devuelve el servidor se muestra tal cual; estos son los textos que ese
 servidor debe producir y el lugar donde la interfaz los pinta.
 
-| Código | Dónde se muestra | Texto |
-|---|---|---|
-| `VALIDATION_ERROR` | Bajo cada campo (`fieldErrors`); si hay `_form`, `Alert` de error arriba | El del esquema Zod: «El título es obligatorio», «Introduce un correo válido», «La contraseña debe tener al menos 10 caracteres», «Las contraseñas no coinciden» |
-| `UNAUTHENTICATED` (login) | `Alert` de error sobre el formulario | «El correo o la contraseña no son correctos.» |
-| `UNAUTHENTICATED` (sesión caducada) | Toast de error + redirección a `/login` | «Tu sesión ha caducado. Inicia sesión de nuevo.» |
-| `FORBIDDEN` | Toast de error | «No tienes acceso a este contenido.» |
-| `NOT_FOUND` (acción) | Toast de error y refresco de la lista | «Esta nota ya no existe. Actualizamos la lista.» |
-| `NOT_FOUND` (navegación) | Pantalla `not-found` | «Esta nota no existe o ya no tienes acceso a ella.» |
-| `CONFLICT` (registro) | Bajo el campo de correo | «Ya existe una cuenta con este correo.» + enlace «Iniciar sesión» |
-| `CONFLICT` (cuaderno) | Bajo el campo de nombre | «Ya tienes un cuaderno con este nombre.» |
-| `CONFLICT` (etiqueta) | Bajo el campo de nombre | «Ya tienes una etiqueta con este nombre.» |
-| `RATE_LIMITED` (fase 2) | `Alert` de aviso en el panel del asistente | «Has alcanzado el límite diario de las funciones con IA. Vuelve a intentarlo mañana.» |
-| `AI_UNAVAILABLE` (fase 2) | `Alert` informativo en el panel del asistente | «El asistente no está disponible en este momento. Tus notas y la búsqueda funcionan con normalidad.» |
-| `INTERNAL_ERROR` | Toast de error | «Algo salió mal. Inténtalo de nuevo en unos segundos.» |
+| Código                              | Dónde se muestra                                                         | Texto                                                                                                                                                           |
+| ----------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VALIDATION_ERROR`                  | Bajo cada campo (`fieldErrors`); si hay `_form`, `Alert` de error arriba | El del esquema Zod: «El título es obligatorio», «Introduce un correo válido», «La contraseña debe tener al menos 10 caracteres», «Las contraseñas no coinciden» |
+| `UNAUTHENTICATED` (login)           | `Alert` de error sobre el formulario                                     | «El correo o la contraseña no son correctos.»                                                                                                                   |
+| `UNAUTHENTICATED` (sesión caducada) | Toast de error + redirección a `/login`                                  | «Tu sesión ha caducado. Inicia sesión de nuevo.»                                                                                                                |
+| `FORBIDDEN`                         | Toast de error                                                           | «No tienes acceso a este contenido.»                                                                                                                            |
+| `NOT_FOUND` (acción)                | Toast de error y refresco de la lista                                    | «Esta nota ya no existe. Actualizamos la lista.»                                                                                                                |
+| `NOT_FOUND` (navegación)            | Pantalla `not-found`                                                     | «Esta nota no existe o ya no tienes acceso a ella.»                                                                                                             |
+| `CONFLICT` (registro)               | Bajo el campo de correo                                                  | «Ya existe una cuenta con este correo.» + enlace «Iniciar sesión»                                                                                               |
+| `CONFLICT` (cuaderno)               | Bajo el campo de nombre                                                  | «Ya tienes un cuaderno con este nombre.»                                                                                                                        |
+| `CONFLICT` (etiqueta)               | Bajo el campo de nombre                                                  | «Ya tienes una etiqueta con este nombre.»                                                                                                                       |
+| `RATE_LIMITED` (fase 2)             | `Alert` de aviso en el panel del asistente                               | «Has alcanzado el límite diario de las funciones con IA. Vuelve a intentarlo mañana.»                                                                           |
+| `AI_UNAVAILABLE` (fase 2)           | `Alert` informativo en el panel del asistente                            | «El asistente no está disponible en este momento. Tus notas y la búsqueda funcionan con normalidad.»                                                            |
+| `INTERNAL_ERROR`                    | Toast de error                                                           | «Algo salió mal. Inténtalo de nuevo en unos segundos.»                                                                                                          |
 
 Reglas de redacción de errores: qué pasó, y qué puede hacer el usuario. Nunca
 se muestran códigos, nombres de tabla, mensajes del motor de base de datos ni
@@ -1791,18 +1819,18 @@ trazas.
 
 ### 10.6 Etiquetas de accesibilidad
 
-| Elemento | `aria-label` |
-|---|---|
-| Botón hamburguesa | Abrir el menú de navegación / Cerrar el menú de navegación |
-| Menú de la nota | Acciones de la nota «Acta de la reunión» |
-| Menú de usuario | Cuenta de Nicolás Andrade |
-| Cerrar diálogo | Cerrar |
-| Cerrar aviso | Cerrar el aviso |
-| Quitar filtro | Quitar el filtro de etiqueta #ideas |
-| Quitar etiqueta de la nota | Quitar la etiqueta #ideas |
-| Mostrar contraseña | Mostrar la contraseña / Ocultar la contraseña |
-| Buscar | Buscar en tus notas |
-| Modo enfoque | Activar el modo enfoque / Salir del modo enfoque |
+| Elemento                   | `aria-label`                                               |
+| -------------------------- | ---------------------------------------------------------- |
+| Botón hamburguesa          | Abrir el menú de navegación / Cerrar el menú de navegación |
+| Menú de la nota            | Acciones de la nota «Acta de la reunión»                   |
+| Menú de usuario            | Cuenta de Nicolás Andrade                                  |
+| Cerrar diálogo             | Cerrar                                                     |
+| Cerrar aviso               | Cerrar el aviso                                            |
+| Quitar filtro              | Quitar el filtro de etiqueta #ideas                        |
+| Quitar etiqueta de la nota | Quitar la etiqueta #ideas                                  |
+| Mostrar contraseña         | Mostrar la contraseña / Ocultar la contraseña              |
+| Buscar                     | Buscar en tus notas                                        |
+| Modo enfoque               | Activar el modo enfoque / Salir del modo enfoque           |
 
 ---
 
@@ -1813,38 +1841,38 @@ Nada se mueve por decoración y nada supera los 300 ms.
 
 ### 11.1 Duraciones y curvas
 
-| Token | Valor | Uso |
-|---|---|---|
-| `--duration-instant` | 100 ms | Color de texto en hover, opacidad de iconos |
-| `--duration-fast` | 150 ms | Hover, activo y foco de controles; fundidos cruzados de pestañas; salida de menús |
-| `--duration-normal` | 200 ms | Entrada de menús, toasts, tooltips, chips de filtro |
-| `--duration-slow` | 250 ms | Entrada de modales y paneles |
-| `--duration-drawer` | 300 ms | Cajón lateral en móvil |
-| `--ease-standard` | `cubic-bezier(0.2, 0, 0, 1)` | Movimiento entre dos estados de la interfaz |
-| `--ease-out-soft` | `cubic-bezier(0.33, 1, 0.68, 1)` | Todo lo que **entra** en pantalla |
-| `--ease-in-soft` | `cubic-bezier(0.32, 0, 0.67, 0)` | Todo lo que **sale** de pantalla |
+| Token                | Valor                            | Uso                                                                               |
+| -------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
+| `--duration-instant` | 100 ms                           | Color de texto en hover, opacidad de iconos                                       |
+| `--duration-fast`    | 150 ms                           | Hover, activo y foco de controles; fundidos cruzados de pestañas; salida de menús |
+| `--duration-normal`  | 200 ms                           | Entrada de menús, toasts, tooltips, chips de filtro                               |
+| `--duration-slow`    | 250 ms                           | Entrada de modales y paneles                                                      |
+| `--duration-drawer`  | 300 ms                           | Cajón lateral en móvil                                                            |
+| `--ease-standard`    | `cubic-bezier(0.2, 0, 0, 1)`     | Movimiento entre dos estados de la interfaz                                       |
+| `--ease-out-soft`    | `cubic-bezier(0.33, 1, 0.68, 1)` | Todo lo que **entra** en pantalla                                                 |
+| `--ease-in-soft`     | `cubic-bezier(0.32, 0, 0.67, 0)` | Todo lo que **sale** de pantalla                                                  |
 
 Regla: la salida dura entre un 60 % y un 75 % de la entrada. Desaparecer rápido
 se percibe como responsividad; aparecer rápido, como un salto.
 
 ### 11.2 Inventario de transiciones
 
-| Elemento | Entrada | Salida |
-|---|---|---|
-| Botón, input, ítem de lista (hover/foco) | 150 ms `--ease-standard` sobre color, borde y sombra | igual |
-| Botón (activo) | `translateY(1px)` en 100 ms | igual |
-| Menú desplegable | `rise-in` 150 ms desde el origen del disparador | fundido 100 ms |
-| Modal | Velo 200 ms; panel `rise-in` 250 ms | 150 ms `--ease-in-soft` |
-| Hoja inferior (móvil) | `translateY(100%)` → 0 en 250 ms | 180 ms |
-| Cajón lateral | `translateX(-100%)` → 0 en 300 ms | 200 ms |
-| Toast | `toast-in` 200 ms | 150 ms + colapso de alto |
-| Chip de filtro | Fundido y `scale(0.96)` → 1 en 150 ms | 100 ms |
-| Pestañas del editor | Fundido cruzado 150 ms, sin desplazamiento | — |
-| Vista previa del markdown | Sin animación por pulsación: el contenido se actualiza en seco (animar cada tecla sería un parpadeo constante) | — |
-| Esqueletos | `shimmer` 1.4 s lineal en bucle | Se sustituyen por el contenido con un fundido de 150 ms |
-| Barra de progreso de navegación | Aparece tras 300 ms, avanza con `--ease-out-soft` | Fundido 150 ms al completar |
-| Cambio de tema | 150 ms sobre `background-color` y `color` | — |
-| Streaming de texto (fase 2) | El texto se añade sin animación; solo parpadea el cursor (1 s) | El cursor desaparece al terminar |
+| Elemento                                 | Entrada                                                                                                        | Salida                                                  |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| Botón, input, ítem de lista (hover/foco) | 150 ms `--ease-standard` sobre color, borde y sombra                                                           | igual                                                   |
+| Botón (activo)                           | `translateY(1px)` en 100 ms                                                                                    | igual                                                   |
+| Menú desplegable                         | `rise-in` 150 ms desde el origen del disparador                                                                | fundido 100 ms                                          |
+| Modal                                    | Velo 200 ms; panel `rise-in` 250 ms                                                                            | 150 ms `--ease-in-soft`                                 |
+| Hoja inferior (móvil)                    | `translateY(100%)` → 0 en 250 ms                                                                               | 180 ms                                                  |
+| Cajón lateral                            | `translateX(-100%)` → 0 en 300 ms                                                                              | 200 ms                                                  |
+| Toast                                    | `toast-in` 200 ms                                                                                              | 150 ms + colapso de alto                                |
+| Chip de filtro                           | Fundido y `scale(0.96)` → 1 en 150 ms                                                                          | 100 ms                                                  |
+| Pestañas del editor                      | Fundido cruzado 150 ms, sin desplazamiento                                                                     | —                                                       |
+| Vista previa del markdown                | Sin animación por pulsación: el contenido se actualiza en seco (animar cada tecla sería un parpadeo constante) | —                                                       |
+| Esqueletos                               | `shimmer` 1.4 s lineal en bucle                                                                                | Se sustituyen por el contenido con un fundido de 150 ms |
+| Barra de progreso de navegación          | Aparece tras 300 ms, avanza con `--ease-out-soft`                                                              | Fundido 150 ms al completar                             |
+| Cambio de tema                           | 150 ms sobre `background-color` y `color`                                                                      | —                                                       |
+| Streaming de texto (fase 2)              | El texto se añade sin animación; solo parpadea el cursor (1 s)                                                 | El cursor desaparece al terminar                        |
 
 ### 11.3 `prefers-reduced-motion`
 

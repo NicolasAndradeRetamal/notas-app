@@ -24,7 +24,11 @@ export function TrashedNoteCard({ note }: { note: NoteSummaryDTO }) {
         toast({ variant: 'error', title: result.message });
         return;
       }
-      toast({ variant: 'success', title: 'Nota restaurada.', action: { label: 'Ver nota', onClick: () => router.push(`/notes/${note.id}`) } });
+      toast({
+        variant: 'success',
+        title: 'Nota restaurada.',
+        action: { label: 'Ver nota', onClick: () => router.push(`/notes/${note.id}`) },
+      });
       router.refresh();
     });
   };
@@ -43,12 +47,14 @@ export function TrashedNoteCard({ note }: { note: NoteSummaryDTO }) {
   };
 
   return (
-    <div className="min-h-40 rounded-lg border border-line bg-surface-raised p-4">
+    <div className="border-line bg-surface-raised min-h-40 rounded-lg border p-4">
       <div className="flex items-center gap-2">
-        <Trash2 className="h-4 w-4 shrink-0 text-ink-subtle" aria-hidden="true" />
-        <h3 className="line-clamp-2 text-base font-semibold text-ink-muted">{note.title}</h3>
+        <Trash2 className="text-ink-subtle h-4 w-4 shrink-0" aria-hidden="true" />
+        <h3 className="text-ink-muted line-clamp-2 text-base font-semibold">{note.title}</h3>
       </div>
-      {note.excerpt ? <p className="mt-2 line-clamp-2 text-sm text-ink-muted">{note.excerpt}</p> : null}
+      {note.excerpt ? (
+        <p className="text-ink-muted mt-2 line-clamp-2 text-sm">{note.excerpt}</p>
+      ) : null}
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
         {note.notebook ? (
           <Badge
@@ -64,7 +70,9 @@ export function TrashedNoteCard({ note }: { note: NoteSummaryDTO }) {
           </Badge>
         ) : null}
       </div>
-      <p className="mt-3 text-[0.8125rem] text-ink-subtle">Eliminada el {formatDateTime(note.updatedAt)}</p>
+      <p className="text-ink-subtle mt-3 text-[0.8125rem]">
+        Eliminada el {formatDateTime(note.updatedAt)}
+      </p>
       <div className="mt-3 flex gap-2">
         <Button variant="secondary" size="sm" onClick={handleRestore} loading={pending}>
           Restaurar

@@ -20,7 +20,7 @@ export function TopbarMobileSearch() {
         {open ? <X aria-hidden="true" /> : <Search aria-hidden="true" />}
       </Button>
       {open ? (
-        <div className="fixed inset-x-0 top-14 z-10 border-t border-line bg-surface-raised p-3 shadow-sm">
+        <div className="border-line bg-surface-raised fixed inset-x-0 top-14 z-10 border-t p-3 shadow-sm">
           <SearchInput autoFocus />
         </div>
       ) : null}

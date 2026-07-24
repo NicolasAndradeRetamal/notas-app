@@ -22,7 +22,7 @@ const ACTIONS: { action: FormatAction; label: string; icon: typeof Bold }[] = [
 
 export function EditorToolbar({ onFormat, focusMode, onToggleFocusMode }: EditorToolbarProps) {
   return (
-    <div className="flex h-10 items-center gap-1 border-b border-line px-2">
+    <div className="border-line flex h-10 items-center gap-1 border-b px-2">
       {ACTIONS.map(({ action, label, icon: Icon }) => (
         <Button
           key={action}
