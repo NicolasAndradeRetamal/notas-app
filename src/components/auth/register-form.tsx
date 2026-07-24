@@ -2,7 +2,7 @@
 
 import { Check, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useRef, useState, type RefObject } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -29,7 +29,15 @@ function SubmitButton() {
 export function RegisterForm() {
   const [state, formAction] = useActionState(registerAction, null);
   const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmRef = useRef<HTMLInputElement>(null);
 
   const failed = state && !state.ok ? state : null;
   const fieldErrors = failed?.fieldErrors;
@@ -37,26 +45,46 @@ export function RegisterForm() {
   const emailTaken = failed?.code === 'CONFLICT';
   const longEnough = password.length >= PASSWORD_MIN;
 
+  // The fields are controlled so a failed submit never wipes what was typed;
+  // here the focus is sent to the first field that still needs attention.
+  useEffect(() => {
+    if (!failed) return;
+    const fields: Array<[boolean, RefObject<HTMLInputElement | null>]> = [
+      [Boolean(fieldErrors?.name?.[0]), nameRef],
+      [emailTaken || Boolean(fieldErrors?.email?.[0]), emailRef],
+      [Boolean(fieldErrors?.password?.[0]), passwordRef],
+      [Boolean(fieldErrors?.confirmPassword?.[0]), confirmRef],
+    ];
+    fields.find(([invalid]) => invalid)?.[1].current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} noValidate className="flex flex-col gap-4">
       {formError && !emailTaken ? <Alert variant="error">{formError}</Alert> : null}
 
       <Input
+        ref={nameRef}
         label="Nombre"
         name="name"
         type="text"
         autoComplete="name"
         required
+        value={name}
+        onChange={(event) => setName(event.target.value)}
         error={fieldErrors?.name?.[0]}
       />
 
       <div className="flex flex-col gap-1.5">
         <Input
+          ref={emailRef}
           label="Correo electrónico"
           name="email"
           type="email"
           autoComplete="email"
           required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           error={emailTaken ? undefined : fieldErrors?.email?.[0]}
         />
         {emailTaken ? (
@@ -70,6 +98,7 @@ export function RegisterForm() {
       </div>
 
       <Input
+        ref={passwordRef}
         label="Contraseña"
         name="password"
         type={showPassword ? 'text' : 'password'}
@@ -102,11 +131,14 @@ export function RegisterForm() {
       ) : null}
 
       <Input
+        ref={confirmRef}
         label="Repetir contraseña"
         name="confirmPassword"
         type={showPassword ? 'text' : 'password'}
         autoComplete="new-password"
         required
+        value={confirmPassword}
+        onChange={(event) => setConfirmPassword(event.target.value)}
         error={fieldErrors?.confirmPassword?.[0]}
       />
 

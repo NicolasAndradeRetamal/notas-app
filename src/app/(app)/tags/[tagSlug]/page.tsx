@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTagBySlug, getTags } from '@/server/queries/tag.queries';
 import { getNotebooks } from '@/server/queries/notebook.queries';
@@ -8,6 +9,12 @@ type TagPageProps = {
   params: Promise<{ tagSlug: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
+
+export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
+  const { tagSlug } = await params;
+  const tag = await getTagBySlug(tagSlug);
+  return { title: tag ? `Etiqueta: #${tag.name}` : 'Etiqueta' };
+}
 
 export default async function TagPage({ params, searchParams }: TagPageProps) {
   const { tagSlug } = await params;

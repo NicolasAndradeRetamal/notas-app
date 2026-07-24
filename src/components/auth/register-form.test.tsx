@@ -69,6 +69,29 @@ describe('RegisterForm', () => {
     expect(await screen.findByText('Las contraseñas no coinciden')).toBeInTheDocument();
   });
 
+  it('keeps everything typed after a validation error', async () => {
+    mockedRegisterAction.mockResolvedValue({
+      ok: false,
+      code: 'VALIDATION_ERROR',
+      message: 'Revisa los datos del formulario.',
+      fieldErrors: { confirmPassword: ['Las contraseñas no coinciden'] },
+    });
+    const user = userEvent.setup();
+    render(<RegisterForm />);
+
+    await user.type(nameLabel(), 'Nicolás Andrade');
+    await user.type(emailLabel(), 'nicolas@example.com');
+    await user.type(passwordLabel(), 'contrasena-uno');
+    await user.type(confirmPasswordLabel(), 'contrasena-dos');
+    await user.click(screen.getByRole('button', { name: 'Crear cuenta' }));
+
+    expect(await screen.findByText('Las contraseñas no coinciden')).toBeInTheDocument();
+    expect(nameLabel()).toHaveValue('Nicolás Andrade');
+    expect(emailLabel()).toHaveValue('nicolas@example.com');
+    expect(passwordLabel()).toHaveValue('contrasena-uno');
+    expect(confirmPasswordLabel()).toHaveValue('contrasena-dos');
+  });
+
   it('shows the email-taken message with a link to log in on conflict', async () => {
     mockedRegisterAction.mockResolvedValue({
       ok: false,

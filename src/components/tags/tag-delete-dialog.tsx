@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { deleteTagAction } from '@/server/actions/tag.actions';
 import type { TagDTO } from '@/types/dto';
@@ -17,6 +17,7 @@ export function TagDeleteDialog({ open, onClose, tag }: TagDeleteDialogProps) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string>();
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
 
   const handleConfirm = () => {
@@ -28,8 +29,12 @@ export function TagDeleteDialog({ open, onClose, tag }: TagDeleteDialogProps) {
         return;
       }
       toast({ variant: 'success', title: 'Etiqueta eliminada.' });
-      router.push('/notes');
-      router.refresh();
+      // Only leave the page when the user is looking at the tag they deleted.
+      if (pathname === `/tags/${tag.slug}`) {
+        router.push('/notes');
+      } else {
+        router.refresh();
+      }
       onClose();
     });
   };
@@ -40,7 +45,13 @@ export function TagDeleteDialog({ open, onClose, tag }: TagDeleteDialogProps) {
       onClose={onClose}
       onConfirm={handleConfirm}
       title="Eliminar etiqueta"
-      description={`Se quitará de las ${tag.noteCount ?? 0} notas que la usan. Las notas no se eliminan.`}
+      description={
+        tag.noteCount === 1
+          ? 'Se quitará de la nota que la usa. La nota no se elimina.'
+          : tag.noteCount
+            ? `Se quitará de las ${tag.noteCount} notas que la usan. Las notas no se eliminan.`
+            : 'Ninguna nota usa esta etiqueta.'
+      }
       confirmLabel="Eliminar etiqueta"
       confirmingLabel="Eliminando…"
       destructive

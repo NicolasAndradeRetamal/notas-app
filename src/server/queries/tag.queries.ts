@@ -1,4 +1,5 @@
 import 'server-only';
+import { cache } from 'react';
 import { prisma } from '@/lib/prisma';
 import { requireUser } from '@/server/auth/session';
 import { toTagDTO } from '@/server/mappers/tag.mapper';
@@ -24,9 +25,10 @@ export async function getTags(): Promise<TagDTO[]> {
   return tags.map((tag) => toTagDTO(tag, countByTagId.get(tag.id) ?? 0));
 }
 
-export async function getTagBySlug(slug: string): Promise<TagDTO | null> {
+// Cached so a page and its generateMetadata share a single lookup per request.
+export const getTagBySlug = cache(async (slug: string): Promise<TagDTO | null> => {
   const user = await requireUser();
   const tag = await prisma.tag.findFirst({ where: { slug, userId: user.id, active: true } });
 
   return tag ? toTagDTO(tag) : null;
-}
+});

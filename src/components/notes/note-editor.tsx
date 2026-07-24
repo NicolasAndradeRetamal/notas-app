@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, CircleAlert } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
 import type { KeyboardEvent } from 'react';
 import { createNoteAction, updateNoteAction } from '@/server/actions/note.actions';
@@ -54,9 +54,9 @@ export function NoteEditor({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // The note only ever gets an id once (on the first successful create, which
-  // then navigates away), so it never needs to be reassigned after mount.
-  const noteId = note?.id ?? null;
+  // A new note gets its id on the first successful create; from then on the
+  // editor keeps saving it in place, so the id has to live in state.
+  const [noteId, setNoteId] = useState<string | null>(note?.id ?? null);
   const [title, setTitle] = useState(note?.title ?? '');
   const [content, setContent] = useState(note?.content ?? '');
   const [notebookId, setNotebookId] = useState<string>(
@@ -71,9 +71,11 @@ export function NoteEditor({
   const [savedAt, setSavedAt] = useState<string | undefined>(note?.updatedAt);
   const [dirty, setDirty] = useState(false);
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
+  const [titleError, setTitleError] = useState(false);
   const [pending, startTransition] = useTransition();
 
   const keepEditingRef = useRef<HTMLButtonElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
   const saveSeqRef = useRef(0);
   const savingRef = useRef(false);
 
@@ -86,6 +88,8 @@ export function NoteEditor({
       const trimmedTitle = title.trim();
       if (!trimmedTitle) {
         setSaveState('no-title');
+        setTitleError(true);
+        titleRef.current?.focus();
         return;
       }
       // Without this the autosave timer can fire a second create while the
@@ -134,8 +138,18 @@ export function NoteEditor({
             });
             return;
           }
-          // The action redirects to /notes/{id}. The guard stays latched on
-          // purpose so nothing can create a duplicate while navigating away.
+          const created = result.data;
+          setNoteId(created.id);
+          // Swap the URL without a navigation so the editor stays mounted and the
+          // cursor never moves; from here on saves go through updateNoteAction.
+          window.history.replaceState(null, '', `/notes/${created.id}/edit`);
+          release();
+          settle(() => {
+            setSaveState('saved');
+            setSavedAt(created.updatedAt);
+            setDirty(false);
+            if (options?.navigateAfter) router.push(`/notes/${created.id}`);
+          });
           return;
         }
 
@@ -169,6 +183,9 @@ export function NoteEditor({
 
   useEffect(() => {
     if (!dirty) return;
+    // Autosave stays silent until there is a title: the active "needs a title"
+    // error only appears on an explicit save, never while the user is typing.
+    if (!title.trim()) return;
     const timer = setTimeout(() => performSave(), AUTOSAVE_DELAY_MS);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -209,12 +226,17 @@ export function NoteEditor({
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const selected = content.slice(start, end) || placeholder;
-    const next = `${content.slice(0, start)}${before}${selected}${after}${content.slice(end)}`;
+    // Block markers (heading, list) only take effect at the start of a line, so
+    // add a break when the cursor sits mid-paragraph.
+    const isBlock = action === 'heading' || action === 'list';
+    const atLineStart = start === 0 || content[start - 1] === '\n';
+    const prefix = isBlock && !atLineStart ? `\n${before}` : before;
+    const next = `${content.slice(0, start)}${prefix}${selected}${after}${content.slice(end)}`;
     setContent(next);
     markDirty();
     requestAnimationFrame(() => {
       textarea.focus();
-      const cursor = start + before.length + selected.length;
+      const cursor = start + prefix.length + selected.length;
       textarea.setSelectionRange(cursor, cursor);
     });
   };
@@ -251,25 +273,46 @@ export function NoteEditor({
       </div>
 
       <div className="border-line space-y-3 border-b pb-4">
-        <label htmlFor="note-title" className="sr-only">
-          Título de la nota
-        </label>
-        <input
-          id="note-title"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            markDirty();
-          }}
-          placeholder="Título de la nota"
-          maxLength={200}
-          className="text-ink placeholder:text-ink-subtle w-full border-0 bg-transparent text-[1.375rem] font-semibold outline-none"
-        />
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div>
+          <label htmlFor="note-title" className="text-ink mb-1.5 block text-sm font-medium">
+            Título
+            <span aria-hidden="true" className="text-ink-muted ml-0.5">
+              *
+            </span>
+          </label>
+          <input
+            ref={titleRef}
+            id="note-title"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              if (titleError) setTitleError(false);
+              markDirty();
+            }}
+            placeholder="Título de la nota"
+            maxLength={200}
+            required
+            aria-invalid={titleError || undefined}
+            aria-describedby={titleError ? 'note-title-error' : undefined}
+            className={cn(
+              'text-ink placeholder:text-ink-subtle w-full border-0 border-b bg-transparent pb-1 text-[1.375rem] font-semibold outline-none',
+              titleError ? 'border-danger' : 'border-transparent',
+            )}
+          />
+          {titleError ? (
+            <p
+              id="note-title-error"
+              className="text-danger mt-1.5 flex items-center gap-1 text-[0.8125rem]"
+            >
+              <CircleAlert className="h-4 w-4 shrink-0" aria-hidden="true" />
+              Ponle un título para guardar la nota.
+            </p>
+          ) : null}
+        </div>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
           <div className="sm:w-56">
             <Select
               label="Cuaderno"
-              hideLabel
               value={notebookId}
               onChange={(e) => {
                 setNotebookId(e.target.value);

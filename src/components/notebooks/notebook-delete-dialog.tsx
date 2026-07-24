@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import { deleteNotebookAction } from '@/server/actions/notebook.actions';
 import type { NotebookDTO } from '@/types/dto';
@@ -17,6 +17,7 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string>();
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
 
   const handleConfirm = () => {
@@ -29,10 +30,17 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
       }
       toast({
         variant: 'success',
-        title: `Cuaderno eliminado. ${result.data.detachedNotes} notas quedaron sin cuaderno.`,
+        title:
+          result.data.detachedNotes === 1
+            ? 'Cuaderno eliminado. 1 nota quedó sin cuaderno.'
+            : `Cuaderno eliminado. ${result.data.detachedNotes} notas quedaron sin cuaderno.`,
       });
-      router.push('/notes');
-      router.refresh();
+      // Only leave the page when the user is looking at the notebook they deleted.
+      if (pathname === `/notebooks/${notebook.id}`) {
+        router.push('/notes');
+      } else {
+        router.refresh();
+      }
       onClose();
     });
   };
@@ -44,9 +52,11 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
       onConfirm={handleConfirm}
       title="Eliminar cuaderno"
       description={
-        notebook.noteCount
-          ? `Las ${notebook.noteCount} notas de este cuaderno no se eliminarán: quedarán sin cuaderno.`
-          : 'Este cuaderno no tiene notas.'
+        notebook.noteCount === 1
+          ? 'La nota de este cuaderno no se eliminará: quedará sin cuaderno.'
+          : notebook.noteCount
+            ? `Las ${notebook.noteCount} notas de este cuaderno no se eliminarán: quedarán sin cuaderno.`
+            : 'Este cuaderno no tiene notas.'
       }
       confirmLabel="Eliminar cuaderno"
       confirmingLabel="Eliminando…"

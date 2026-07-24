@@ -136,10 +136,18 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
             }
             const isPrevSeparator = index > 0 && items[index - 1]?.type === 'separator';
             const baseClasses = cn(
-              'flex h-10 w-full items-center gap-3 px-3 text-sm text-ink outline-none',
+              'flex h-10 w-full items-center gap-3 px-3 text-left text-sm text-ink outline-none',
               'hover:bg-surface-sunken focus-visible:bg-surface-sunken',
               '[&_svg]:h-4 [&_svg]:w-4 [&_svg]:text-ink-subtle',
               isPrevSeparator && 'mt-0',
+            );
+            // Reserved icon column plus a single-line label keeps every row's text
+            // starting on the same vertical, so no item is left hanging.
+            const iconSlot = (
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center">{item.icon}</span>
+            );
+            const labelSlot = (
+              <span className="flex-1 truncate whitespace-nowrap">{item.label}</span>
             );
 
             if (item.type === 'link') {
@@ -155,8 +163,8 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
                   onClick={() => setOpen(false)}
                   className={baseClasses}
                 >
-                  {item.icon}
-                  {item.label}
+                  {iconSlot}
+                  {labelSlot}
                 </Link>
               );
             }
@@ -176,14 +184,12 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
                     item.onClick();
                     setOpen(false);
                   }}
-                  className={cn(baseClasses, 'justify-between')}
+                  className={baseClasses}
                 >
-                  <span className="flex items-center gap-3">
-                    {item.icon}
-                    {item.label}
-                  </span>
+                  {iconSlot}
+                  {labelSlot}
                   {item.checked ? (
-                    <Check className="text-primary h-4 w-4" aria-hidden="true" />
+                    <Check className="text-primary ml-auto h-4 w-4 shrink-0" aria-hidden="true" />
                   ) : null}
                 </button>
               );
@@ -210,8 +216,8 @@ export function DropdownMenu({ trigger, items, align = 'end', label }: DropdownM
                   item.disabled && 'cursor-not-allowed opacity-55 hover:bg-transparent',
                 )}
               >
-                {item.icon}
-                {item.label}
+                {iconSlot}
+                {labelSlot}
               </button>
             );
           })}

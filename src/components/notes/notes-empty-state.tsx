@@ -23,8 +23,8 @@ export function NotesEmptyState(props: NotesEmptyStateProps) {
       return (
         <EmptyState
           icon={FileText}
-          title="Aún no tienes notas"
-          description="Crea la primera y aparecerá aquí. Puedes escribir en markdown y organizarla en cuadernos y etiquetas."
+          title="Empieza tu primera nota"
+          description="notas guarda tus apuntes en markdown y los mantiene siempre encontrables. Escribe la primera, organízala en cuadernos y etiquetas, y búscala al instante."
           action={
             <LinkButton href="/notes/new" size="lg">
               Nueva nota
@@ -66,7 +66,7 @@ export function NotesEmptyState(props: NotesEmptyStateProps) {
         <EmptyState
           icon={SearchX}
           title={`Sin resultados para «${props.query}»`}
-          description="Prueba con otras palabras o revisa los filtros activos."
+          description="Prueba con otras palabras o revisa los filtros activos. La búsqueda no incluye las notas eliminadas."
           action={
             <LinkButton href={props.clearHref} variant="secondary" size="lg">
               Quitar filtros

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getNotebookById, getNotebooks } from '@/server/queries/notebook.queries';
 import { getTags } from '@/server/queries/tag.queries';
@@ -8,6 +9,12 @@ type NotebookPageProps = {
   params: Promise<{ notebookId: string }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
+
+export async function generateMetadata({ params }: NotebookPageProps): Promise<Metadata> {
+  const { notebookId } = await params;
+  const notebook = await getNotebookById(notebookId);
+  return { title: notebook ? `Cuaderno: ${notebook.name}` : 'Cuaderno' };
+}
 
 export default async function NotebookPage({ params, searchParams }: NotebookPageProps) {
   const { notebookId } = await params;
