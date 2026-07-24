@@ -30,7 +30,10 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
       }
       toast({
         variant: 'success',
-        title: `Cuaderno eliminado. ${result.data.detachedNotes} notas quedaron sin cuaderno.`,
+        title:
+          result.data.detachedNotes === 1
+            ? 'Cuaderno eliminado. 1 nota quedó sin cuaderno.'
+            : `Cuaderno eliminado. ${result.data.detachedNotes} notas quedaron sin cuaderno.`,
       });
       // Only leave the page when the user is looking at the notebook they deleted.
       if (pathname === `/notebooks/${notebook.id}`) {
@@ -49,9 +52,11 @@ export function NotebookDeleteDialog({ open, onClose, notebook }: NotebookDelete
       onConfirm={handleConfirm}
       title="Eliminar cuaderno"
       description={
-        notebook.noteCount
-          ? `Las ${notebook.noteCount} notas de este cuaderno no se eliminarán: quedarán sin cuaderno.`
-          : 'Este cuaderno no tiene notas.'
+        notebook.noteCount === 1
+          ? 'La nota de este cuaderno no se eliminará: quedará sin cuaderno.'
+          : notebook.noteCount
+            ? `Las ${notebook.noteCount} notas de este cuaderno no se eliminarán: quedarán sin cuaderno.`
+            : 'Este cuaderno no tiene notas.'
       }
       confirmLabel="Eliminar cuaderno"
       confirmingLabel="Eliminando…"

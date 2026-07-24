@@ -46,9 +46,11 @@ export function TagDeleteDialog({ open, onClose, tag }: TagDeleteDialogProps) {
       onConfirm={handleConfirm}
       title="Eliminar etiqueta"
       description={
-        tag.noteCount
-          ? `Se quitará de las ${tag.noteCount} notas que la usan. Las notas no se eliminan.`
-          : 'Ninguna nota usa esta etiqueta.'
+        tag.noteCount === 1
+          ? 'Se quitará de la nota que la usa. La nota no se elimina.'
+          : tag.noteCount
+            ? `Se quitará de las ${tag.noteCount} notas que la usan. Las notas no se eliminan.`
+            : 'Ninguna nota usa esta etiqueta.'
       }
       confirmLabel="Eliminar etiqueta"
       confirmingLabel="Eliminando…"
