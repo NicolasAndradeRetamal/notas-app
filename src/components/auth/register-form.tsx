@@ -60,7 +60,7 @@ export function RegisterForm() {
   }, [state]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} noValidate className="flex flex-col gap-4">
       {formError && !emailTaken ? <Alert variant="error">{formError}</Alert> : null}
 
       <Input

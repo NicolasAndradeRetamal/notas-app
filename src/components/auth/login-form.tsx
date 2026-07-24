@@ -39,7 +39,7 @@ export function LoginForm() {
   }, [state]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} noValidate className="flex flex-col gap-4">
       {formError ? <Alert variant="error">{formError}</Alert> : null}
 
       <Input
